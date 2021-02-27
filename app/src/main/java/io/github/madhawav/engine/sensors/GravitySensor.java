@@ -1,9 +1,8 @@
-package io.github.madhawav.Engine;
+package io.github.madhawav.engine.sensors;
 
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
-import android.hardware.SensorEventCallback;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 

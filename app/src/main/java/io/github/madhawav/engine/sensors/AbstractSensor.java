@@ -1,4 +1,4 @@
-package io.github.madhawav.Engine;
+package io.github.madhawav.engine.sensors;
 
 public abstract class AbstractSensor {
     /**

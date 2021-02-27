@@ -1,13 +1,19 @@
-package io.github.madhawav.Engine;
+package io.github.madhawav.engine;
 
 import android.content.Context;
+import android.opengl.GLSurfaceView;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import io.github.madhawav.engine.sensors.AbstractSensor;
+import io.github.madhawav.engine.sensors.GravitySensor;
+import io.github.madhawav.engine.sensors.SensorType;
 
 /**
  * Extend this class to create a game. Provides onUpdate and onRender events.
@@ -34,6 +40,8 @@ public abstract class AbstractGame {
         this.surfaceView = new EngineSurfaceView(context,this);
         this.renderer = new EngineGLRenderer(this);
         this.surfaceView.setRenderer(this.renderer);
+        this.surfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+
         this.lastUpdateTime = 0;
         this.gameState = GameState.PRE_START;
         this.initializeSensors();
@@ -47,6 +55,30 @@ public abstract class AbstractGame {
     public GameState getGameState(){
         return gameState;
     }
+
+    /**
+     * User has initiated a touch operation
+     * @param x
+     * @param y
+     * @return True if event is handled
+     */
+    public abstract boolean onTouchDown(float x, float y);
+
+    /**
+     * User has moved touch position
+     * @param x
+     * @param y
+     * @return True if event is handled
+     */
+    public abstract boolean onTouchMove(float x,float y);
+
+    /**
+     * User has finished the touch operation
+     * @param x
+     * @param y
+     * @return True if event is handled
+     */
+    public abstract boolean onTouchReleased(float x, float y);
 
     /**
      * Callback to render graphics
@@ -118,6 +150,7 @@ public abstract class AbstractGame {
                 long currentTime = System.nanoTime();
                 AbstractGame.this.onUpdate((double) (currentTime - lastUpdateTime) /1000000000.0);
                 AbstractGame.this.lastUpdateTime = currentTime;
+                AbstractGame.this.surfaceView.requestRender();
             }
         };
         this.updateTimer.schedule(this.updateTask, 0, this.gameDescription.getUpdateRateMillis());
@@ -128,4 +161,8 @@ public abstract class AbstractGame {
             throw new UnsupportedOperationException("Gravity sensor not available");
         return (GravitySensor) this.sensors.get(SensorType.GRAVITY_SENSOR);
     }
+
+    public abstract void onSurfaceCreated(GL10 gl10, EGLConfig config);
+
+    public abstract void onSurfaceChanged(GL10 gl10, int width, int height);
 }

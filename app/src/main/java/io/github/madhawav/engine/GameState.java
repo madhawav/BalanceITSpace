@@ -1,4 +1,4 @@
-package io.github.madhawav.Engine;
+package io.github.madhawav.engine;
 
 public enum GameState {
     PRE_START,

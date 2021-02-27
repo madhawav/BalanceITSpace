@@ -7,8 +7,6 @@ import android.os.PersistableBundle;
 
 import androidx.annotation.NonNull;
 
-import io.github.madhawav.Engine.AbstractGame;
-
 public class OpenGLES20Activity extends Activity {
     private GLSurfaceView gLView;
     private MyGame game;
