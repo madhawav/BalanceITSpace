@@ -1,6 +1,6 @@
 package io.github.madhawav.engine;
 
-public class GameDescription {
+public final class GameDescription {
     private int updateRateMillis;
     private boolean useGravitySensor;
 

@@ -3,7 +3,9 @@ package io.github.madhawav.engine;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -14,27 +16,32 @@ import javax.microedition.khronos.opengles.GL10;
 import io.github.madhawav.engine.sensors.AbstractSensor;
 import io.github.madhawav.engine.sensors.GravitySensor;
 import io.github.madhawav.engine.sensors.SensorType;
+import io.github.madhawav.graphics.ResourceManager;
 
 /**
  * Extend this class to create a game. Provides onUpdate and onRender events.
  */
-public abstract class AbstractGame {
+public abstract class AbstractGame extends EngineModule {
     private final Context context;
     private final EngineSurfaceView surfaceView;
     private final EngineGLRenderer renderer;
 
     private long lastUpdateTime; // nanoTime of most recent update event
-    private final GameDescription gameDescription;
 
     private TimerTask updateTask;
     private Timer updateTimer;
     private Map<SensorType, AbstractSensor> sensors;
+    private long updateRateMillis;
 
+    private ResourceManager resourceManager;
     private GameState gameState;
 
     protected AbstractGame(Context context, GameDescription gameDescription){
         this.context = context;
-        this.gameDescription = gameDescription;
+        this.updateRateMillis = gameDescription.getUpdateRateMillis();
+        this.resourceManager = new ResourceManager(context);
+        registerModule(this.resourceManager);
+
         this.sensors = new HashMap<>();
 
         this.surfaceView = new EngineSurfaceView(context,this);
@@ -44,11 +51,17 @@ public abstract class AbstractGame {
 
         this.lastUpdateTime = 0;
         this.gameState = GameState.PRE_START;
-        this.initializeSensors();
+
+
+        this.initializeSensors(gameDescription);
     }
 
-    private void initializeSensors(){
-        if(this.gameDescription.isUseGravitySensor()){
+    public ResourceManager getResourceManager() {
+        return resourceManager;
+    }
+
+    private void initializeSensors(GameDescription gameDescription){
+        if(gameDescription.isUseGravitySensor()){
             this.sensors.put(SensorType.GRAVITY_SENSOR, new GravitySensor(this.context));
         }
     }
@@ -153,7 +166,7 @@ public abstract class AbstractGame {
                 AbstractGame.this.surfaceView.requestRender();
             }
         };
-        this.updateTimer.schedule(this.updateTask, 0, this.gameDescription.getUpdateRateMillis());
+        this.updateTimer.schedule(this.updateTask, 0, this.updateRateMillis);
     }
 
     public GravitySensor getGravitySensor(){
@@ -162,7 +175,11 @@ public abstract class AbstractGame {
         return (GravitySensor) this.sensors.get(SensorType.GRAVITY_SENSOR);
     }
 
-    public abstract void onSurfaceCreated(GL10 gl10, EGLConfig config);
+    public void onSurfaceCreated(GL10 gl10, EGLConfig config){
+        super.onSurfaceCreated(gl10, config);
+    }
 
-    public abstract void onSurfaceChanged(GL10 gl10, int width, int height);
+    public void onSurfaceChanged(GL10 gl10, int width, int height){
+        super.onSurfaceChanged(gl10, width, height);
+    }
 }

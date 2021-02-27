@@ -9,17 +9,10 @@ import android.opengl.Matrix;
 
 public class GraphicsUtil {
     private GraphicsUtil(){}
-
+    private static float PROJECTION_CULL_FAR = 4000.0f;
+    private static float PROJECTION_CULL_NEAR = 0.01f;
     static void setupSpriteProjectionMatrix(float[] matrix, int screenWidth, int screenHeight){
-        float left = 0;
-
-        float right =  screenWidth;
-        float top = 0;
-        float bottom = screenHeight;
-        final float near = 0.01f;
-        final float far = 4000.0f;
-
-        Matrix.orthoM(matrix, 0, left, right, bottom, top, near, far);
+        Matrix.orthoM(matrix, 0, 0, screenWidth, screenHeight, 0, PROJECTION_CULL_NEAR, PROJECTION_CULL_FAR);
     }
 
     static void setupSpriteViewMatrix(float[] matrix){

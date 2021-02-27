@@ -1,19 +1,13 @@
 package io.github.madhawav.graphics;
 
-public class GraphicsEngineDescription {
-    private String vertexShaderSource;
-    private String fragmentShaderSource;
+public final class GraphicsEngineDescription {
+    private AbstractShader shader;
 
-    public GraphicsEngineDescription(String vertexShaderSource, String fragmentShaderSource){
-        this.vertexShaderSource = vertexShaderSource;
-        this.fragmentShaderSource = fragmentShaderSource;
+    public GraphicsEngineDescription(AbstractShader shader){
+        this.shader = shader;
     }
 
-    public String getFragmentShaderSource() {
-        return fragmentShaderSource;
-    }
-
-    public String getVertexShaderSource() {
-        return vertexShaderSource;
+    public AbstractShader getShader() {
+        return shader;
     }
 }

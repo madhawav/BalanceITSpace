@@ -6,7 +6,12 @@ import android.content.Context;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ResourceManager {
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
+import io.github.madhawav.engine.EngineModule;
+
+public class ResourceManager extends EngineModule {
     private Context context;
     private Map<Integer, Integer> textureResourceHandleMap;
     public ResourceManager(Context context)
@@ -24,10 +29,9 @@ public class ResourceManager {
         return textureResourceHandleMap.get(resourceId);
     }
 
-    /**
-     * Call on onSurfaceCreated to purge textures
-     */
-    public void invalidate(){
+    @Override
+    public void onSurfaceCreated(GL10 gl10, EGLConfig config){
+        super.onSurfaceCreated(gl10, config);
         this.textureResourceHandleMap.clear();
     }
 }

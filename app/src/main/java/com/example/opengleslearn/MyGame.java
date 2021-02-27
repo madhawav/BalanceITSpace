@@ -10,18 +10,30 @@ import javax.microedition.khronos.opengles.GL10;
 import io.github.madhawav.ResourceUtil;
 import io.github.madhawav.engine.AbstractGame;
 import io.github.madhawav.engine.GameDescription;
+import io.github.madhawav.graphics.AbstractShader;
+import io.github.madhawav.graphics.BasicShader;
 import io.github.madhawav.graphics.GraphicsEngine;
 import io.github.madhawav.graphics.GraphicsEngineDescription;
+import io.github.madhawav.graphics.SpriteEngine;
 
 public class MyGame extends AbstractGame {
     private float strength = 0;
     private GraphicsEngine graphicsEngine;
+    private SpriteEngine spriteEngine;
 
     public MyGame(Context context, Bundle savedInstanceState){
         super(context, new GameDescription(30, true));
-        this.graphicsEngine = new GraphicsEngine(context, new GraphicsEngineDescription(
+
+        AbstractShader shader = new BasicShader(
                 ResourceUtil.readTextFileFromRawResource(context, R.raw.shader_vs),
-                ResourceUtil.readTextFileFromRawResource(context, R.raw.shader_fs)));
+                ResourceUtil.readTextFileFromRawResource(context, R.raw.shader_fs));
+
+        this.graphicsEngine = new GraphicsEngine(context, new GraphicsEngineDescription(shader));
+        this.spriteEngine = new SpriteEngine(this.graphicsEngine);
+
+        registerModule(shader);
+        registerModule(this.graphicsEngine); // Register to receive lifecycle events
+        registerModule(this.spriteEngine);
     }
 
     @Override
@@ -42,7 +54,7 @@ public class MyGame extends AbstractGame {
     @Override
     protected void onRender(GL10 gl10) {
         this.graphicsEngine.clear((float) (strength % 1.0), 0.0f, 0.0f, 1.0f);
-        this.graphicsEngine.drawSprite(this.graphicsEngine.getResourceManager().getTexture(R.drawable.loading), 0, 0, 1000, 1000, 1, 0.5f);
+        this.spriteEngine.drawSprite(getResourceManager().getTexture(R.drawable.loading), 0, 0, 1000, 1000, 1, 0.5f);
     }
 
     @Override
@@ -56,19 +68,11 @@ public class MyGame extends AbstractGame {
 
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig config) {
-        this.graphicsEngine.onSurfaceCreated(gl10, config);
-
-        // Use culling to remove back faces.
-        GLES20.glEnable(GLES20.GL_CULL_FACE);
-
-        // Enable depth testing
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-
+        super.onSurfaceCreated(gl10, config);
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl10, int width, int height) {
-        this.graphicsEngine.onSurfaceChanged(gl10, width, height);
-
+        super.onSurfaceChanged(gl10, width, height);
     }
 }

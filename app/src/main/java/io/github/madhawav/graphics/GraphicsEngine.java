@@ -7,15 +7,11 @@ import android.opengl.Matrix;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class GraphicsEngine {
-    private Context context;
-    private GraphicsEngineDescription graphicsEngineDescription;
-    private ResourceManager resourceManager;
+import io.github.madhawav.engine.EngineModule;
 
-
-    private Geometry squareGeometry = Geometry.generateSquareGeometry();
-
-    private BasicShader shader;
+public class GraphicsEngine extends EngineModule {
+    private final Context context;
+    private final AbstractShader shader;
 
     // Preserve transformation matrices to avoid GC calls
     private final float[] modelMatrix = new float[16];
@@ -28,9 +24,7 @@ public class GraphicsEngine {
 
     public GraphicsEngine(Context context, GraphicsEngineDescription description){
         this.context = context;
-        this.graphicsEngineDescription = description;
-        this.resourceManager = new ResourceManager(context);
-        this.shader = new BasicShader(description.getVertexShaderSource(), description.getFragmentShaderSource());
+        this.shader = description.getShader();
     }
 
     public void clear(float r, float g, float b, float a){
@@ -38,16 +32,12 @@ public class GraphicsEngine {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT|GLES20.GL_DEPTH_BUFFER_BIT);
     }
 
-    public ResourceManager getResourceManager() {
-        return resourceManager;
-    }
 
     public void onSurfaceCreated(GL10 gl10, EGLConfig config) {
-        this.resourceManager.invalidate();
-        this.shader.onSurfaceCreated();
+        super.onSurfaceCreated(gl10, config);
     }
 
-    private void drawGeometry(Geometry geometry, int texture, float opacity){
+    public void drawGeometry(Geometry geometry, int texture, float opacity){
         this.shader.bindShaderProgram();
 
         this.shader.bindTexture(texture);
@@ -69,25 +59,29 @@ public class GraphicsEngine {
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, geometry.getVertexCount());
     }
 
-
-
-    public void drawSprite(int texture, float x, float y, float width, float height, float z, float opacity){
-        GraphicsUtil.setupSpriteProjectionMatrix(projectionMatrix, screenWidth, screenHeight);
-        GraphicsUtil.setupSpriteViewMatrix(viewMatrix);
-
-        float[] scale = new float[16];
-        Matrix.setIdentityM(scale, 0);
-        Matrix.scaleM(scale, 0, width, -height, 1);
-        float[] offset=new float[16];
-        Matrix.setIdentityM(offset, 0);
-        Matrix.translateM(offset, 0, x, y, -z);
-
-        Matrix.multiplyMM(modelMatrix, 0, offset, 0, scale, 0);
-        this.drawGeometry(squareGeometry, texture, opacity);
+    public int getScreenWidth() {
+        return screenWidth;
     }
 
+    public int getScreenHeight() {
+        return screenHeight;
+    }
+
+    public float[] getProjectionMatrix() {
+        return projectionMatrix;
+    }
+
+    public float[] getViewMatrix() {
+        return viewMatrix;
+    }
+
+    public float[] getModelMatrix() {
+        return modelMatrix;
+    }
 
     public void onSurfaceChanged(GL10 gl10, int width, int height) {
+        super.onSurfaceChanged(gl10, width, height);
+        GLES20.glViewport(0, 0, width, height);
         screenWidth = width;
         screenHeight = height;
 

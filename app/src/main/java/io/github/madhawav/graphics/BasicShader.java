@@ -3,7 +3,10 @@ package io.github.madhawav.graphics;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
-public class BasicShader {
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
+public class BasicShader extends AbstractShader {
     private String vertexShaderSource;
     private String fragmentShaderSource;
 
@@ -20,7 +23,9 @@ public class BasicShader {
         this.vertexShaderSource = basicVertexShaderSource;
         this.fragmentShaderSource = basicFragmentShaderSource;
     }
-    public void onSurfaceCreated(){
+
+    @Override
+    public void onSurfaceCreated(GL10 gl10, EGLConfig config) {
         final int vertexShaderHandle = GraphicsUtil.compileShader(GLES20.GL_VERTEX_SHADER, vertexShaderSource);
         final int fragmentShaderHandle = GraphicsUtil.compileShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderSource);
 
@@ -34,8 +39,15 @@ public class BasicShader {
         hPosition = GLES20.glGetAttribLocation(hShaderProgram, "a_Position");
         hNormal = GLES20.glGetAttribLocation(hShaderProgram, "a_Normal");
         hTextureCoordinate = GLES20.glGetAttribLocation(hShaderProgram, "a_TexCoordinate");
+
+        // Use culling to remove back faces.
+        GLES20.glEnable(GLES20.GL_CULL_FACE);
+
+        // Enable depth testing
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
     }
 
+    @Override
     public void bindShaderProgram(){
         GLES20.glUseProgram(hShaderProgram);
     }
@@ -66,18 +78,23 @@ public class BasicShader {
         GLES20.glEnableVertexAttribArray(hTextureCoordinate);
     }
 
+    @Override
     public void bindMVMatrix(float[] matrix){
         // Pass in the modelview matrix.
         GLES20.glUniformMatrix4fv(hMVMatrix, 1, false,matrix , 0);
     }
+
+    @Override
     public void bindMVPMatrix(float[] matrix){
         GLES20.glUniformMatrix4fv(hMVPMatrix, 1, false, matrix, 0);
     }
 
+    @Override
     public void bindOpacity(float opacity){
         GLES20.glUniform1f(hOpacity, opacity);
     }
 
+    @Override
     public void bindTexture(int texture){
         // Set the active texture unit to texture unit 0.
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
