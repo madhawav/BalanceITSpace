@@ -1,4 +1,4 @@
-package io.github.madhawav.engine;
+package io.github.madhawav.coreengine;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
@@ -11,9 +11,9 @@ import java.util.TimerTask;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import io.github.madhawav.engine.sensors.AbstractSensor;
-import io.github.madhawav.engine.sensors.GravitySensor;
-import io.github.madhawav.engine.sensors.SensorType;
+import io.github.madhawav.coreengine.sensors.AbstractSensor;
+import io.github.madhawav.coreengine.sensors.GravitySensor;
+import io.github.madhawav.coreengine.sensors.SensorType;
 import io.github.madhawav.graphics.TextureManager;
 
 /**

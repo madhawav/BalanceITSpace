@@ -1,4 +1,4 @@
-package io.github.madhawav.engine;
+package io.github.madhawav.coreengine;
 
 public final class GameDescription {
     private int updateRateMillis;

@@ -1,11 +1,8 @@
 package io.github.madhawav.graphics;
 
-import android.opengl.GLES20;
 import android.opengl.Matrix;
 
-import javax.microedition.khronos.opengles.GL10;
-
-import io.github.madhawav.engine.EngineModule;
+import io.github.madhawav.coreengine.EngineModule;
 
 public class SpriteEngine extends EngineModule {
     private Geometry squareGeometry;

@@ -7,8 +7,8 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import io.github.madhawav.ResourceUtil;
-import io.github.madhawav.engine.AbstractGame;
-import io.github.madhawav.engine.GameDescription;
+import io.github.madhawav.coreengine.AbstractGame;
+import io.github.madhawav.coreengine.GameDescription;
 import io.github.madhawav.graphics.AbstractShader;
 import io.github.madhawav.graphics.BasicShader;
 import io.github.madhawav.graphics.GraphicsEngine;

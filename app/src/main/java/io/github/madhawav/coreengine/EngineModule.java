@@ -1,4 +1,4 @@
-package io.github.madhawav.engine;
+package io.github.madhawav.coreengine;
 
 import java.util.ArrayList;
 import java.util.List;

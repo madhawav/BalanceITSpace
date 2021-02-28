@@ -1,4 +1,4 @@
-package io.github.madhawav.engine;
+package io.github.madhawav.coreengine;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;

@@ -1,4 +1,4 @@
-package io.github.madhawav.engine.sensors;
+package io.github.madhawav.coreengine.sensors;
 
 public enum SensorType {
     GRAVITY_SENSOR

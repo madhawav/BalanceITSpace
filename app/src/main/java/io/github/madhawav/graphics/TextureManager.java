@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import io.github.madhawav.engine.EngineModule;
+import io.github.madhawav.coreengine.EngineModule;
 
 public class TextureManager extends EngineModule {
     private Context context;
@@ -56,16 +56,17 @@ public class TextureManager extends EngineModule {
         if(!this.ownerTexturesMap.containsKey(owner)){
             this.ownerTexturesMap.put(owner, new HashSet<>());
         }
-        this.ownerTexturesMap.get(owner).add(texture);
+        if(!this.ownerTexturesMap.get(owner).contains(texture)){
+            this.ownerTexturesMap.get(owner).add(texture);
 
-        // Increment reference count
-        this.textureReferenceCountMap.put(texture,this.textureReferenceCountMap.get(texture)+1);
+            // Increment reference count
+            this.textureReferenceCountMap.put(texture,this.textureReferenceCountMap.get(texture)+1);
+        }
         return texture;
     }
 
-    private void disposeTexture(Texture resource){
-        resource.finish();
-        this.textureReferenceCountMap.remove(resource);
+    private void disposeTexture(Texture texture){
+        texture.finish();
     }
 
     /**

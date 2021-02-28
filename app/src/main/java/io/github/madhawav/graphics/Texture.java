@@ -5,7 +5,7 @@ import android.opengl.GLES20;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import io.github.madhawav.engine.EngineModule;
+import io.github.madhawav.coreengine.EngineModule;
 
 public class Texture extends EngineModule {
     private final int handle;
@@ -28,12 +28,14 @@ public class Texture extends EngineModule {
     @Override
     protected void onSurfaceCreated(GL10 gl10, EGLConfig config) {
         super.onSurfaceCreated(gl10, config);
-        this.disposed = true;
+        this.finish(); // Textures are destroyed when surface is re-created
     }
+
 
     @Override
     public void finish() {
-        super.finish();
+        this.disposed = true;
         GLES20.glDeleteTextures(1, new int[]{handle}, 0);
+        super.finish();
     }
 }

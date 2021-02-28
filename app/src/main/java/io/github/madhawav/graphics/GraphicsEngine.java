@@ -7,7 +7,7 @@ import android.opengl.Matrix;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import io.github.madhawav.engine.EngineModule;
+import io.github.madhawav.coreengine.EngineModule;
 
 public class GraphicsEngine extends EngineModule {
     private final Context context;

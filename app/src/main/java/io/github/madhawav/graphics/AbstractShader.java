@@ -3,7 +3,7 @@ package io.github.madhawav.graphics;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import io.github.madhawav.engine.EngineModule;
+import io.github.madhawav.coreengine.EngineModule;
 
 public abstract class AbstractShader extends EngineModule {
     public abstract void onSurfaceCreated(GL10 gl10, EGLConfig config);

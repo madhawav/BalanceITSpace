@@ -9,14 +9,14 @@ import androidx.annotation.NonNull;
 
 public class OpenGLES20Activity extends Activity {
     private GLSurfaceView gLView;
-    private MyGame game;
+    private MyMultisceneGame game;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Create a GLSurfaceView instance and set it
         // as the ContentView for this Activity.
-        this.game = new MyGame(this, savedInstanceState);
+        this.game = new MyMultisceneGame(this, savedInstanceState);
         this.gLView = this.game.getSurfaceView();
         setContentView(gLView);
 

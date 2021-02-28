@@ -1,4 +1,4 @@
-package io.github.madhawav.engine.sensors;
+package io.github.madhawav.coreengine.sensors;
 
 import android.content.Context;
 import android.hardware.Sensor;
