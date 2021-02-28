@@ -16,7 +16,6 @@ import io.github.madhawav.coreengine.EngineModule;
 
 public class TextureManager extends EngineModule {
     private final Context context;
-    private boolean isAlive;
     private final Map<Integer, Texture> resourceTextureMap;
     private final Map<EngineModule, Set<Texture>> ownerTexturesMap;
     private final Map<Texture, Set<EngineModule>> textureOwnerMap;
@@ -26,12 +25,10 @@ public class TextureManager extends EngineModule {
         this.resourceTextureMap = new HashMap<>();
         this.ownerTexturesMap = new HashMap<>();
         this.textureOwnerMap = new HashMap<>();
-
-        this.isAlive = true;
     }
 
     public Texture getTextureFromResource(int resourceId, EngineModule owner){
-        if(!this.isAlive)
+        if(this.isFinished())
             throw new IllegalStateException("Method call on finished resource");
 
         if((!resourceTextureMap.containsKey(resourceId)) || (!resourceTextureMap.get(resourceId).isAvailable()))
@@ -99,10 +96,9 @@ public class TextureManager extends EngineModule {
 
     @Override
     public void finish() {
-        super.finish();
         this.resourceTextureMap.clear();
         this.ownerTexturesMap.clear();
         this.textureOwnerMap.clear();
-        this.isAlive = false;
+        super.finish();
     }
 }

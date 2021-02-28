@@ -1,4 +1,4 @@
-package io.github.madhawav;
+package io.github.madhawav.multiscene;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -6,7 +6,12 @@ import io.github.madhawav.coreengine.EngineModule;
 
 public abstract class AbstractScene extends EngineModule {
     private AbstractMultiSceneGame game;
+    private boolean finished = false;
     void start(AbstractMultiSceneGame game){
+        if(this.game != null)
+            throw new IllegalStateException("Scene already bound before.");
+        if(this.finished)
+            throw new IllegalStateException("Scene has finished");
         this.game = game;
         this.onStart();
     }
@@ -31,6 +36,7 @@ public abstract class AbstractScene extends EngineModule {
 
     @Override
     public void finish() {
+        finished = true;
         game.getTextureManager().revokeTextures(this);
         super.finish();
     }

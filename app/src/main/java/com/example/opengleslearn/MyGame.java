@@ -6,7 +6,7 @@ import android.os.Bundle;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import io.github.madhawav.ResourceUtil;
+import io.github.madhawav.multiscene.ResourceUtil;
 import io.github.madhawav.coreengine.AbstractGame;
 import io.github.madhawav.coreengine.GameDescription;
 import io.github.madhawav.graphics.AbstractShader;

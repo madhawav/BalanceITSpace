@@ -1,7 +1,6 @@
-package io.github.madhawav;
+package io.github.madhawav.multiscene;
 
 import android.content.Context;
-import android.os.Bundle;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -32,6 +31,7 @@ public abstract class AbstractMultiSceneGame extends AbstractGame {
     }
 
     private void beginScene(AbstractScene scene){
+        this.registerModule(scene);
         this.currentScene = scene;
         this.currentScene.start(this);
     }
@@ -57,18 +57,22 @@ public abstract class AbstractMultiSceneGame extends AbstractGame {
 
     @Override
     protected void onRender(GL10 gl10) {
-        this.currentScene.onRender(gl10);
+        if(this.nextScene == null){ // Terminate rendering if new scene is scheduled
+            this.currentScene.onRender(gl10);
+        }
     }
 
     @Override
     protected void onUpdate(double elapsedSec) {
-        // TODO: Pre-scene update
+        // TODO: Pre-scene update event
         this.currentScene.onUpdate(elapsedSec);
-        // TODO: Post-scene update
+        // TODO: Post-scene update event
 
         // Changeover check
         if(this.nextScene != null){
             this.currentScene.finish();
+            this.unregisterModule(this.currentScene);
+
             beginScene(this.nextScene);
             this.nextScene = null;
         }
