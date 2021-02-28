@@ -3,9 +3,7 @@ package io.github.madhawav.engine;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,7 +14,7 @@ import javax.microedition.khronos.opengles.GL10;
 import io.github.madhawav.engine.sensors.AbstractSensor;
 import io.github.madhawav.engine.sensors.GravitySensor;
 import io.github.madhawav.engine.sensors.SensorType;
-import io.github.madhawav.graphics.ResourceManager;
+import io.github.madhawav.graphics.TextureManager;
 
 /**
  * Extend this class to create a game. Provides onUpdate and onRender events.
@@ -33,14 +31,14 @@ public abstract class AbstractGame extends EngineModule {
     private Map<SensorType, AbstractSensor> sensors;
     private long updateRateMillis;
 
-    private ResourceManager resourceManager;
+    private TextureManager textureManager;
     private GameState gameState;
 
     protected AbstractGame(Context context, GameDescription gameDescription){
         this.context = context;
         this.updateRateMillis = gameDescription.getUpdateRateMillis();
-        this.resourceManager = new ResourceManager(context);
-        registerModule(this.resourceManager);
+        this.textureManager = new TextureManager(context);
+        registerModule(this.textureManager);
 
         this.sensors = new HashMap<>();
 
@@ -56,8 +54,8 @@ public abstract class AbstractGame extends EngineModule {
         this.initializeSensors(gameDescription);
     }
 
-    public ResourceManager getResourceManager() {
-        return resourceManager;
+    public TextureManager getTextureManager() {
+        return textureManager;
     }
 
     private void initializeSensors(GameDescription gameDescription){
@@ -127,10 +125,9 @@ public abstract class AbstractGame extends EngineModule {
      * Finish the game.
      */
     public void finish(){
-        if(!(this.gameState == GameState.RUNNING || this.gameState==GameState.PAUSED)){
-            throw new IllegalStateException("Game not running");
-        }
+        textureManager.revokeTextures(this);
         this.gameState = GameState.FINISHED;
+        super.finish();
     }
 
     /**

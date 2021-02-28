@@ -2,6 +2,7 @@ package io.github.madhawav.engine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -28,5 +29,11 @@ public abstract class EngineModule {
         this.registeredModules.forEach((module)->module.onSurfaceCreated(gl10, config));
     }
 
-
+    /**
+     * End life-cycle of the module. Propagate message to registered sub-modules
+     */
+    public void finish(){
+        this.registeredModules.forEach(EngineModule::finish);
+        Logger.getLogger(getClass().getName()).info("Finished");
+    }
 }

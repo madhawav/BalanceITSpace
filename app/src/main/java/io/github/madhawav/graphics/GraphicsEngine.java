@@ -37,10 +37,10 @@ public class GraphicsEngine extends EngineModule {
         super.onSurfaceCreated(gl10, config);
     }
 
-    public void drawGeometry(Geometry geometry, int texture, float opacity){
+    public void drawGeometry(Geometry geometry, Texture texture, float opacity){
         this.shader.bindShaderProgram();
 
-        this.shader.bindTexture(texture);
+        this.shader.bindTexture(texture.getHandle());
 
         // Pass in the position information
         this.shader.bindGeometry(geometry);
@@ -57,6 +57,8 @@ public class GraphicsEngine extends EngineModule {
 
         // Draw
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, geometry.getVertexCount());
+
+        this.shader.unbindGeometry();
     }
 
     public int getScreenWidth() {

@@ -16,7 +16,7 @@ public class SpriteEngine extends EngineModule {
         this.graphicsEngine = graphicsEngine;
     }
 
-    public void drawSprite(int texture, float x, float y, float width, float height, float z, float opacity){
+    public void drawSprite(Texture texture, float x, float y, float width, float height, float z, float opacity){
         GraphicsUtil.setupSpriteProjectionMatrix(graphicsEngine.getProjectionMatrix(),  graphicsEngine.getScreenWidth(), graphicsEngine.getScreenHeight());
         GraphicsUtil.setupSpriteViewMatrix(graphicsEngine.getViewMatrix());
 

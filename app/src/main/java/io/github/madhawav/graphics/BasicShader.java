@@ -1,7 +1,6 @@
 package io.github.madhawav.graphics;
 
 import android.opengl.GLES20;
-import android.opengl.Matrix;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -76,6 +75,12 @@ public class BasicShader extends AbstractShader {
                 0, geometry.getTextureCoordinates());
 
         GLES20.glEnableVertexAttribArray(hTextureCoordinate);
+    }
+
+    public void unbindGeometry(){
+        GLES20.glDisableVertexAttribArray(hPosition);
+        GLES20.glDisableVertexAttribArray(hNormal);
+        GLES20.glDisableVertexAttribArray(hTextureCoordinate);
     }
 
     @Override

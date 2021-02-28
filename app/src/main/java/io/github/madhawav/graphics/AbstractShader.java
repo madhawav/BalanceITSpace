@@ -13,4 +13,5 @@ public abstract class AbstractShader extends EngineModule {
     public abstract void bindOpacity(float opacity);
     public abstract void bindTexture(int texture);
     public abstract void bindShaderProgram();
+    public abstract void unbindGeometry();
 }
