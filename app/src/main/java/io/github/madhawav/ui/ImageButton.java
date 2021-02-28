@@ -4,15 +4,14 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class ImageButton extends AbstractUIElement {
     private int imageResourceId;
-    private GraphicsContext graphicsContext;
     private ClickListener clickListener;
 
     float x,y,z, width,height;
     float opacity;
 
     public ImageButton(GraphicsContext graphicsContext, int imageResourceId, float x, float y, float width, float height, ClickListener clickListener){
+        super(graphicsContext);
         this.imageResourceId = imageResourceId;
-        this.graphicsContext = graphicsContext;
         this.x = x;
         this.y = y;
         this.width = width;
@@ -71,10 +70,6 @@ public class ImageButton extends AbstractUIElement {
         this.y = y;
     }
 
-    @Override
-    public GraphicsContext getGraphicsContext() {
-        return this.graphicsContext;
-    }
 
     @Override
     public void onStart() {
@@ -88,11 +83,15 @@ public class ImageButton extends AbstractUIElement {
 
     @Override
     public void onRender(GL10 gl10) {
-        this.graphicsContext.getSpriteEngine().drawSprite(this.graphicsContext.getTextureManager().getTextureFromResource(this.imageResourceId, this),x,y,width, height, 1, this.opacity);
+        if(!isVisible())
+            return;
+        this.getGraphicsContext().getSpriteEngine().drawSprite(this.getGraphicsContext().getTextureManager().getTextureFromResource(this.imageResourceId, this),x,y,width, height, 1, this.opacity);
     }
 
     @Override
     public boolean onTouchDown(float x, float y) {
+        if(!isVisible())
+            return false;
         if(this.x < x && x < this.x + this.width && this.y < y && y < this.y+this.height){
             return this.clickListener.onClick(this,x -  this.x, y - this.y);
         }

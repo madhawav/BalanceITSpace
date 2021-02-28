@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -161,12 +162,14 @@ public abstract class AbstractGame extends EngineModule {
         this.updateTask = new TimerTask() {
             @Override
             public void run() {
-                long currentTime = System.nanoTime();
-                if(AbstractGame.this.getGameState() == GameState.RUNNING) {
-                    AbstractGame.this.onUpdate((double) (currentTime - lastUpdateTime) / 1000000000.0);
-                    AbstractGame.this.surfaceView.requestRender();
+                synchronized (AbstractGame.this){
+                    long currentTime = System.nanoTime();
+                    if(AbstractGame.this.getGameState() == GameState.RUNNING) {
+                        AbstractGame.this.onUpdate((double) (currentTime - lastUpdateTime) / 1000000000.0);
+                        AbstractGame.this.surfaceView.requestRender();
+                    }
+                    AbstractGame.this.lastUpdateTime = currentTime;
                 }
-                AbstractGame.this.lastUpdateTime = currentTime;
             }
         };
         this.updateTimer.schedule(this.updateTask, 0, this.updateRateMillis);
@@ -179,10 +182,14 @@ public abstract class AbstractGame extends EngineModule {
     }
 
     public void onSurfaceCreated(GL10 gl10, EGLConfig config){
-        super.onSurfaceCreated(gl10, config);
+        synchronized (this){
+            super.onSurfaceCreated(gl10, config);
+        }
     }
 
     public void onSurfaceChanged(GL10 gl10, int width, int height){
-        super.onSurfaceChanged(gl10, width, height);
+        synchronized (this) {
+            super.onSurfaceChanged(gl10, width, height);
+        }
     }
 }

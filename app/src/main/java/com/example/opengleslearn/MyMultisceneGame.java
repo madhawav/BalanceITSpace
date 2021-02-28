@@ -8,6 +8,7 @@ import javax.microedition.khronos.opengles.GL10;
 import io.github.madhawav.ui.AbstractUIElement;
 import io.github.madhawav.ui.GraphicsContext;
 import io.github.madhawav.ui.ImageButton;
+import io.github.madhawav.ui.LayeredUI;
 import io.github.madhawav.ui.UIElementScene;
 import io.github.madhawav.multiscene.AbstractMultiSceneGame;
 import io.github.madhawav.multiscene.AbstractScene;
@@ -34,9 +35,10 @@ public class MyMultisceneGame extends AbstractMultiSceneGame {
         this.spriteEngine = new SpriteEngine(this.graphicsEngine);
 
         // Register to receive lifecycle events
-        registerModule(shader);
         registerModule(this.graphicsEngine);
+        registerModule(shader);
         registerModule(this.spriteEngine);
+
     }
 
     public GraphicsEngine getGraphicsEngine() {
@@ -54,27 +56,40 @@ public class MyMultisceneGame extends AbstractMultiSceneGame {
 }
 
 class MyScene1 extends UIElementScene {
-    private MyMultisceneGame game;
-    private double strength = 0.0;
-
     private GraphicsContext graphicsContext;
-    private ImageButton button;
 
+    public MyScene1(){
+
+    }
+    public MyScene1(float r, float g, float b){
+        this.setBackgroundColor(new float[]{r,g,b,1.0f});
+    }
     @Override
     protected AbstractUIElement getUIElement() {
+        MyMultisceneGame game = (MyMultisceneGame)getGame();
         graphicsContext = new GraphicsContext(game.getGraphicsEngine(), game.getSpriteEngine(), game.getTextureManager());
-        button = new ImageButton(graphicsContext, R.drawable.credits_button, 300, 300, 200, 50, (sender, x, y) -> {
+        ImageButton button1 = new ImageButton(graphicsContext, R.drawable.credits_button, 300, 300, 400, 100, (sender, x, y) -> {
             game.swapScene(new MyScene2());
             return true;
         });
-        return button;
+
+        ImageButton button2 = new ImageButton(graphicsContext, R.drawable.loading, 300, 500, 400, 100, (sender, x, y) -> {
+            game.swapScene(new MyScene1(0.0f, 1.0f, 0.0f));
+            return true;
+        });
+
+        ImageButton button3 = new ImageButton(graphicsContext, R.drawable.loading, 400, 300, 100, 400, (sender, x, y) -> {
+            button1.setVisible(!button1.isVisible());
+            return true;
+        });
+
+        LayeredUI layeredUI = new LayeredUI(graphicsContext);
+        layeredUI.addElement(button1);
+        layeredUI.addElement(button2);
+        layeredUI.addElement(button3);
+        return layeredUI;
     }
 
-    @Override
-    public void onStart() {
-        game = (MyMultisceneGame) getGame();
-        super.onStart();
-    }
 }
 
 class MyScene2 extends AbstractScene {

@@ -5,7 +5,24 @@ import javax.microedition.khronos.opengles.GL10;
 import io.github.madhawav.coreengine.EngineModule;
 
 public abstract class AbstractUIElement extends EngineModule {
-    public abstract GraphicsContext getGraphicsContext();
+    private GraphicsContext graphicsContext;
+    private boolean visible;
+    public AbstractUIElement(GraphicsContext graphicsContext){
+        this.graphicsContext = graphicsContext;
+        this.visible = true;
+    }
+    public GraphicsContext getGraphicsContext(){
+        return graphicsContext;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
     public abstract void onStart();
     public abstract void onUpdate(double elapsedSec);
     public abstract void onRender(GL10 gl10);

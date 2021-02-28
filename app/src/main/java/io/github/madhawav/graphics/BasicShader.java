@@ -44,6 +44,8 @@ public class BasicShader extends AbstractShader {
 
         // Enable depth testing
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+
+        GLES20.glDepthFunc(GLES20.GL_LEQUAL);
     }
 
     @Override
