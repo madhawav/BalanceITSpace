@@ -28,14 +28,15 @@ public class Texture extends EngineModule {
     @Override
     protected void onSurfaceCreated(GL10 gl10, EGLConfig config) {
         super.onSurfaceCreated(gl10, config);
-        this.finish(); // Textures are destroyed when surface is re-created
+        this.disposed = true;
     }
-
 
     @Override
     public void finish() {
-        this.disposed = true;
-        GLES20.glDeleteTextures(1, new int[]{handle}, 0);
-        super.finish();
+        if(!this.disposed){
+            GLES20.glDeleteTextures(1, new int[]{handle}, 0);
+            this.disposed = true;
+            super.finish();
+        }
     }
 }

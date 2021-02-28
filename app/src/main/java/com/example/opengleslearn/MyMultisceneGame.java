@@ -60,7 +60,10 @@ class MyScene1 extends AbstractScene {
 
     @Override
     protected void onUpdate(double elapsedSec) {
-
+        if(this.game.getGravitySensor().isAvailable()) {
+//            Logger.getLogger(MyGame.class.getName()).info(Arrays.toString(this.getGravitySensor().getGravity()));
+            strength = this.game.getGravitySensor().getGravity()[1]/10.0f;
+        }
     }
 
     @Override
@@ -103,7 +106,7 @@ class MyScene2 extends AbstractScene {
     @Override
     protected void onRender(GL10 gl10) {
         game.getGraphicsEngine().clear((float) (strength % 1.0), 1.0f, 0.0f, 1.0f);
-//        game.getSpriteEngine().drawSprite(game.getTextureManager().getTextureFromResource(R.drawable.loading,this), 0, 0, 1000, 1000, 1, 0.5f);
+        game.getSpriteEngine().drawSprite(game.getTextureManager().getTextureFromResource(R.drawable.credits_button,this), 0, 0, 1000, 1000, 1, 0.5f);
     }
 
     @Override

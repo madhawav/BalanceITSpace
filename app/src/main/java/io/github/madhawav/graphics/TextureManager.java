@@ -15,17 +15,17 @@ import javax.microedition.khronos.opengles.GL10;
 import io.github.madhawav.coreengine.EngineModule;
 
 public class TextureManager extends EngineModule {
-    private Context context;
+    private final Context context;
     private boolean isAlive;
-    private Map<Integer, Texture> resourceTextureMap;
-    private Map<EngineModule, Set<Texture>> ownerTexturesMap;
-    private Map<Texture, Integer> textureReferenceCountMap;
+    private final Map<Integer, Texture> resourceTextureMap;
+    private final Map<EngineModule, Set<Texture>> ownerTexturesMap;
+    private final Map<Texture, Set<EngineModule>> textureOwnerMap;
     public TextureManager(Context context)
     {
         this.context = context;
         this.resourceTextureMap = new HashMap<>();
         this.ownerTexturesMap = new HashMap<>();
-        this.textureReferenceCountMap = new HashMap<>();
+        this.textureOwnerMap = new HashMap<>();
 
         this.isAlive = true;
     }
@@ -36,18 +36,16 @@ public class TextureManager extends EngineModule {
 
         if((!resourceTextureMap.containsKey(resourceId)) || (!resourceTextureMap.get(resourceId).isAvailable()))
         {
-            int referenceCount = 0;
+            Set<EngineModule> owners = new HashSet<>();
             if(resourceTextureMap.containsKey(resourceId)){
-                // We have a disposed texture
+                // We have encountered a disposed texture.
                 Texture disposedTexture = resourceTextureMap.get(resourceId);
-                referenceCount = textureReferenceCountMap.get(disposedTexture);
-                // Remove reference count info about disposed texture
-                textureReferenceCountMap.remove(disposedTexture);
+                disposeTexture(disposedTexture);
             }
             int textureHandle = GraphicsUtil.loadTexture(context, resourceId);
             Texture texture = new Texture(textureHandle);
             this.resourceTextureMap.put(resourceId, texture);
-            this.textureReferenceCountMap.put(texture, referenceCount);
+            this.textureOwnerMap.put(texture, owners);
             registerModule(texture);
         }
         Texture texture = resourceTextureMap.get(resourceId);
@@ -56,16 +54,18 @@ public class TextureManager extends EngineModule {
         if(!this.ownerTexturesMap.containsKey(owner)){
             this.ownerTexturesMap.put(owner, new HashSet<>());
         }
-        if(!this.ownerTexturesMap.get(owner).contains(texture)){
-            this.ownerTexturesMap.get(owner).add(texture);
+        this.ownerTexturesMap.get(owner).add(texture);
 
-            // Increment reference count
-            this.textureReferenceCountMap.put(texture,this.textureReferenceCountMap.get(texture)+1);
-        }
+        // Increment reference count
+        this.textureOwnerMap.get(texture).add(owner);
         return texture;
     }
 
     private void disposeTexture(Texture texture){
+        if(textureOwnerMap.containsKey(texture)){
+            textureOwnerMap.get(texture).forEach((owner)->ownerTexturesMap.get(owner).remove(texture));
+        }
+        textureOwnerMap.remove(texture);
         texture.finish();
     }
 
@@ -75,11 +75,13 @@ public class TextureManager extends EngineModule {
      */
     public void revokeTextures(EngineModule owner){
         Logger.getLogger(getClass().getName()).info("Revoking resources owned by " + owner.toString());
+
         if(!this.ownerTexturesMap.containsKey(owner))
-            return;
-        this.ownerTexturesMap.get(owner).forEach(texture -> {
-            this.textureReferenceCountMap.put(texture, this.textureReferenceCountMap.get(texture) - 1);
-            if(this.textureReferenceCountMap.get(texture) == 0){
+            return; // Doesn't hold any textures
+
+        this.ownerTexturesMap.get(owner).forEach(texture -> { // Iterate over textures and remove ownership
+            this.textureOwnerMap.get(texture).remove(owner);
+            if(this.textureOwnerMap.get(texture).isEmpty()){ // Dispose if no more owners
                 // Dispose
                 disposeTexture(texture);
             }
@@ -92,6 +94,7 @@ public class TextureManager extends EngineModule {
         super.onSurfaceCreated(gl10, config);
         this.resourceTextureMap.clear();
         this.ownerTexturesMap.clear();
+        this.textureOwnerMap.clear();
     }
 
     @Override
@@ -99,6 +102,7 @@ public class TextureManager extends EngineModule {
         super.finish();
         this.resourceTextureMap.clear();
         this.ownerTexturesMap.clear();
+        this.textureOwnerMap.clear();
         this.isAlive = false;
     }
 }
