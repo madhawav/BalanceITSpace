@@ -16,7 +16,8 @@ class EngineGLRenderer implements GLSurfaceView.Renderer {
 
     public void onDrawFrame(GL10 gl10) {
         // Redraw background color
-        this.game.onRender(gl10);
+        if(this.game.getGameState() == GameState.RUNNING)
+            this.game.onRender(gl10);
     }
 
     public void onSurfaceChanged(GL10 gl10, int width, int height) {

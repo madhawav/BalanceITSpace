@@ -5,6 +5,10 @@ import android.os.Bundle;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import io.github.madhawav.ui.AbstractUIElement;
+import io.github.madhawav.ui.GraphicsContext;
+import io.github.madhawav.ui.ImageButton;
+import io.github.madhawav.ui.UIElementScene;
 import io.github.madhawav.multiscene.AbstractMultiSceneGame;
 import io.github.madhawav.multiscene.AbstractScene;
 import io.github.madhawav.multiscene.ResourceUtil;
@@ -45,47 +49,31 @@ public class MyMultisceneGame extends AbstractMultiSceneGame {
 
     @Override
     public AbstractScene onStart() {
-        return new MyScene1();
+        return new MyScene2();
     }
 }
 
-class MyScene1 extends AbstractScene {
+class MyScene1 extends UIElementScene {
     private MyMultisceneGame game;
     private double strength = 0.0;
+
+    private GraphicsContext graphicsContext;
+    private ImageButton button;
+
+    @Override
+    protected AbstractUIElement getUIElement() {
+        graphicsContext = new GraphicsContext(game.getGraphicsEngine(), game.getSpriteEngine(), game.getTextureManager());
+        button = new ImageButton(graphicsContext, R.drawable.credits_button, 300, 300, 200, 50, (sender, x, y) -> {
+            game.swapScene(new MyScene2());
+            return true;
+        });
+        return button;
+    }
 
     @Override
     public void onStart() {
         game = (MyMultisceneGame) getGame();
-    }
-
-    @Override
-    protected void onUpdate(double elapsedSec) {
-        if(this.game.getGravitySensor().isAvailable()) {
-//            Logger.getLogger(MyGame.class.getName()).info(Arrays.toString(this.getGravitySensor().getGravity()));
-            strength = this.game.getGravitySensor().getGravity()[1]/10.0f;
-        }
-    }
-
-    @Override
-    protected void onRender(GL10 gl10) {
-        game.getGraphicsEngine().clear((float) (strength % 1.0), 0.0f, 0.0f, 1.0f);
-        game.getSpriteEngine().drawSprite(game.getTextureManager().getTextureFromResource(R.drawable.loading,this), 0, 0, 1000, 1000, 1, 0.5f);
-    }
-
-    @Override
-    protected boolean onTouchDown(float x, float y) {
-        game.swapScene(new MyScene2());
-        return true;
-    }
-
-    @Override
-    protected boolean onTouchMove(float x, float y) {
-        return false;
-    }
-
-    @Override
-    protected boolean onTouchReleased(float x, float y) {
-        return false;
+        super.onStart();
     }
 }
 

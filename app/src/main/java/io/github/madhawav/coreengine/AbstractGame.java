@@ -54,6 +54,10 @@ public abstract class AbstractGame extends EngineModule {
         this.initializeSensors(gameDescription);
     }
 
+    public Context getContext() {
+        return context;
+    }
+
     public TextureManager getTextureManager() {
         return textureManager;
     }
@@ -158,9 +162,11 @@ public abstract class AbstractGame extends EngineModule {
             @Override
             public void run() {
                 long currentTime = System.nanoTime();
-                AbstractGame.this.onUpdate((double) (currentTime - lastUpdateTime) /1000000000.0);
+                if(AbstractGame.this.getGameState() == GameState.RUNNING) {
+                    AbstractGame.this.onUpdate((double) (currentTime - lastUpdateTime) / 1000000000.0);
+                    AbstractGame.this.surfaceView.requestRender();
+                }
                 AbstractGame.this.lastUpdateTime = currentTime;
-                AbstractGame.this.surfaceView.requestRender();
             }
         };
         this.updateTimer.schedule(this.updateTask, 0, this.updateRateMillis);

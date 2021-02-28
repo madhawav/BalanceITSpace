@@ -10,6 +10,7 @@ import io.github.madhawav.coreengine.GameDescription;
 public abstract class AbstractMultiSceneGame extends AbstractGame {
     private AbstractScene currentScene = null;
     private AbstractScene nextScene = null;
+    private boolean started = false;
 
     public AbstractMultiSceneGame(Context context, GameDescription gameDescription) {
         super(context, gameDescription);
@@ -28,12 +29,13 @@ public abstract class AbstractMultiSceneGame extends AbstractGame {
         if(initialScene == null)
             throw new IllegalStateException("Must return a valid scene");
         beginScene(initialScene);
+        started = true;
     }
 
     private void beginScene(AbstractScene scene){
-        this.registerModule(scene);
+        scene.start(this);
         this.currentScene = scene;
-        this.currentScene.start(this);
+        this.registerModule(scene);
     }
 
     public void swapScene(AbstractScene newScene){
