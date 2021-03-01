@@ -8,6 +8,8 @@ import java.util.logging.Logger;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import io.github.madhawav.MathUtil;
+
 public abstract class EngineModule {
     private boolean finished = false;
     private List<EngineModule> registeredModules;
@@ -35,9 +37,9 @@ public abstract class EngineModule {
         this.registeredModules.remove(module);
     }
 
-    protected void onSurfaceChanged(GL10 gl10, int width, int height)
+    protected void onSurfaceChanged(GL10 gl10, int screenWidth, int screenHeight, MathUtil.Rect2I viewport)
     {
-        this.registeredModules.forEach((module)->module.onSurfaceChanged(gl10, width, height));
+        this.registeredModules.forEach((module)->module.onSurfaceChanged(gl10, screenWidth, screenHeight, viewport));
     }
     protected void onSurfaceCreated(GL10 gl10, EGLConfig config){
         this.registeredModules.forEach((module)->module.onSurfaceCreated(gl10, config));

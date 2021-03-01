@@ -17,7 +17,7 @@ public class SpriteEngine extends EngineModule {
         boolean preserveDepthSetting = graphicsEngine.isDepthEnabled();
         graphicsEngine.setDepthEnabled(false);
 
-        GraphicsUtil.setupSpriteProjectionMatrix(graphicsEngine.getProjectionMatrix(),  graphicsEngine.getScreenWidth(), graphicsEngine.getScreenHeight());
+        GraphicsUtil.setupSpriteProjectionMatrix(graphicsEngine.getProjectionMatrix(),  graphicsEngine.getViewportWidth(), graphicsEngine.getViewportHeight());
         GraphicsUtil.setupSpriteViewMatrix(graphicsEngine.getViewMatrix());
 
         float[] scale = new float[16];

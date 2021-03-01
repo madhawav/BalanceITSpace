@@ -21,16 +21,16 @@ class EngineSurfaceView extends GLSurfaceView {
         switch(event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 synchronized (game){
-                    return game.onTouchDown(x, y);
+                    return game.touchDown(x, y);
                 }
             case MotionEvent.ACTION_UP:
                 synchronized (game){
-                    return game.onTouchReleased(x,y);
+                    return game.touchReleased(x,y);
                 }
 
             case MotionEvent.ACTION_MOVE:
                 synchronized (game){
-                    return game.onTouchMove(x, y);
+                    return game.touchMove(x, y);
                 }
 
         }

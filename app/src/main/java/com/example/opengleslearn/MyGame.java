@@ -6,6 +6,7 @@ import android.os.Bundle;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import io.github.madhawav.MathUtil;
 import io.github.madhawav.multiscene.ResourceUtil;
 import io.github.madhawav.coreengine.AbstractGame;
 import io.github.madhawav.coreengine.GameDescription;
@@ -21,7 +22,7 @@ public class MyGame extends AbstractGame {
     private SpriteEngine spriteEngine;
 
     public MyGame(Context context, Bundle savedInstanceState){
-        super(context, new GameDescription(30, true));
+        super(context, new GameDescription(30, true, 1280.0f/720.0f));
 
         AbstractShader shader = new BasicShader(
                 ResourceUtil.readTextFileFromRawResource(context, R.raw.shader_vs),
@@ -72,7 +73,7 @@ public class MyGame extends AbstractGame {
     }
 
     @Override
-    public void onSurfaceChanged(GL10 gl10, int width, int height) {
-        super.onSurfaceChanged(gl10, width, height);
+    public void onSurfaceChanged(GL10 gl10, int width, int height, MathUtil.Rect2I viewport) {
+        super.onSurfaceChanged(gl10, width, height, viewport);
     }
 }

@@ -32,8 +32,8 @@ public class SpaceBackgroundLayer extends AbstractUIElement {
         Matrix.scaleM(modelMatrix,0, 100, 100, 1);
         Matrix.rotateM(modelMatrix, 0, -90, 0, 1, 0);
 
-        float woh=(float)getGraphicsContext().getGraphicsEngine().getScreenWidth()/
-                (float)getGraphicsContext().getGraphicsEngine().getScreenHeight();
+        float woh=(float)getGraphicsContext().getGraphicsEngine().getViewportWidth()/
+                (float)getGraphicsContext().getGraphicsEngine().getViewportWidth();
         Matrix.frustumM(projMatrix,0, -woh, woh, -1, 1,  1.0f, 200.0f);
     }
 
@@ -47,10 +47,10 @@ public class SpaceBackgroundLayer extends AbstractUIElement {
     private void setupSkyBoxTransforms(float[] modelMatrix, float[] viewMatrix, float[] projMatrix){
         MathUtil.Vector4 gravity = game.getGravitySensor().getGravity();
         Matrix.setLookAtM(viewMatrix, 0, 0.0f, 0.0f ,0.0f, -gravity.getY(), -gravity.getZ(), gravity.getX(), 1.0f, 0.0f, 0.0f);
-        Matrix.orthoM(projMatrix, 0, -getGraphicsContext().getGraphicsEngine().getScreenWidth()/2.0f,
-                getGraphicsContext().getGraphicsEngine().getScreenWidth()/2.0f,
-                getGraphicsContext().getGraphicsEngine().getScreenHeight()/2.0f,
-                -getGraphicsContext().getGraphicsEngine().getScreenHeight()/2.0f, 0.01f, 4000.0f);
+        Matrix.orthoM(projMatrix, 0, -getGraphicsContext().getGraphicsEngine().getViewportWidth()/2.0f,
+                getGraphicsContext().getGraphicsEngine().getViewportWidth()/2.0f,
+                getGraphicsContext().getGraphicsEngine().getViewportHeight()/2.0f,
+                -getGraphicsContext().getGraphicsEngine().getViewportHeight()/2.0f, 0.01f, 4000.0f);
 
         Matrix.setIdentityM(modelMatrix ,0);
         Matrix.scaleM(modelMatrix, 0, 3000,3000,3000);

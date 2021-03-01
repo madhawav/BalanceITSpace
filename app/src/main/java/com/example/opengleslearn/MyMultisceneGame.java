@@ -28,7 +28,7 @@ public class MyMultisceneGame extends AbstractMultiSceneGame {
     private SpriteEngine spriteEngine;
 
     public MyMultisceneGame(Context context, Bundle savedInstanceState) {
-        super(context, new GameDescription(30, true));
+        super(context, new GameDescription(30, true,  720.0f/1280.0f));
 
         AbstractShader shader = new BasicShader(
                 ResourceUtil.readTextFileFromRawResource(context, R.raw.shader_vs),
@@ -90,8 +90,8 @@ class MyScene1 extends UIElementScene {
 
         LayeredUI layeredUI = new LayeredUI(graphicsContext);
         layeredUI.addElement(new SpaceBackgroundLayer(graphicsContext));
+        layeredUI.addElement(new GamePlayLayer(graphicsContext));
         layeredUI.addElement(button1);
-        layeredUI.addElement(button2);
         layeredUI.addElement(button3);
         layeredUI.setOpacity(0.5f);
         return layeredUI;
@@ -125,7 +125,7 @@ class MyScene2 extends AbstractScene {
     @Override
     protected void onRender(GL10 gl10) {
         game.getGraphicsEngine().clear((float) (strength % 1.0), 1.0f, 0.0f, 1.0f);
-        game.getSpriteEngine().drawSprite(game.getTextureManager().getTextureFromResource(R.drawable.credits_button,this), 0, 0, 1000, 1000, 1, 0.5f);
+        game.getSpriteEngine().drawSprite(game.getTextureManager().getTextureFromResource(R.drawable.credits_button,this), 0, 0, game.getGraphicsEngine().getViewport().getWidth(), game.getGraphicsEngine().getViewport().getHeight(), 1, 0.5f);
     }
 
     @Override

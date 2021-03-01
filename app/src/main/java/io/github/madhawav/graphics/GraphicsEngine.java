@@ -7,6 +7,7 @@ import android.opengl.Matrix;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import io.github.madhawav.MathUtil;
 import io.github.madhawav.coreengine.EngineModule;
 
 public class GraphicsEngine extends EngineModule {
@@ -25,9 +26,18 @@ public class GraphicsEngine extends EngineModule {
     private boolean depthEnabled = false;
     private boolean cullBackFace = false;
 
+
+    private MathUtil.Rect2I viewport;
+
+    public MathUtil.Rect2I getViewport() {
+        return viewport;
+    }
+
     public GraphicsEngine(Context context, GraphicsEngineDescription description){
         this.context = context;
         this.shader = description.getShader();
+        this.viewport = null;
+        this.viewport = null;
     }
 
     public void clear(float r, float g, float b, float a){
@@ -104,6 +114,14 @@ public class GraphicsEngine extends EngineModule {
             disableDepth();
     }
 
+    public int getViewportWidth(){
+        return (int) this.viewport.getWidth();
+    }
+
+    public int getViewportHeight(){
+        return (int) this.viewport.getHeight();
+    }
+
     public int getScreenWidth() {
         return screenWidth;
     }
@@ -124,11 +142,11 @@ public class GraphicsEngine extends EngineModule {
         return modelMatrix;
     }
 
-    public void onSurfaceChanged(GL10 gl10, int width, int height) {
-        super.onSurfaceChanged(gl10, width, height);
-        GLES20.glViewport(0, 0, width, height);
-        screenWidth = width;
-        screenHeight = height;
+    public void onSurfaceChanged(GL10 gl10, int screenWidth, int screenHeight, MathUtil.Rect2I viewport) {
+        super.onSurfaceChanged(gl10, screenWidth, screenHeight, viewport);
+        this.viewport = viewport;
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
 
         // Enable blending
         GLES20.glEnable(GLES20.GL_ALPHA);

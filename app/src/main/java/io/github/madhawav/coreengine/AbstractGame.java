@@ -12,6 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import io.github.madhawav.MathUtil;
 import io.github.madhawav.coreengine.sensors.AbstractSensor;
 import io.github.madhawav.coreengine.sensors.GravitySensor;
 import io.github.madhawav.coreengine.sensors.SensorType;
@@ -34,9 +35,11 @@ public abstract class AbstractGame extends EngineModule {
 
     private TextureManager textureManager;
     private GameState gameState;
+    private MathUtil.Rect2I viewport;
 
     protected AbstractGame(Context context, GameDescription gameDescription){
         this.context = context;
+
         this.updateRateMillis = gameDescription.getUpdateRateMillis();
         this.textureManager = new TextureManager(context);
         registerModule(this.textureManager);
@@ -44,7 +47,7 @@ public abstract class AbstractGame extends EngineModule {
         this.sensors = new HashMap<>();
 
         this.surfaceView = new EngineSurfaceView(context,this);
-        this.renderer = new EngineGLRenderer(this);
+        this.renderer = new EngineGLRenderer(this, gameDescription.getAspectRatio());
         this.surfaceView.setRenderer(this.renderer);
         this.surfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
@@ -70,6 +73,18 @@ public abstract class AbstractGame extends EngineModule {
     }
     public GameState getGameState(){
         return gameState;
+    }
+
+    boolean touchDown(float x, float y){
+        return onTouchDown(x - viewport.getX(), y - viewport.getY());
+    }
+
+    boolean touchMove(float x, float y){
+        return onTouchMove(x - viewport.getX(), y - viewport.getY());
+    }
+
+    boolean touchReleased(float x, float y){
+        return onTouchReleased(x - viewport.getX(), y - viewport.getY());
     }
 
     /**
@@ -187,9 +202,10 @@ public abstract class AbstractGame extends EngineModule {
         }
     }
 
-    public void onSurfaceChanged(GL10 gl10, int width, int height){
+    public void onSurfaceChanged(GL10 gl10, int width, int height, MathUtil.Rect2I viewport){
         synchronized (this) {
-            super.onSurfaceChanged(gl10, width, height);
+            this.viewport = viewport;
+            super.onSurfaceChanged(gl10, width, height, viewport);
         }
     }
 }

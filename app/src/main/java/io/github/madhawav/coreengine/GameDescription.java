@@ -3,11 +3,17 @@ package io.github.madhawav.coreengine;
 public final class GameDescription {
     private int updateRateMillis;
     private boolean useGravitySensor;
+    private float aspectRatio;
 
-    public GameDescription(int updateRateMillis, boolean useGravitySensor){
+    public GameDescription(int updateRateMillis, boolean useGravitySensor, float aspectRatio){
         this.updateRateMillis = updateRateMillis;
         this.useGravitySensor = useGravitySensor;
+        this.aspectRatio = aspectRatio;
     }
+    public float getAspectRatio() {
+        return aspectRatio;
+    }
+
     public int getUpdateRateMillis() {
         return updateRateMillis;
     }
