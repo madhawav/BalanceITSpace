@@ -13,13 +13,13 @@ public class GravitySensor extends AbstractSensor {
     private SensorManager sensorManager;
     private SensorEventListener sensorEventListener;
 
-    private MathUtil.Vector4 gravity;
+    private MathUtil.Vector3 gravity;
     private long timestamp;
 
     public GravitySensor(Context context){
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         gravitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-        gravity = new MathUtil.Vector4();
+        gravity = new MathUtil.Vector3();
 
 
         sensorEventListener = new SensorEventListener() {
@@ -62,7 +62,7 @@ public class GravitySensor extends AbstractSensor {
      * Returns gravity vector. Null if gravity data not available.
      * @return
      */
-    public MathUtil.Vector4 getGravity() {
+    public MathUtil.Vector3 getGravity() {
         if(!isSupported())
             throw new UnsupportedOperationException("Gravity sensor not supported");
         if(!isAvailable())

@@ -11,7 +11,7 @@ public class GraphicsUtil {
     private GraphicsUtil(){}
     private static float PROJECTION_CULL_FAR = 4000.0f;
     private static float PROJECTION_CULL_NEAR = 0.01f;
-    static void setupSpriteProjectionMatrix(float[] matrix, int screenWidth, int screenHeight){
+    static void setupSpriteProjectionMatrix(float[] matrix, float screenWidth, float screenHeight){
         Matrix.orthoM(matrix, 0, 0, screenWidth, screenHeight, 0, PROJECTION_CULL_NEAR, PROJECTION_CULL_FAR);
     }
 

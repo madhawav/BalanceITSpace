@@ -81,7 +81,8 @@ public class MathUtil {
         }
     }
 
-    public static class Vector4{
+    public static class Vector4 {
+
         private float[] vector4;
         public Vector4(){
             vector4 = new float[] {0.0f, 0.0f, 0.0f, 1.0f};
@@ -140,5 +141,102 @@ public class MathUtil {
                 throw new IllegalArgumentException();
             }
         }
+
+        public void set(Vector3 other){
+            vector4[0] = other.getX();
+            vector4[1] = other.getY();
+            vector4[2] = other.getZ();
+            vector4[3] = 1.0f;
+        }
+
+        public void setX(float x){
+            this.vector4[0] = x;
+        }
+        public void setY(float y){
+            this.vector4[1] = y;
+        }
+        public void setZ(float z){
+            this.vector4[2] = z;
+        }
+        public void setW(float w){
+            this.vector4[3] = w;
+        }
+    }
+
+    public static class Vector3 {
+        public Vector3 clone(){
+            return new Vector3(vector3);
+        }
+
+        public void add(Vector3 other){
+            this.vector3[0] += other.getX();
+            this.vector3[1] += other.getY();
+            this.vector3[2] += other.getZ();
+        }
+
+        public void multiply(float other){
+            this.vector3[0] *= other;
+            this.vector3[1] *= other;
+            this.vector3[2] *= other;
+        }
+
+        private float[] vector3;
+        public Vector3(){
+            vector3 = new float[] {0.0f, 0.0f, 0.0f };
+        }
+        public Vector3(float[] data) {
+            if (data.length == 3) {
+                vector3 = new float[]{data[0], data[1], data[2]};
+            }
+            else{
+                throw new IllegalArgumentException();
+            }
+        }
+        public Vector3(float x, float y, float z){
+            vector3 = new float[] {x, y, z};
+        }
+
+        public float[] asFloatArray() {
+            return vector3;
+        }
+
+        public float getX(){
+            return vector3[0];
+        }
+
+        public float getY(){
+            return vector3[1];
+        }
+
+        public float getZ(){
+            return vector3[2];
+        }
+
+        public void set(float[] values) {
+            if (values.length == 3) {
+                vector3[0] = values[0];
+                vector3[1] = values[1];
+                vector3[2] = values[2];
+            }
+            else{
+                throw new IllegalArgumentException();
+            }
+        }
+        public void set(Vector4 other){
+            vector3[0] = other.getX();
+            vector3[1] = other.getY();
+            vector3[2] = other.getZ();
+        }
+
+        public void setX(float x){
+            this.vector3[0] = x;
+        }
+        public void setY(float y){
+            this.vector3[1] = y;
+        }
+        public void setZ(float z){
+            this.vector3[2] = z;
+        }
+
     }
 }

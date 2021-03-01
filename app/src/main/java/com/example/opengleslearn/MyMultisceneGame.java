@@ -1,13 +1,14 @@
 package com.example.opengleslearn;
 
 import android.content.Context;
-import android.opengl.Matrix;
 import android.os.Bundle;
+
+import com.example.opengleslearn.gameplay.GameLogic;
+import com.example.opengleslearn.gameplay.GameParameters;
+import com.example.opengleslearn.gameplay.GameState;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import io.github.madhawav.MathUtil;
-import io.github.madhawav.graphics.Geometry;
 import io.github.madhawav.ui.AbstractUIElement;
 import io.github.madhawav.ui.GraphicsContext;
 import io.github.madhawav.ui.ImageButton;
@@ -58,28 +59,30 @@ public class MyMultisceneGame extends AbstractMultiSceneGame {
     }
 }
 
-
-
-class MyScene1 extends UIElementScene {
+class GamePlayScene extends UIElementScene {
     private GraphicsContext graphicsContext;
-
-    public MyScene1(){
-
+    private GameState gameState;
+    private GameLogic gameLogic;
+    private GameParameters gameParameters;
+    public GamePlayScene(){
+        gameParameters = new GameParameters();
+        gameState = new GameState();
+        gameLogic = new GameLogic(gameState,gameParameters , new GameLogic.Callback() {
+            @Override
+            public void onGameOver() {
+                getGame().swapScene(new MyScene2());
+            }
+        });
     }
-    public MyScene1(float r, float g, float b){
-        this.setBackgroundColor(new float[]{r,g,b,1.0f});
-    }
+
     @Override
     protected AbstractUIElement getUIElement() {
         MyMultisceneGame game = (MyMultisceneGame)getGame();
         graphicsContext = new GraphicsContext( game.getGraphicsEngine(), game.getSpriteEngine(), game.getTextureManager(), game);
+
+
         ImageButton button1 = new ImageButton(graphicsContext, R.drawable.credits_button, 300, 300, 400, 100, (sender, x, y) -> {
             game.swapScene(new MyScene2());
-            return true;
-        });
-
-        ImageButton button2 = new ImageButton(graphicsContext, R.drawable.loading, 300, 500, 400, 100, (sender, x, y) -> {
-            game.swapScene(new MyScene1(0.0f, 1.0f, 0.0f));
             return true;
         });
 
@@ -90,11 +93,16 @@ class MyScene1 extends UIElementScene {
 
         LayeredUI layeredUI = new LayeredUI(graphicsContext);
         layeredUI.addElement(new SpaceBackgroundLayer(graphicsContext));
-        layeredUI.addElement(new GamePlayLayer(graphicsContext));
+        layeredUI.addElement(new GamePlayLayer(gameState, gameParameters.getBoardSize(), graphicsContext));
         layeredUI.addElement(button1);
         layeredUI.addElement(button3);
         layeredUI.setOpacity(0.5f);
         return layeredUI;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -103,7 +111,7 @@ class MyScene1 extends UIElementScene {
         MyMultisceneGame game = (MyMultisceneGame)getGame();
         if(game.getGravitySensor().isAvailable()) {
 //            Logger.getLogger(MyGame.class.getName()).info(Arrays.toString(this.getGravitySensor().getGravity()));
-            this.setBackgroundColor(new float[] {game.getGravitySensor().getGravity().getY()/10.0f, 0.0f, 0.0f, 1.0f});
+            this.gameLogic.update(elapsedSec, game.getGravitySensor().getGravity());
         }
     }
 }
@@ -130,7 +138,7 @@ class MyScene2 extends AbstractScene {
 
     @Override
     protected boolean onTouchDown(float x, float y) {
-        game.swapScene(new MyScene1());
+        game.swapScene(new GamePlayScene());
         return true;
     }
 
