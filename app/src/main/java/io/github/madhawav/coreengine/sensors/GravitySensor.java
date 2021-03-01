@@ -6,24 +6,26 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import io.github.madhawav.MathUtil;
+
 public class GravitySensor extends AbstractSensor {
     private Sensor gravitySensor;
     private SensorManager sensorManager;
     private SensorEventListener sensorEventListener;
 
-    private float[] gravity;
+    private MathUtil.Vector4 gravity;
     private long timestamp;
 
     public GravitySensor(Context context){
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         gravitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-        gravity = null;
+        gravity = new MathUtil.Vector4();
 
 
         sensorEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
-                gravity = event.values;
+                gravity.set(event.values);
                 timestamp = event.timestamp;
             }
 
@@ -60,7 +62,7 @@ public class GravitySensor extends AbstractSensor {
      * Returns gravity vector. Null if gravity data not available.
      * @return
      */
-    public float[] getGravity() {
+    public MathUtil.Vector4 getGravity() {
         if(!isSupported())
             throw new UnsupportedOperationException("Gravity sensor not supported");
         if(!isAvailable())

@@ -62,7 +62,7 @@ public class MyGame extends AbstractGame {
 //        strength += elapsedTime;
         if(this.getGravitySensor().isAvailable()) {
 //            Logger.getLogger(MyGame.class.getName()).info(Arrays.toString(this.getGravitySensor().getGravity()));
-            strength = this.getGravitySensor().getGravity()[1]/10.0f;
+            strength = this.getGravitySensor().getGravity().getY()/10.0f;
         }
     }
 

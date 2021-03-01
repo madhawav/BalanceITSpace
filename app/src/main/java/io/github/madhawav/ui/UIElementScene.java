@@ -55,7 +55,8 @@ public abstract class UIElementScene extends AbstractScene {
     protected void onRender(GL10 gl10) {
         if(!isRunning())
             throw new IllegalStateException("Not running");
-        uiElement.getGraphicsContext().getGraphicsEngine().clear(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
+        if(backgroundColor != null)
+            uiElement.getGraphicsContext().getGraphicsEngine().clear(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
         this.uiElement.onRender(gl10);
     }
 

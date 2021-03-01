@@ -22,6 +22,9 @@ public class GraphicsEngine extends EngineModule {
     private int screenWidth = 0;
     private int screenHeight = 0;
 
+    private boolean depthEnabled = false;
+    private boolean cullBackFace = false;
+
     public GraphicsEngine(Context context, GraphicsEngineDescription description){
         this.context = context;
         this.shader = description.getShader();
@@ -61,6 +64,46 @@ public class GraphicsEngine extends EngineModule {
         this.shader.unbindGeometry();
     }
 
+    public boolean isCullBackFace() {
+        return cullBackFace;
+    }
+
+    public void setCullBackFace(boolean cullBackFace) {
+        this.cullBackFace = cullBackFace;
+        if(cullBackFace){
+            GLES20.glEnable(GLES20.GL_CULL_FACE);
+        }
+        else{
+            GLES20.glDisable(GLES20.GL_CULL_FACE);
+        }
+    }
+
+    private void enableDepth(){
+        // Enable depth testing
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+
+        GLES20.glDepthMask(true);
+    }
+
+    private void disableDepth(){
+        // Disable depth testing
+        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+
+        GLES20.glDepthMask(false);
+    }
+
+    public boolean isDepthEnabled() {
+        return depthEnabled;
+    }
+
+    public void setDepthEnabled(boolean depthEnabled) {
+        this.depthEnabled = depthEnabled;
+        if(depthEnabled)
+            enableDepth();
+        else
+            disableDepth();
+    }
+
     public int getScreenWidth() {
         return screenWidth;
     }
@@ -91,5 +134,10 @@ public class GraphicsEngine extends EngineModule {
         GLES20.glEnable(GLES20.GL_ALPHA);
         GLES20.glEnable(GLES20.GL_BLEND);
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+
+        GLES20.glDepthFunc(GLES20.GL_LEQUAL);
+
+        setDepthEnabled(depthEnabled); // Updates GL with depth configuration
+        setCullBackFace(cullBackFace); // Updates GL with backface culling configuration
     }
 }

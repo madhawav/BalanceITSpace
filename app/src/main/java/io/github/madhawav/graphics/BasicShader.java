@@ -38,14 +38,6 @@ public class BasicShader extends AbstractShader {
         hPosition = GLES20.glGetAttribLocation(hShaderProgram, "a_Position");
         hNormal = GLES20.glGetAttribLocation(hShaderProgram, "a_Normal");
         hTextureCoordinate = GLES20.glGetAttribLocation(hShaderProgram, "a_TexCoordinate");
-
-        // Use culling to remove back faces.
-        GLES20.glEnable(GLES20.GL_CULL_FACE);
-
-        // Enable depth testing
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-
-        GLES20.glDepthFunc(GLES20.GL_LEQUAL);
     }
 
     @Override

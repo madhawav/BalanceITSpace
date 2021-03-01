@@ -1,10 +1,13 @@
 package com.example.opengleslearn;
 
 import android.content.Context;
+import android.opengl.Matrix;
 import android.os.Bundle;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import io.github.madhawav.MathUtil;
+import io.github.madhawav.graphics.Geometry;
 import io.github.madhawav.ui.AbstractUIElement;
 import io.github.madhawav.ui.GraphicsContext;
 import io.github.madhawav.ui.ImageButton;
@@ -55,6 +58,8 @@ public class MyMultisceneGame extends AbstractMultiSceneGame {
     }
 }
 
+
+
 class MyScene1 extends UIElementScene {
     private GraphicsContext graphicsContext;
 
@@ -67,7 +72,7 @@ class MyScene1 extends UIElementScene {
     @Override
     protected AbstractUIElement getUIElement() {
         MyMultisceneGame game = (MyMultisceneGame)getGame();
-        graphicsContext = new GraphicsContext(game.getGraphicsEngine(), game.getSpriteEngine(), game.getTextureManager());
+        graphicsContext = new GraphicsContext( game.getGraphicsEngine(), game.getSpriteEngine(), game.getTextureManager(), game);
         ImageButton button1 = new ImageButton(graphicsContext, R.drawable.credits_button, 300, 300, 400, 100, (sender, x, y) -> {
             game.swapScene(new MyScene2());
             return true;
@@ -84,6 +89,7 @@ class MyScene1 extends UIElementScene {
         });
 
         LayeredUI layeredUI = new LayeredUI(graphicsContext);
+        layeredUI.addElement(new SpaceBackgroundLayer(graphicsContext));
         layeredUI.addElement(button1);
         layeredUI.addElement(button2);
         layeredUI.addElement(button3);
@@ -97,7 +103,7 @@ class MyScene1 extends UIElementScene {
         MyMultisceneGame game = (MyMultisceneGame)getGame();
         if(game.getGravitySensor().isAvailable()) {
 //            Logger.getLogger(MyGame.class.getName()).info(Arrays.toString(this.getGravitySensor().getGravity()));
-            this.setBackgroundColor(new float[] {game.getGravitySensor().getGravity()[1]/10.0f, 0.0f, 0.0f, 1.0f});
+            this.setBackgroundColor(new float[] {game.getGravitySensor().getGravity().getY()/10.0f, 0.0f, 0.0f, 1.0f});
         }
     }
 }

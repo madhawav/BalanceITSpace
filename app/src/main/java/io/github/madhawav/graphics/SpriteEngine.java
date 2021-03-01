@@ -14,6 +14,9 @@ public class SpriteEngine extends EngineModule {
     }
 
     public void drawSprite(Texture texture, float x, float y, float width, float height, float z, float opacity){
+        boolean preserveDepthSetting = graphicsEngine.isDepthEnabled();
+        graphicsEngine.setDepthEnabled(false);
+
         GraphicsUtil.setupSpriteProjectionMatrix(graphicsEngine.getProjectionMatrix(),  graphicsEngine.getScreenWidth(), graphicsEngine.getScreenHeight());
         GraphicsUtil.setupSpriteViewMatrix(graphicsEngine.getViewMatrix());
 
@@ -26,5 +29,7 @@ public class SpriteEngine extends EngineModule {
 
         Matrix.multiplyMM(graphicsEngine.getModelMatrix(), 0, offset, 0, scale, 0);
         graphicsEngine.drawGeometry(squareGeometry, texture, opacity);
+
+        graphicsEngine.setDepthEnabled(preserveDepthSetting);
     }
 }
