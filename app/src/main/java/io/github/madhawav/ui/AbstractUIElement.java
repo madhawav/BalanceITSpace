@@ -7,9 +7,21 @@ import io.github.madhawav.coreengine.EngineModule;
 public abstract class AbstractUIElement extends EngineModule {
     private GraphicsContext graphicsContext;
     private boolean visible;
+
+    private float opacity;
+
+    public float getOpacity() {
+        return opacity;
+    }
+
+    public void setOpacity(float opacity) {
+        this.opacity = opacity;
+    }
+
     public AbstractUIElement(GraphicsContext graphicsContext){
         this.graphicsContext = graphicsContext;
         this.visible = true;
+        this.opacity = 1.0f;
     }
     public GraphicsContext getGraphicsContext(){
         return graphicsContext;

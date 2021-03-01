@@ -8,11 +8,13 @@ public final class GraphicsContext {
     private GraphicsEngine graphicsEngine;
     private SpriteEngine spriteEngine;
     private TextureManager textureManager;
+    private float opacity;
 
     public GraphicsContext(GraphicsEngine graphicsEngine, SpriteEngine spriteEngine, TextureManager textureManager){
         this.graphicsEngine = graphicsEngine;
         this.spriteEngine = spriteEngine;
         this.textureManager = textureManager;
+        this.opacity = 1.0f;
     }
 
     public SpriteEngine getSpriteEngine() {
@@ -25,5 +27,12 @@ public final class GraphicsContext {
 
     public TextureManager getTextureManager() {
         return textureManager;
+    }
+
+    public float getOpacity() {
+        return opacity;
+    }
+    public void setOpacity(float opacity) {
+        this.opacity = opacity;
     }
 }

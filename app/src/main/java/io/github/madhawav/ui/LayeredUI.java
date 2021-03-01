@@ -55,8 +55,12 @@ public class LayeredUI extends AbstractUIElement {
     public void onRender(GL10 gl10) {
         if(!isVisible())
             return;
+        float preservedOpacity = this.getGraphicsContext().getOpacity();
+        this.getGraphicsContext().setOpacity(getOpacity() * preservedOpacity);
 
         this.elements.forEach((element -> element.onRender(gl10)));
+
+        this.getGraphicsContext().setOpacity(preservedOpacity);
     }
 
     @Override

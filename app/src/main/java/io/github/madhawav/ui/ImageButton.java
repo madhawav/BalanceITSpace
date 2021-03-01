@@ -7,7 +7,6 @@ public class ImageButton extends AbstractUIElement {
     private ClickListener clickListener;
 
     float x,y,z, width,height;
-    float opacity;
 
     public ImageButton(GraphicsContext graphicsContext, int imageResourceId, float x, float y, float width, float height, ClickListener clickListener){
         super(graphicsContext);
@@ -16,7 +15,6 @@ public class ImageButton extends AbstractUIElement {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.opacity = 1.0f;
         this.z = 1.0f;
         this.clickListener = clickListener;
 
@@ -24,10 +22,6 @@ public class ImageButton extends AbstractUIElement {
 
     public float getHeight() {
         return height;
-    }
-
-    public float getOpacity() {
-        return opacity;
     }
 
     public float getWidth() {
@@ -52,10 +46,6 @@ public class ImageButton extends AbstractUIElement {
 
     public void setHeight(float height) {
         this.height = height;
-    }
-
-    public void setOpacity(float opacity) {
-        this.opacity = opacity;
     }
 
     public void setX(float x) {
@@ -85,7 +75,9 @@ public class ImageButton extends AbstractUIElement {
     public void onRender(GL10 gl10) {
         if(!isVisible())
             return;
-        this.getGraphicsContext().getSpriteEngine().drawSprite(this.getGraphicsContext().getTextureManager().getTextureFromResource(this.imageResourceId, this),x,y,width, height, 1, this.opacity);
+        this.getGraphicsContext().getSpriteEngine().drawSprite(
+                this.getGraphicsContext().getTextureManager().getTextureFromResource(this.imageResourceId, this)
+                ,x,y,width, height, 1, this.getOpacity() * this.getGraphicsContext().getOpacity()) ;
     }
 
     @Override

@@ -87,9 +87,19 @@ class MyScene1 extends UIElementScene {
         layeredUI.addElement(button1);
         layeredUI.addElement(button2);
         layeredUI.addElement(button3);
+        layeredUI.setOpacity(0.5f);
         return layeredUI;
     }
 
+    @Override
+    protected void onUpdate(double elapsedSec) {
+        super.onUpdate(elapsedSec);
+        MyMultisceneGame game = (MyMultisceneGame)getGame();
+        if(game.getGravitySensor().isAvailable()) {
+//            Logger.getLogger(MyGame.class.getName()).info(Arrays.toString(this.getGravitySensor().getGravity()));
+            this.setBackgroundColor(new float[] {game.getGravitySensor().getGravity()[1]/10.0f, 0.0f, 0.0f, 1.0f});
+        }
+    }
 }
 
 class MyScene2 extends AbstractScene {
