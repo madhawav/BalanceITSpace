@@ -93,7 +93,7 @@ class GamePlayScene extends UIElementScene {
         LayeredUI layeredUI = new LayeredUI(graphicsContext);
         layeredUI.addElement(new SpaceBackgroundLayer(graphicsContext));
         layeredUI.addElement(new GamePlayLayer(gameState, gameParameters.getBoardSize(), graphicsContext));
-        layeredUI.addElement(new HUDLayer(graphicsContext, new HUDLayer.Callback() {
+        layeredUI.addElement(new HUDLayer(graphicsContext, gameState, new HUDLayer.Callback() {
             @Override
             public void onPause() {
 
@@ -134,12 +134,14 @@ class GamePlayScene extends UIElementScene {
 
 class MyScene2 extends UIElementScene {
     private MyMultisceneGame game;
-
+    int touchCount = 0;
+    Label label;
     @Override
     protected AbstractUIElement getUIElement() {
         game = (MyMultisceneGame)getGame();
         GraphicsContext graphicsContext = new GraphicsContext( game.getGraphicsEngine(), game.getSpriteEngine(), game.getTextureAssetManager(), game);
-        return new Label(graphicsContext, "Hello", 256, 0, 0, 256, 256, new MathUtil.Vector4(1,0,0,1), 48);
+        label = new Label(graphicsContext, "Hello", 256, 0, 0, 256, 256, new MathUtil.Vector4(1,0,0,1), 48);
+        return label;
 
     }
 
@@ -161,7 +163,10 @@ class MyScene2 extends UIElementScene {
 
     @Override
     protected boolean onTouchDown(float x, float y) {
+        touchCount++;
+        label.setText("Count " + touchCount);
         game.swapScene(new GamePlayScene());
+
         return true;
     }
 

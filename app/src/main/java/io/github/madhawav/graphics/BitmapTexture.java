@@ -46,7 +46,20 @@ public class BitmapTexture extends Texture {
 
     @Override
     protected void onSurfaceCreated(GL10 gl10, EGLConfig config) {
+        // Free existing handle
+        GLES20.glDeleteTextures(1, new int[]{getHandle()}, 0);
+
        // We no longer destroy the texture. We re-create it.
+        final int[] textureHandle = new int[1];
+        GLES20.glGenTextures(1, textureHandle, 0);
+
+        if (textureHandle[0] == 0)
+        {
+            throw new RuntimeException("Error creating texture.");
+        }
+
+        setHandle(textureHandle[0]);
+
         invalidate();
     }
 

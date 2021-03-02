@@ -8,7 +8,7 @@ import javax.microedition.khronos.opengles.GL10;
 import io.github.madhawav.coreengine.EngineModule;
 
 public class Texture extends EngineModule {
-    private final int handle;
+    private int handle;
 
     Texture(int handle){
         this.handle = handle;
@@ -18,6 +18,10 @@ public class Texture extends EngineModule {
         if(this.isFinished())
             throw new IllegalStateException("Attempt to use disposed texture");
         return handle;
+    }
+
+    void setHandle(int newHandle){
+        this.handle = newHandle;
     }
 
     public boolean isAvailable(){

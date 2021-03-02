@@ -28,6 +28,8 @@ public class Label extends AbstractUIElement {
 
     private MathUtil.Vector4 color;
 
+    private boolean dirty;
+
     public Label(GraphicsContext graphicsContext, String text, int canvasSize, float x, float y, float width, float height, MathUtil.Vector4 color, int fontSize) {
         super(graphicsContext);
         if(!(canvasSize == 512 || canvasSize == 256 || canvasSize == 128 || canvasSize == 64 || canvasSize == 32)){
@@ -41,12 +43,20 @@ public class Label extends AbstractUIElement {
         this.y = y;
         this.width = width;
         this.height = height;
+
+        this.sourceBitmap = null;
+        this.texture = null;
+
+        this.dirty = true;
     }
 
 
     public void invalidate(){
-        if(this.sourceBitmap == null)
-            return;
+        if(sourceBitmap == null)
+        {
+            sourceBitmap = Bitmap.createBitmap(canvasSize ,canvasSize, Bitmap.Config.ARGB_8888);
+            texture = BitmapTexture.create(sourceBitmap, this);
+        }
 
         Canvas canvas = new Canvas(sourceBitmap);
         Paint paint = new Paint();
@@ -64,16 +74,21 @@ public class Label extends AbstractUIElement {
 
         canvas.drawText(text, -textBound.left, -textBound.top, paint);
         texture.invalidate();
+        dirty = false;
     }
 
     public void setText(String text) {
+        if(text == null)
+            throw new IllegalArgumentException("Null string");
+        if(this.text.equals(text))
+            return;
         this.text = text;
-        this.invalidate();
+        dirty = true;
     }
 
     public void setColor(MathUtil.Vector4 color) {
         this.color = color;
-        this.invalidate();
+        dirty = true;
     }
 
     public MathUtil.Vector4 getColor() {
@@ -98,17 +113,8 @@ public class Label extends AbstractUIElement {
     public void onRender(GL10 gl10) {
         if(!isVisible()) return;
 
-        if(sourceBitmap == null)
-        {
-            sourceBitmap = Bitmap.createBitmap(canvasSize ,canvasSize, Bitmap.Config.ARGB_8888);
-            texture = BitmapTexture.create(sourceBitmap, this);
+        if(dirty)
             invalidate();
-        }
-
-        if(!texture.isAvailable()){
-            texture = BitmapTexture.create(sourceBitmap, this);
-            invalidate();
-        }
 
         this.getGraphicsContext().getSpriteEngine().drawSpriteAA(
                 texture,x,y,width, height, 1, this.getOpacity() * this.getGraphicsContext().getOpacity()
