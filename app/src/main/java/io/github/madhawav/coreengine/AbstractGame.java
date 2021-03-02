@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.locks.ReentrantLock;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -16,7 +15,7 @@ import io.github.madhawav.MathUtil;
 import io.github.madhawav.coreengine.sensors.AbstractSensor;
 import io.github.madhawav.coreengine.sensors.GravitySensor;
 import io.github.madhawav.coreengine.sensors.SensorType;
-import io.github.madhawav.graphics.TextureManager;
+import io.github.madhawav.graphics.TextureAssetManager;
 
 /**
  * Extend this class to create a game. Provides onUpdate and onRender events.
@@ -33,7 +32,7 @@ public abstract class AbstractGame extends EngineModule {
     private Map<SensorType, AbstractSensor> sensors;
     private long updateRateMillis;
 
-    private TextureManager textureManager;
+    private TextureAssetManager textureAssetManager;
     private GameState gameState;
     private MathUtil.Rect2I viewport;
 
@@ -45,13 +44,55 @@ public abstract class AbstractGame extends EngineModule {
         this.context = context;
 
         this.updateRateMillis = gameDescription.getUpdateRateMillis();
-        this.textureManager = new TextureManager(context);
-        registerModule(this.textureManager);
+        this.textureAssetManager = new TextureAssetManager(context);
+        registerModule(this.textureAssetManager);
 
         this.sensors = new HashMap<>();
 
-        this.surfaceView = new EngineSurfaceView(context,this);
-        this.renderer = new EngineGLRenderer(this, gameDescription.getAspectRatio());
+        this.surfaceView = new EngineSurfaceView(context, new EngineSurfaceView.Callback() {
+            @Override
+            public boolean onTouchDown(float x, float y) {
+                synchronized (AbstractGame.this){
+                    return AbstractGame.this.touchDown(x, y);
+                }
+            }
+
+            @Override
+            public boolean onTouchMove(float x, float y) {
+                synchronized (AbstractGame.this){
+                    return AbstractGame.this.touchMove(x,y);
+                }
+            }
+
+            @Override
+            public boolean onTouchReleased(float x, float y) {
+                synchronized (AbstractGame.this){
+                    return AbstractGame.this.touchReleased(x,y);
+                }
+            }
+        });
+        this.renderer = new EngineGLRenderer( gameDescription.getAspectRatio(), new EngineGLRenderer.Callback() {
+            @Override
+            public void onSurfaceChanged(GL10 gl10, int width, int height, MathUtil.Rect2I viewport) {
+                AbstractGame.this.onSurfaceChanged(gl10, width, height, viewport);
+            }
+
+            @Override
+            public void onSurfaceCreated(GL10 gl10, EGLConfig config) {
+                AbstractGame.this.onSurfaceCreated(gl10, config);
+            }
+
+            @Override
+            public void onDrawFrame(GL10 gl10) {
+                if(AbstractGame.this.getGameState() == GameState.RUNNING)
+                {
+                    synchronized (AbstractGame.this){
+                        AbstractGame.this.onRender(gl10);
+                    }
+                }
+            }
+        });
+
         this.surfaceView.setRenderer(this.renderer);
         this.surfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
@@ -75,8 +116,8 @@ public abstract class AbstractGame extends EngineModule {
         return context;
     }
 
-    public TextureManager getTextureManager() {
-        return textureManager;
+    public TextureAssetManager getTextureAssetManager() {
+        return textureAssetManager;
     }
 
     private void initializeSensors(GameDescription gameDescription){
@@ -172,7 +213,7 @@ public abstract class AbstractGame extends EngineModule {
      * Finish the game.
      */
     public void finish(){
-        textureManager.revokeTextures(this);
+        textureAssetManager.revokeTextures(this);
         this.gameState = GameState.FINISHED;
         super.finish();
     }

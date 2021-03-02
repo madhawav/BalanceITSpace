@@ -25,13 +25,13 @@ public abstract class EngineModule {
      * Registers an Engine Module so that it receives lifecycle events
      * @param module
      */
-    protected void registerModule(EngineModule module){
+    public void registerModule(EngineModule module){
         if(isFinished())
             throw new IllegalStateException("Module has finished");
         this.registeredModules.add(module);
     }
 
-    protected void unregisterModule(EngineModule module) {
+    public void unregisterModule(EngineModule module) {
         if(isFinished())
             throw new IllegalStateException("Module has finished");
         this.registeredModules.remove(module);

@@ -8,26 +8,19 @@ import android.opengl.GLSurfaceView;
 import io.github.madhawav.MathUtil;
 
 class EngineGLRenderer implements GLSurfaceView.Renderer {
-    private final AbstractGame game;
     private final float desiredAspectRatio;
-    public EngineGLRenderer(AbstractGame game, float desiredAspectRatio){
-        this.game = game;
+    private final Callback callback;
+    public EngineGLRenderer(float desiredAspectRatio, Callback callback){
+        this.callback = callback;
         this.desiredAspectRatio = desiredAspectRatio;
     }
     public void onSurfaceCreated(GL10 gl10, EGLConfig config) {
         // Set the background frame color
-        this.game.onSurfaceCreated(gl10, config);
+        this.callback.onSurfaceCreated(gl10, config);
     }
 
     public void onDrawFrame(GL10 gl10) {
-        // Redraw background color
-        if(this.game.getGameState() == GameState.RUNNING)
-        {
-            synchronized (this.game){
-                this.game.onRender(gl10);
-            }
-        }
-
+        callback.onDrawFrame(gl10);
     }
 
     private MathUtil.Rect2I updateViewport(int width, int height){
@@ -55,6 +48,12 @@ class EngineGLRenderer implements GLSurfaceView.Renderer {
 
     public void onSurfaceChanged(GL10 gl10, int width, int height) {
         MathUtil.Rect2I viewport = updateViewport(width, height);
-        this.game.onSurfaceChanged(gl10, width, height, viewport);
+        this.callback.onSurfaceChanged(gl10, width, height, viewport);
+    }
+
+    public interface Callback{
+        void onSurfaceChanged(GL10 gl10, int width, int height, MathUtil.Rect2I viewport);
+        void onSurfaceCreated(GL10 gl10, EGLConfig config);
+        void onDrawFrame(GL10 gl10);
     }
 }

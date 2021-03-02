@@ -14,12 +14,15 @@ import javax.microedition.khronos.opengles.GL10;
 
 import io.github.madhawav.coreengine.EngineModule;
 
-public class TextureManager extends EngineModule {
+/**
+ * Manager of resource backed textures
+ */
+public class TextureAssetManager extends EngineModule {
     private final Context context;
     private final Map<Integer, Texture> resourceTextureMap;
     private final Map<EngineModule, Set<Texture>> ownerTexturesMap;
     private final Map<Texture, Set<EngineModule>> textureOwnerMap;
-    public TextureManager(Context context)
+    public TextureAssetManager(Context context)
     {
         this.context = context;
         this.resourceTextureMap = new HashMap<>();

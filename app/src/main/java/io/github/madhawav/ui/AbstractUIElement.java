@@ -44,7 +44,7 @@ public abstract class AbstractUIElement extends EngineModule {
 
     @Override
     public void finish() {
-        getGraphicsContext().getTextureManager().revokeTextures(this);
+        getGraphicsContext().getTextureAssetManager().revokeTextures(this);
         super.finish();
     }
 }

@@ -2,17 +2,18 @@ package com.example.opengleslearn;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Vibrator;
 
 import com.example.opengleslearn.gameplay.GameLogic;
 import com.example.opengleslearn.gameplay.GameParameters;
 import com.example.opengleslearn.gameplay.GameState;
+import com.example.opengleslearn.gameplay.HUDLayer;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import io.github.madhawav.MathUtil;
 import io.github.madhawav.ui.AbstractUIElement;
 import io.github.madhawav.ui.GraphicsContext;
-import io.github.madhawav.ui.ImageButton;
+import io.github.madhawav.ui.Label;
 import io.github.madhawav.ui.LayeredUI;
 import io.github.madhawav.ui.UIElementScene;
 import io.github.madhawav.multiscene.AbstractMultiSceneGame;
@@ -24,8 +25,6 @@ import io.github.madhawav.graphics.BasicShader;
 import io.github.madhawav.graphics.GraphicsEngine;
 import io.github.madhawav.graphics.GraphicsEngineDescription;
 import io.github.madhawav.graphics.SpriteEngine;
-
-import static android.content.Context.VIBRATOR_SERVICE;
 
 public class MyMultisceneGame extends AbstractMultiSceneGame {
     private GraphicsEngine graphicsEngine;
@@ -89,25 +88,30 @@ class GamePlayScene extends UIElementScene {
     @Override
     protected AbstractUIElement getUIElement() {
         MyMultisceneGame game = (MyMultisceneGame)getGame();
-        graphicsContext = new GraphicsContext( game.getGraphicsEngine(), game.getSpriteEngine(), game.getTextureManager(), game);
-
-
-        ImageButton button1 = new ImageButton(graphicsContext, R.drawable.credits_button, 300, 300, 400, 100, (sender, x, y) -> {
-            game.swapScene(new MyScene2());
-            return true;
-        });
-
-        ImageButton button3 = new ImageButton(graphicsContext, R.drawable.loading, 400, 300, 100, 400, (sender, x, y) -> {
-            button1.setVisible(!button1.isVisible());
-            return true;
-        });
+        graphicsContext = new GraphicsContext( game.getGraphicsEngine(), game.getSpriteEngine(), game.getTextureAssetManager(), game);
 
         LayeredUI layeredUI = new LayeredUI(graphicsContext);
         layeredUI.addElement(new SpaceBackgroundLayer(graphicsContext));
         layeredUI.addElement(new GamePlayLayer(gameState, gameParameters.getBoardSize(), graphicsContext));
-        layeredUI.addElement(button1);
-        layeredUI.addElement(button3);
-        layeredUI.setOpacity(0.5f);
+        layeredUI.addElement(new HUDLayer(graphicsContext, new HUDLayer.Callback() {
+            @Override
+            public void onPause() {
+
+            }
+
+            @Override
+            public void onResume() {
+
+            }
+
+            @Override
+            public void onExit() {
+                game.swapScene(new MyScene2());
+            }
+        }));
+//        layeredUI.addElement(button1);
+//        layeredUI.addElement(button3);
+//        layeredUI.setOpacity(0.5f);
         return layeredUI;
     }
 
@@ -127,25 +131,33 @@ class GamePlayScene extends UIElementScene {
     }
 }
 
-class MyScene2 extends AbstractScene {
+
+class MyScene2 extends UIElementScene {
     private MyMultisceneGame game;
-    private double strength = 0.0;
 
     @Override
-    public void onStart() {
-        game = (MyMultisceneGame) getGame();
-    }
-
-    @Override
-    protected void onUpdate(double elapsedSec) {
+    protected AbstractUIElement getUIElement() {
+        game = (MyMultisceneGame)getGame();
+        GraphicsContext graphicsContext = new GraphicsContext( game.getGraphicsEngine(), game.getSpriteEngine(), game.getTextureAssetManager(), game);
+        return new Label(graphicsContext, "Hello", 256, 0, 0, 256, 256, new MathUtil.Vector4(1,0,0,1), 48);
 
     }
 
-    @Override
-    protected void onRender(GL10 gl10) {
-        game.getGraphicsEngine().clear((float) (strength % 1.0), 1.0f, 0.0f, 1.0f);
-        game.getSpriteEngine().drawSpriteAA(game.getTextureManager().getTextureFromResource(R.drawable.credits_button,this), 0, 0, game.getGraphicsEngine().getViewport().getWidth(), game.getGraphicsEngine().getViewport().getHeight(), 1, 0.5f);
-    }
+//    @Override
+//    public void onStart() {
+//        game = (MyMultisceneGame) getGame();
+//    }
+
+//    @Override
+//    protected void onUpdate(double elapsedSec) {
+//
+//    }
+
+//    @Override
+//    protected void onRender(GL10 gl10) {
+//        game.getGraphicsEngine().clear((float) (strength % 1.0), 1.0f, 0.0f, 1.0f);
+//        game.getSpriteEngine().drawSpriteAA(game.getTextureAssetManager().getTextureFromResource(R.drawable.credits_button,this), 0, 0, game.getGraphicsEngine().getViewport().getWidth(), game.getGraphicsEngine().getViewport().getHeight(), 1, 0.5f);
+//    }
 
     @Override
     protected boolean onTouchDown(float x, float y) {
@@ -153,13 +165,13 @@ class MyScene2 extends AbstractScene {
         return true;
     }
 
-    @Override
-    protected boolean onTouchMove(float x, float y) {
-        return false;
-    }
-
-    @Override
-    protected boolean onTouchReleased(float x, float y) {
-        return false;
-    }
+//    @Override
+//    protected boolean onTouchMove(float x, float y) {
+//        return false;
+//    }
+//
+//    @Override
+//    protected boolean onTouchReleased(float x, float y) {
+//        return false;
+//    }
 }

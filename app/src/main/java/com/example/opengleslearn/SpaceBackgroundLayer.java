@@ -41,7 +41,7 @@ public class SpaceBackgroundLayer extends AbstractUIElement {
         setupEarthTransforms(getGraphicsContext().getGraphicsEngine().getModelMatrix(),
                 getGraphicsContext().getGraphicsEngine().getViewMatrix(),
                 getGraphicsContext().getGraphicsEngine().getProjectionMatrix());
-        getGraphicsContext().getGraphicsEngine().drawGeometry(sphereGeometry, getGraphicsContext().getTextureManager().getTextureFromResource(R.drawable.earth, this), 1.0f);
+        getGraphicsContext().getGraphicsEngine().drawGeometry(sphereGeometry, getGraphicsContext().getTextureAssetManager().getTextureFromResource(R.drawable.earth, this), 1.0f);
     }
 
     private void setupSkyBoxTransforms(float[] modelMatrix, float[] viewMatrix, float[] projMatrix){
@@ -61,7 +61,7 @@ public class SpaceBackgroundLayer extends AbstractUIElement {
         setupSkyBoxTransforms(getGraphicsContext().getGraphicsEngine().getModelMatrix(),
                 getGraphicsContext().getGraphicsEngine().getViewMatrix(),
                 getGraphicsContext().getGraphicsEngine().getProjectionMatrix());
-        getGraphicsContext().getGraphicsEngine().drawGeometry(sphereGeometry, getGraphicsContext().getTextureManager().getTextureFromResource(R.drawable.sky, this), 1.0f);
+        getGraphicsContext().getGraphicsEngine().drawGeometry(sphereGeometry, getGraphicsContext().getTextureAssetManager().getTextureFromResource(R.drawable.sky, this), 1.0f);
     }
     @Override
     public void onUpdate(double elapsedSec) {

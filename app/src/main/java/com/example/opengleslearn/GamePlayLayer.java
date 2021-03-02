@@ -49,7 +49,7 @@ public class GamePlayLayer extends AbstractUIElement {
     public void onRender(GL10 gl10) {
 //        getGraphicsContext().getSpriteEngine().drawSprite(getGraphicsContext().getTextureManager().getTextureFromResource(R.drawable.loading, this),
 //                0, 0, 1000, 1000, 1, 1.0f);
-        spriteCanvas.drawSprite(getGraphicsContext().getTextureManager().getTextureFromResource(R.drawable.ufo, this),
+        spriteCanvas.drawSprite(getGraphicsContext().getTextureAssetManager().getTextureFromResource(R.drawable.ufo, this),
                 camOffset.getX(),
                 camOffset.getY(),
                 0,
@@ -59,7 +59,7 @@ public class GamePlayLayer extends AbstractUIElement {
                 1.0f
                 );
 
-        spriteCanvas.drawSprite(getGraphicsContext().getTextureManager().getTextureFromResource(R.drawable.ball, this),
+        spriteCanvas.drawSprite(getGraphicsContext().getTextureAssetManager().getTextureFromResource(R.drawable.ball, this),
                 gameState.getBallPosition().getX() + camOffset.getX(),
                 gameState.getBallPosition().getY() + camOffset.getY(),
                 0,
@@ -73,7 +73,7 @@ public class GamePlayLayer extends AbstractUIElement {
             if(particle.isEnabled()){
                 float angle = MathUtil.vectorToAngle(particle.getVelocity().getX(), particle.getVelocity().getY());
 
-                spriteCanvas.drawSprite(getGraphicsContext().getTextureManager().getTextureFromResource(R.drawable.met2, this),
+                spriteCanvas.drawSprite(getGraphicsContext().getTextureAssetManager().getTextureFromResource(R.drawable.met2, this),
                         particle.getPosition().getX() + camOffset.getX(),
                         particle.getPosition().getY() + camOffset.getY(),
                         angle,

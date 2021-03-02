@@ -37,7 +37,7 @@ public abstract class AbstractScene extends EngineModule {
     @Override
     public void finish() {
         finished = true;
-        game.getTextureManager().revokeTextures(this);
+        game.getTextureAssetManager().revokeTextures(this);
         super.finish();
     }
 }

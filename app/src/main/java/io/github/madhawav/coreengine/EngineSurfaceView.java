@@ -4,13 +4,13 @@ import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
 class EngineSurfaceView extends GLSurfaceView {
-    private final AbstractGame game;
-    public EngineSurfaceView(Context context, AbstractGame game){
+    private final Callback callback;
+    public EngineSurfaceView(Context context, Callback callback){
         super(context);
-        this.game = game;
 
         // Create an OpenGL ES 2.0 context
         setEGLContextClientVersion(2);
+        this.callback = callback;
     }
 
     @Override
@@ -20,22 +20,20 @@ class EngineSurfaceView extends GLSurfaceView {
 
         switch(event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                synchronized (game){
-                    return game.touchDown(x, y);
-                }
+                return callback.onTouchDown(x,y);
+
             case MotionEvent.ACTION_UP:
-                synchronized (game){
-                    return game.touchReleased(x,y);
-                }
+                return callback.onTouchReleased(x,y);
 
             case MotionEvent.ACTION_MOVE:
-                synchronized (game){
-                    return game.touchMove(x, y);
-                }
-
+                return callback.onTouchMove(x,y);
         }
-
         return false;
+    }
 
+    public interface Callback{
+        boolean onTouchDown(float x, float y);
+        boolean onTouchMove(float x, float y);
+        boolean onTouchReleased(float x, float y);
     }
 }

@@ -76,7 +76,7 @@ public class ImageButton extends AbstractUIElement {
         if(!isVisible())
             return;
         this.getGraphicsContext().getSpriteEngine().drawSpriteAA(
-                this.getGraphicsContext().getTextureManager().getTextureFromResource(this.imageResourceId, this)
+                this.getGraphicsContext().getTextureAssetManager().getTextureFromResource(this.imageResourceId, this)
                 ,x,y,width, height, 1, this.getOpacity() * this.getGraphicsContext().getOpacity()) ;
     }
 
