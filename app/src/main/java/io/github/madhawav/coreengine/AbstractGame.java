@@ -37,6 +37,8 @@ public abstract class AbstractGame extends EngineModule {
     private GameState gameState;
     private MathUtil.Rect2I viewport;
 
+    private double gameTime;
+
     protected AbstractGame(Context context, GameDescription gameDescription){
         this.context = context;
 
@@ -51,6 +53,7 @@ public abstract class AbstractGame extends EngineModule {
         this.surfaceView.setRenderer(this.renderer);
         this.surfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
+        this.gameTime = 0;
         this.lastUpdateTime = 0;
         this.gameState = GameState.PRE_START;
 
@@ -117,6 +120,20 @@ public abstract class AbstractGame extends EngineModule {
      */
     protected abstract void onRender(GL10  gl10);
 
+    private void update(double elapsedSec){
+        this.gameTime += elapsedSec;
+        AbstractGame.this.onUpdate(elapsedSec);
+        AbstractGame.this.surfaceView.requestRender();
+    }
+
+    /**
+     * Returns runtime of game in sec
+     * @return
+     */
+    public double getGameTime() {
+        return gameTime;
+    }
+
     /**
      * Callback to update animations/physics.
      * @param elapsedSec
@@ -180,8 +197,7 @@ public abstract class AbstractGame extends EngineModule {
                 synchronized (AbstractGame.this){
                     long currentTime = System.nanoTime();
                     if(AbstractGame.this.getGameState() == GameState.RUNNING) {
-                        AbstractGame.this.onUpdate((double) (currentTime - lastUpdateTime) / 1000000000.0);
-                        AbstractGame.this.surfaceView.requestRender();
+                        update((double) (currentTime - lastUpdateTime) / 1000000000.0);
                     }
                     AbstractGame.this.lastUpdateTime = currentTime;
                 }

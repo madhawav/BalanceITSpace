@@ -2,6 +2,8 @@ package com.example.opengleslearn;
 
 import com.example.opengleslearn.gameplay.GameState;
 
+import java.util.Arrays;
+
 import javax.microedition.khronos.opengles.GL10;
 
 import io.github.madhawav.MathUtil;
@@ -15,6 +17,7 @@ public class GamePlayLayer extends AbstractUIElement {
     private static final float REFERENCE_WIDTH = 720f;
     private static final float REFERENCE_HEIGHT = 1280f;
     private static final float BALL_SIZE = 100.0f;
+    private static final float PARTICLE_SIZE = 200.0f;
 
     private float boardSize;
 
@@ -47,8 +50,9 @@ public class GamePlayLayer extends AbstractUIElement {
 //        getGraphicsContext().getSpriteEngine().drawSprite(getGraphicsContext().getTextureManager().getTextureFromResource(R.drawable.loading, this),
 //                0, 0, 1000, 1000, 1, 1.0f);
         spriteCanvas.drawSprite(getGraphicsContext().getTextureManager().getTextureFromResource(R.drawable.ufo, this),
-                camOffset.getX() - boardSize/2,
-                camOffset.getY() - boardSize/2,
+                camOffset.getX(),
+                camOffset.getY(),
+                0,
                 boardSize,
                 boardSize,
                 1.0f,
@@ -56,13 +60,31 @@ public class GamePlayLayer extends AbstractUIElement {
                 );
 
         spriteCanvas.drawSprite(getGraphicsContext().getTextureManager().getTextureFromResource(R.drawable.ball, this),
-                gameState.getBallPosition().getX() + camOffset.getX() - BALL_SIZE/2.0f,
-                gameState.getBallPosition().getY() + camOffset.getY() - BALL_SIZE/2.0f,
+                gameState.getBallPosition().getX() + camOffset.getX(),
+                gameState.getBallPosition().getY() + camOffset.getY(),
+                0,
                 BALL_SIZE,
                 BALL_SIZE,
                 1.0f,
                 1.0f
         );
+
+        Arrays.stream(gameState.getParticles()).forEach((particle -> {
+            if(particle.isEnabled()){
+                float angle = MathUtil.vectorToAngle(particle.getVelocity().getX(), particle.getVelocity().getY());
+
+                spriteCanvas.drawSprite(getGraphicsContext().getTextureManager().getTextureFromResource(R.drawable.met2, this),
+                        particle.getPosition().getX() + camOffset.getX(),
+                        particle.getPosition().getY() + camOffset.getY(),
+                        angle,
+                        PARTICLE_SIZE,
+                        PARTICLE_SIZE,
+                        1.0f,
+                        1.0f
+                );
+            }
+
+        }));
     }
 
     @Override

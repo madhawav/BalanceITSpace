@@ -55,7 +55,7 @@ public class MyGame extends AbstractGame {
     @Override
     protected void onRender(GL10 gl10) {
         this.graphicsEngine.clear((float) (strength % 1.0), 0.0f, 0.0f, 1.0f);
-        this.spriteEngine.drawSprite(getTextureManager().getTextureFromResource(R.drawable.loading,this), 0, 0, 1000, 1000, 1, 0.5f);
+        this.spriteEngine.drawSpriteAA(getTextureManager().getTextureFromResource(R.drawable.loading,this), 0, 0, 1000, 1000, 1, 0.5f);
     }
 
     @Override

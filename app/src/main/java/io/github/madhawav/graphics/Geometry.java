@@ -42,14 +42,24 @@ public class Geometry {
     }
 
     public static Geometry generateSquareGeometry() {
+//        final float[] squarePositionData =
+//                {
+//                        0, 0, 0,
+//                        0, -1, 0,
+//                        1, 0, 0,
+//                        0, -1, 0,
+//                        1, -1, 0,
+//                        1, 0, 0,
+//                };
+
         final float[] squarePositionData =
                 {
-                        0, 0, 0,
-                        0, -1, 0,
-                        1, 0, 0,
-                        0, -1, 0,
-                        1, -1, 0,
-                        1, 0, 0,
+                        -0.5f, 0.5f, 0,
+                        -0.5f, -0.5f, 0,
+                        0.5f, 0.5f, 0,
+                        -0.5f, -0.5f, 0,
+                        0.5f, -0.5f, 0,
+                        0.5f, 0.5f, 0,
                 };
 
         final float[] squareNormalData =

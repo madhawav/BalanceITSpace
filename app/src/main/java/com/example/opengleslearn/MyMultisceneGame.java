@@ -66,7 +66,7 @@ class GamePlayScene extends UIElementScene {
     private GameParameters gameParameters;
     public GamePlayScene(){
         gameParameters = new GameParameters();
-        gameState = new GameState();
+        gameState = new GameState(gameParameters);
         gameLogic = new GameLogic(gameState,gameParameters , new GameLogic.Callback() {
             @Override
             public void onGameOver() {
@@ -111,7 +111,7 @@ class GamePlayScene extends UIElementScene {
         MyMultisceneGame game = (MyMultisceneGame)getGame();
         if(game.getGravitySensor().isAvailable()) {
 //            Logger.getLogger(MyGame.class.getName()).info(Arrays.toString(this.getGravitySensor().getGravity()));
-            this.gameLogic.update(elapsedSec, game.getGravitySensor().getGravity());
+            this.gameLogic.update(elapsedSec, getGame().getGameTime(), game.getGravitySensor().getGravity());
         }
     }
 }
@@ -133,7 +133,7 @@ class MyScene2 extends AbstractScene {
     @Override
     protected void onRender(GL10 gl10) {
         game.getGraphicsEngine().clear((float) (strength % 1.0), 1.0f, 0.0f, 1.0f);
-        game.getSpriteEngine().drawSprite(game.getTextureManager().getTextureFromResource(R.drawable.credits_button,this), 0, 0, game.getGraphicsEngine().getViewport().getWidth(), game.getGraphicsEngine().getViewport().getHeight(), 1, 0.5f);
+        game.getSpriteEngine().drawSpriteAA(game.getTextureManager().getTextureFromResource(R.drawable.credits_button,this), 0, 0, game.getGraphicsEngine().getViewport().getWidth(), game.getGraphicsEngine().getViewport().getHeight(), 1, 0.5f);
     }
 
     @Override

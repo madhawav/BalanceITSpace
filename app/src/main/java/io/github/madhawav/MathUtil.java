@@ -3,6 +3,13 @@ package io.github.madhawav;
 import android.opengl.Matrix;
 
 public class MathUtil {
+    public static float vectorToAngle(float x, float y){
+        double radi= Math.sqrt(x*x+y*y);
+        double ang= Math.acos(x/radi);
+        ang = (ang/Math.PI *180);
+        if(y<0) ang*=-1;
+        return (float) ang;
+    }
     public static float[] pitchYawnToVector(float radi, float yawm, float pitch)
     {
         float[] mYawn=new float[16];
@@ -180,6 +187,18 @@ public class MathUtil {
             this.vector3[2] *= other;
         }
 
+        public void set(float x, float y, float z){
+            vector3[0] = x;
+            vector3[1] = y;
+            vector3[2] = z;
+        }
+
+        public void set(Vector3 other){
+            vector3[0] = other.getX();
+            vector3[1] = other.getY();
+            vector3[2] = other.getZ();
+        }
+
         private float[] vector3;
         public Vector3(){
             vector3 = new float[] {0.0f, 0.0f, 0.0f };
@@ -236,6 +255,12 @@ public class MathUtil {
         }
         public void setZ(float z){
             this.vector3[2] = z;
+        }
+
+        public float getLength2(){
+            return this.vector3[0] * this.vector3[0] +
+                    this.vector3[1] * this.vector3[1] +
+                    this.vector3[2] * this.vector3[2];
         }
 
     }
