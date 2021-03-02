@@ -34,7 +34,7 @@ public class WindLogic extends AbstractLogic {
     }
 
     private void updateWindDirection(double elapsedSec){
-        float rotateAmount = (float) (gameState.getWindRotateSpeed() * gameParameters.getTimeScale() * elapsedSec);
+        float rotateAmount = (float) (gameState.getMaxWindAngularVelocity() * gameParameters.getTimeScale() * elapsedSec);
         float windAngle = gameState.getWindAngle();
         if(windAngle < 0) windAngle += (float)Math.PI * 2.0;
         windAngle = windAngle % ((float) Math.PI * 2);
@@ -61,7 +61,7 @@ public class WindLogic extends AbstractLogic {
     }
     private void updateWind(double elapsedSec, double gameTime){
 
-        if(gameTime - gameState.getLastTargetWindUpdateTime() > gameParameters.getUpdateWindEvery()){
+        if(gameTime - gameState.getLastTargetWindUpdateTime() > gameParameters.getWindUpdateInterval()){
             // Change target wind direction and speed
             gameState.setTargetWindStrength((float) (gameState.getLevelMaxWindStrength() * gameParameters.getWindSpeedBaseFraction() + gameState.getLevelMaxWindStrength()  * (1.0 - gameParameters.getWindSpeedBaseFraction()) * ran.nextFloat()));
             gameState.setTargetWindAngle(ran.nextFloat() * 2 * (float)Math.PI);
@@ -107,7 +107,7 @@ public class WindLogic extends AbstractLogic {
     @Override
     public void onLevelUp() {
         gameState.setLevelMaxWindStrength(gameState.getLevelMaxWindStrength() * gameParameters.getLevelMaxWindStrengthMultiplier());
-        gameState.setWindRotateSpeed(gameState.getWindRotateSpeed() * gameParameters.getWindRotateSpeedMultiplier());
+        gameState.setMaxWindAngularVelocity(gameState.getMaxWindAngularVelocity() * gameParameters.getWindRotateSpeedMultiplier());
         gameState.setWindAcceleration(gameState.getWindAcceleration() * gameParameters.getWindAccelerationMultiplier());
     }
 

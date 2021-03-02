@@ -28,6 +28,24 @@ public class MathUtil {
         return vOutput;
     }
 
+    public static float dotProduct(Vector3 left, Vector3 right)
+    {
+        return left.getX()*right.getX()+left.getY()*right.getY()+left.getZ()*right.getZ();
+
+    }
+
+    public static Vector3 rotateVector(Vector3 vector, Vector3 axis, float ang)
+    {
+        float[] mat=new float[16];
+        Matrix.setIdentityM(mat, 0);
+        Matrix.setRotateM(mat, 0, ang, axis.getX(), axis.getY(), axis.getZ());
+        float[] vec = new float[] {vector.getX() ,vector.getY(), vector.getZ() ,1.0f};
+        float[] output =new float[4];
+        Matrix.multiplyMV(output, 0, mat, 0, vec, 0);
+        return new Vector3(output[0],output[1],output[2]);
+
+    }
+
     public static class Rect2I{
         private int x;
         private int y;

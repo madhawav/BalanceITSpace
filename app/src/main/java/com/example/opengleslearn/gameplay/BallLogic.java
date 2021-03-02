@@ -1,7 +1,5 @@
 package com.example.opengleslearn.gameplay;
 
-import java.util.Random;
-
 import io.github.madhawav.MathUtil;
 
 public class BallLogic extends AbstractLogic {
@@ -16,7 +14,7 @@ public class BallLogic extends AbstractLogic {
 
     @Override
     public void onLevelUp() {
-        gameState.setTNeta(gameState.getTNeta() * gameParameters.getTNetaMultiplier());
+        gameState.setTNeta(gameState.getTNeta() * gameParameters.getAirResistanceMultiplier());
     }
 
     @Override

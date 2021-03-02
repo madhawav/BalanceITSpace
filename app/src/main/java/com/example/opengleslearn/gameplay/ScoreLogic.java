@@ -14,7 +14,7 @@ public class ScoreLogic extends AbstractLogic {
     @Override
     protected void onUpdate(double elapsedTime, MathUtil.Vector3 gravity) {
         gameState.addScore((float) ((gameParameters.getBoardSize() - gameState.getBallPosition().getLength())
-                / gameParameters.getBoardSize() * gameParameters.getMarksMultiplierCoefficient()
+                / gameParameters.getBoardSize() * gameParameters.getScoreMultiplierCoefficient()
                 * gameState.getLevelMarksMultiplier() * gameParameters.getTimeScale() * elapsedTime));
         gameState.setPositionScoreMultiplier((gameParameters.getBoardSize() - gameState.getBallPosition().getLength())
                 / gameParameters.getBoardSize());
@@ -22,7 +22,11 @@ public class ScoreLogic extends AbstractLogic {
 
     @Override
     protected void onLevelUp() {
-        gameState.setLevelMarksMultiplier(gameState.getLevelMarksMultiplier() + gameParameters.getMLevelarksMultiplierDelta());
+        gameState.setLevelMarksMultiplier(gameState.getLevelMarksMultiplier() + gameParameters.getMLevelScoreMultiplierDelta());
+    }
 
+    public void onBorderBounce(){
+        gameState.resetScore();
+        //                redMarkLeft = 1;
     }
 }

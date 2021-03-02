@@ -60,9 +60,7 @@ public class MyGame extends AbstractGame {
 
     @Override
     protected void onUpdate(double elapsedTime) {
-//        strength += elapsedTime;
         if(this.getGravitySensor().isAvailable()) {
-//            Logger.getLogger(MyGame.class.getName()).info(Arrays.toString(this.getGravitySensor().getGravity()));
             strength = this.getGravitySensor().getGravity().getY()/10.0f;
         }
     }

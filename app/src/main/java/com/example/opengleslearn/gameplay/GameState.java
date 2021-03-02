@@ -16,7 +16,7 @@ public class GameState{
     private float targetWindStrength; //desired wind strength at state
 
     private float targetWindAngle; //desired angle of wind at current state
-    private float windRotateSpeed;
+    private float maxWindAngularVelocity;
     private float windAcceleration;
 
     private int level;
@@ -29,38 +29,60 @@ public class GameState{
     private float score;
     private float positionScoreMultiplier;
     private boolean paused;
-    private float pauseAnimationTimeScale;
+
+    private boolean warmUpMode;
+    private double warmUpTimeLeft;
 
     public GameState(GameParameters gameParameters){
+        loadFromGameParameters(gameParameters);
+    }
+
+    public void loadFromGameParameters(GameParameters gameParameters){
         ballPosition = new MathUtil.Vector3();
         ballVelocity = new MathUtil.Vector3();
-        particles = new Particle[gameParameters.getParticleCount()];
+        particles = new Particle[gameParameters.getMaxParticleCount()];
         for(int i = 0; i < particles.length; i++)
             particles[i] = new Particle();
 
-        // TODO: Read following from GameParameters
         activeParticleCount = 0;
-        windStrength = 0.2f;
+        windStrength = gameParameters.getInitialWindStrength();
+        targetWindStrength = gameParameters.getInitialWindStrength();
+        levelMaxWindStrength = gameParameters.getInitialMaxWindStrength();
 
-        levelMaxWindStrength = 0.2f;
-        targetWindStrength = 0.2f;
-
-        targetWindAngle = (float) (Math.PI/2.0f);
-        windAngle = 0.0f;
-        windRotateSpeed = 0.02f;
-        windAcceleration = 0.005f;
+        targetWindAngle = gameParameters.getInitialWindAngle();
+        windAngle = gameParameters.getInitialWindAngle();
+        maxWindAngularVelocity = gameParameters.getInitialWindMaxAngularVelocity();
+        windAcceleration = gameParameters.getInitialWindMaxAcceleration();
 
         level = 1;
-        levelTotalTime = 50;
-        levelRemainTime = 30;
-        tNeta = 0.1f;
+        levelTotalTime = gameParameters.getInitialLevelDuration();
+        levelRemainTime = gameParameters.getInitialLevelDuration();
+        tNeta = gameParameters.getInitialAirResistance();
 
-        levelMarksMultiplier = 1.0f;
-        score = 0.0f;
+        levelMarksMultiplier = gameParameters.getInitialScoreMultiplier();
         positionScoreMultiplier = 0;
+        score = 0.0f;
 
         paused = false;
-        pauseAnimationTimeScale = 1.0f;
+        warmUpMode = true;
+        warmUpTimeLeft = gameParameters.getWarmUpSec();
+    }
+
+    public void reduceWarmUpTime(double dTime){
+        warmUpTimeLeft -= dTime;
+        warmUpTimeLeft = Math.max(warmUpTimeLeft, 0);
+    }
+
+    public double getWarmUpTimeLeft() {
+        return warmUpTimeLeft;
+    }
+
+    public boolean isWarmUpMode() {
+        return warmUpMode;
+    }
+
+    public void setWarmUpMode(boolean warmUpMode) {
+        this.warmUpMode = warmUpMode;
     }
 
     public boolean isPaused() {
@@ -68,18 +90,9 @@ public class GameState{
     }
 
     public void setPaused(boolean paused) {
-        if(!paused)
-            pauseAnimationTimeScale = 1.0f;
         this.paused = paused;
     }
 
-    public float getPauseAnimationTimeScale() {
-        return pauseAnimationTimeScale;
-    }
-
-    public void setPauseAnimationTimeScale(float pauseAnimationTimeScale) {
-        this.pauseAnimationTimeScale = pauseAnimationTimeScale;
-    }
 
     public float getPositionScoreMultiplier() {
         return positionScoreMultiplier;
@@ -142,12 +155,12 @@ public class GameState{
     }
 
 
-    public void setWindRotateSpeed(float windRotateSpeed) {
-        this.windRotateSpeed = windRotateSpeed;
+    public void setMaxWindAngularVelocity(float maxWindAngularVelocity) {
+        this.maxWindAngularVelocity = maxWindAngularVelocity;
     }
 
-    public float getWindRotateSpeed() {
-        return windRotateSpeed;
+    public float getMaxWindAngularVelocity() {
+        return maxWindAngularVelocity;
     }
 
     public float getTargetWindAngle() {
@@ -225,5 +238,9 @@ public class GameState{
 
     public void setWindAcceleration(float windAcceleration) {
         this.windAcceleration = windAcceleration;
+    }
+
+    public void resetScore() {
+        this.score = 0;
     }
 }

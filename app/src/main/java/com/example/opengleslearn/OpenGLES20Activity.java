@@ -12,7 +12,7 @@ import io.github.madhawav.graphics.Texture;
 
 public class OpenGLES20Activity extends Activity {
     private GLSurfaceView gLView;
-    private MyMultisceneGame game;
+    private BalanceITGame game;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +21,7 @@ public class OpenGLES20Activity extends Activity {
 
         // Create a GLSurfaceView instance and set it
         // as the ContentView for this Activity.
-        this.game = new MyMultisceneGame(this, savedInstanceState);
+        this.game = new BalanceITGame(this, savedInstanceState);
         this.gLView = this.game.getSurfaceView();
         setContentView(gLView);
 

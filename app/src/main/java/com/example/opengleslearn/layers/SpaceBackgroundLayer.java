@@ -1,6 +1,9 @@
-package com.example.opengleslearn;
+package com.example.opengleslearn.layers;
 
 import android.opengl.Matrix;
+
+import com.example.opengleslearn.BalanceITGame;
+import com.example.opengleslearn.R;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -10,11 +13,11 @@ import io.github.madhawav.ui.AbstractUIElement;
 import io.github.madhawav.ui.GraphicsContext;
 
 public class SpaceBackgroundLayer extends AbstractUIElement {
-    private MyMultisceneGame game;
+    private BalanceITGame game;
     private Geometry sphereGeometry;
     public SpaceBackgroundLayer(GraphicsContext graphicsContext) {
         super(graphicsContext);
-        this.game = (MyMultisceneGame) graphicsContext.getUserData();
+        this.game = (BalanceITGame) graphicsContext.getUserData();
         this.sphereGeometry = Geometry.generateSphereGeometry(1, 20, 20);
     }
 

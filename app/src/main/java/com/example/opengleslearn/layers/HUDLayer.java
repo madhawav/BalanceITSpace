@@ -1,4 +1,4 @@
-package com.example.opengleslearn;
+package com.example.opengleslearn.layers;
 
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -21,9 +21,14 @@ public class HUDLayer extends LayeredUI {
     private Label scoreLabel;
     private Label multiplierLabel;
     private Image progressBarProgressImg;
+
     private GameState gameState;
 
     private Rectangle pausedLayer;
+
+    private Image warmUpImg;
+    private Label warmUpLeftLabel;
+
     public HUDLayer(GraphicsContext graphicsContext, GameState gameState,  Callback callback) {
         super(graphicsContext);
         this.callback = callback;
@@ -49,15 +54,29 @@ public class HUDLayer extends LayeredUI {
                 210.0f, 12.0f, 0.0f, 28.0f);
 
 
-        pausedLayer = new Rectangle(graphicsContext, 0,  0, getGraphicsContext().getGraphicsEngine().getViewportWidth(), getGraphicsContext().getGraphicsEngine().getViewportHeight(),
+        pausedLayer = new Rectangle(graphicsContext, 0,  0,
+                getGraphicsContext().getGraphicsEngine().getViewportWidth(),
+                getGraphicsContext().getGraphicsEngine().getViewportHeight(),
                 new MathUtil.Vector4(0,0,0,0.5f));
         pausedLayer.setOpacity(0);
+
+        warmUpLeftLabel = new Label(graphicsContext,"WarmUpLeft", 256,
+                (float)graphicsContext.getGraphicsEngine().getViewportWidth()/2-150,
+                graphicsContext.getGraphicsEngine().getViewportHeight()-150, 300, 300,
+                new MathUtil.Vector4(1,0,0,1), 36);
+
+        warmUpLeftLabel.setTextAlign(Paint.Align.CENTER);
+
+        warmUpImg = new Image(graphicsContext, R.drawable.warmup, (float)graphicsContext.getGraphicsEngine().getViewportWidth()/2-175,
+                graphicsContext.getGraphicsEngine().getViewportHeight()-420, 350, 350);
 
         addElement(levelLabel);
         addElement(scoreLabel);
         addElement(multiplierLabel);
         addElement(progressBarBorderImg);
         addElement(progressBarProgressImg);
+        addElement(warmUpLeftLabel);
+        addElement(warmUpImg);
         addElement(pausedLayer);
     }
 
@@ -78,6 +97,16 @@ public class HUDLayer extends LayeredUI {
         levelLabel.setText(String.format("Level %d" , gameState.getLevel()));
         scoreLabel.setText(String.format("%d" ,(int) gameState.getScore()));
         multiplierLabel.setText(String.format("x%d.%d", (int)(gameState.getLevelMarksMultiplier()),(int)(gameState.getPositionScoreMultiplier()*10)));
+
+        if(gameState.isWarmUpMode()){
+            warmUpLeftLabel.setVisible(true);
+            warmUpLeftLabel.setText(String.format("%d seconds left", (int) gameState.getWarmUpTimeLeft()));
+            warmUpImg.setVisible(true);
+        }
+        else{
+            warmUpLeftLabel.setVisible(false);
+            warmUpImg.setVisible(false);
+        }
 
         // Progress Bar
         float progressLength = (float) ((gameState.getLevelTotalTime() - gameState.getLevelRemainTime()) / gameState.getLevelTotalTime() * 200);

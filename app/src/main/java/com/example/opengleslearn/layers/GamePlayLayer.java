@@ -1,5 +1,6 @@
-package com.example.opengleslearn;
+package com.example.opengleslearn.layers;
 
+import com.example.opengleslearn.R;
 import com.example.opengleslearn.gameplay.GameState;
 
 import java.util.Arrays;

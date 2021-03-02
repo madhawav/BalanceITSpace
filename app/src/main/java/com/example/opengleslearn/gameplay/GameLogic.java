@@ -15,17 +15,27 @@ public class GameLogic extends AbstractLogic{
         this.gameParameters = gameParameters;
         this.callback = callback;
 
+        ScoreLogic scoreLogic = new ScoreLogic(gameState, gameParameters);
+
         registerLogic( new WindLogic(gameState, gameParameters));
         registerLogic(new BallLogic(gameState, gameParameters));
         registerLogic(new LevelLogic(gameState, gameParameters, GameLogic.this::levelUp));
-        registerLogic(new ScoreLogic(gameState, gameParameters));
+        registerLogic(scoreLogic);
+        registerLogic(new WarmUpModeLogic(gameState, gameParameters, new WarmUpModeLogic.Callback() {
+            @Override
+            public void onBoundaryBounce() {
+                scoreLogic.onBorderBounce();
+
+            }
+        }));
     }
 
     public void onUpdate(double elapsedSec, MathUtil.Vector3 gravity){
-        float radi = gameState.getBallPosition().getX() * gameState.getBallPosition().getX() + gameState.getBallPosition().getY() * gameState.getBallPosition().getY();
-        if (radi > (gameParameters.getBoardSize()/2)*(gameParameters.getBoardSize()/2)){
-            callback.onGameOver();
-            return;
+        if (gameState.getBallPosition().getLength() > gameParameters.getBoardSize() / 2){ // Ball leaves the deck
+            if(!gameState.isWarmUpMode())
+            {
+                callback.onGameOver();
+            }
         }
     }
 
