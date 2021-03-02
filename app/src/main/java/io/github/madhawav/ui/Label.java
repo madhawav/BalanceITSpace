@@ -26,6 +26,8 @@ public class Label extends AbstractUIElement {
     private float height;
     private int fontSize;
 
+    private Paint.Align textAlign;
+
     private MathUtil.Vector4 color;
 
     private boolean dirty;
@@ -46,10 +48,19 @@ public class Label extends AbstractUIElement {
 
         this.sourceBitmap = null;
         this.texture = null;
+        this.textAlign = Paint.Align.LEFT;
 
         this.dirty = true;
     }
 
+    public Paint.Align getTextAlign() {
+        return textAlign;
+    }
+
+    public void setTextAlign(Paint.Align textAlign) {
+        this.textAlign = textAlign;
+        dirty = true;
+    }
 
     public void invalidate(){
         if(sourceBitmap == null)
@@ -62,17 +73,28 @@ public class Label extends AbstractUIElement {
         Paint paint = new Paint();
         paint.setXfermode(new PorterDuffXfermode( PorterDuff.Mode.SRC_OUT));
         paint.setAlpha(0);
-        canvas.drawRect(new Rect(0,0, canvasSize,canvasSize),paint);
+//        canvas.drawRect(new Rect(0,0, canvasSize,canvasSize),paint);
+        canvas.drawPaint(paint);
 
         paint = new Paint();
         paint.setARGB((int)(color.getW() * 255), (int)(color.getX() * 255), (int)(color.getY() * 255), (int)(color.getZ() * 255));
         paint.setTextSize(fontSize);
         paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        paint.setTextAlign(textAlign);
 
         Rect textBound = new Rect();
         paint.getTextBounds(text, 0, text.length(), textBound);
 
-        canvas.drawText(text, -textBound.left, -textBound.top, paint);
+        if(textAlign== Paint.Align.LEFT){
+            canvas.drawText(text, -textBound.left, -textBound.top, paint);
+        }
+        else if (textAlign== Paint.Align.RIGHT){
+            canvas.drawText(text, canvasSize-textBound.left, -textBound.top, paint);
+        }
+        else{
+            canvas.drawText(text, (int)(canvasSize/2), -textBound.top, paint);
+        }
+
         texture.invalidate();
         dirty = false;
     }

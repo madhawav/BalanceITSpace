@@ -70,7 +70,7 @@ public class SpaceBackgroundLayer extends AbstractUIElement {
 
     @Override
     public void onRender(GL10 gl10) {
-        getGraphicsContext().getGraphicsEngine().clear(0,0,0.2f,0);
+        getGraphicsContext().getGraphicsEngine().clear(0,0,0,0);
         getGraphicsContext().getGraphicsEngine().setDepthEnabled(false);
         getGraphicsContext().getGraphicsEngine().setCullBackFace(false);
 

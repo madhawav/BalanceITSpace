@@ -257,6 +257,9 @@ public class MathUtil {
             this.vector3[2] = z;
         }
 
+        public float getLength(){
+            return (float) Math.sqrt(getLength2());
+        }
         public float getLength2(){
             return this.vector3[0] * this.vector3[0] +
                     this.vector3[1] * this.vector3[1] +

@@ -69,6 +69,10 @@ class GamePlayScene extends UIElementScene {
     private GameLogic gameLogic;
     private GameParameters gameParameters;
 
+    private static final float PAUSE_ANIMATION_TIME_SCALE_DECREMENT = 0.0005f;
+
+    private boolean paused = false;
+
     public GamePlayScene(){
         gameParameters = new GameParameters();
         gameState = new GameState(gameParameters);
@@ -123,11 +127,14 @@ class GamePlayScene extends UIElementScene {
     @Override
     protected void onUpdate(double elapsedSec) {
         super.onUpdate(elapsedSec);
-        MyMultisceneGame game = (MyMultisceneGame)getGame();
-        if(game.getGravitySensor().isAvailable()) {
-//            Logger.getLogger(MyGame.class.getName()).info(Arrays.toString(this.getGravitySensor().getGravity()));
-            this.gameLogic.update(elapsedSec, game.getGravitySensor().getGravity());
+        if(gameState.getPauseAnimationTimeScale() > 0){
+            MyMultisceneGame game = (MyMultisceneGame)getGame();
+            this.gameLogic.update(elapsedSec * gameState.getPauseAnimationTimeScale(), game.getGravitySensor().getGravity());
         }
+        if(gameState.isPaused()){
+            gameState.setPauseAnimationTimeScale(Math.max(0, gameState.getPauseAnimationTimeScale()- PAUSE_ANIMATION_TIME_SCALE_DECREMENT * gameParameters.getTimeScale()));
+        }
+
     }
 }
 

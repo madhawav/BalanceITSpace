@@ -89,9 +89,8 @@ public class GamePlayLayer extends AbstractUIElement {
 
     @Override
     public boolean onTouchDown(float x, float y) {
-        gameState.getBallPosition().setX(x - REFERENCE_WIDTH);
-        gameState.getBallPosition().setY(y - REFERENCE_HEIGHT);
-        return false;
+        gameState.setPaused(!gameState.isPaused());
+        return true;
     }
 
     @Override

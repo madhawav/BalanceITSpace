@@ -1,8 +1,5 @@
 package com.example.opengleslearn.gameplay;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.github.madhawav.MathUtil;
 
 public class GameState{
@@ -25,8 +22,14 @@ public class GameState{
     private int level;
     private double levelTotalTime;
     private double levelRemainTime;
+    private double levelMarksMultiplier;
 
     private float tNeta;
+
+    private float score;
+    private float positionScoreMultiplier;
+    private boolean paused;
+    private float pauseAnimationTimeScale;
 
     public GameState(GameParameters gameParameters){
         ballPosition = new MathUtil.Vector3();
@@ -51,6 +54,55 @@ public class GameState{
         levelTotalTime = 50;
         levelRemainTime = 30 / 3.0; // (Factor 3 from original code)
         tNeta = 0.1f;
+
+        levelMarksMultiplier = 1.0f;
+        score = 0.0f;
+        positionScoreMultiplier = 0;
+
+        paused = false;
+        pauseAnimationTimeScale = 1.0f;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        if(!paused)
+            pauseAnimationTimeScale = 1.0f;
+        this.paused = paused;
+    }
+
+    public float getPauseAnimationTimeScale() {
+        return pauseAnimationTimeScale;
+    }
+
+    public void setPauseAnimationTimeScale(float pauseAnimationTimeScale) {
+        this.pauseAnimationTimeScale = pauseAnimationTimeScale;
+    }
+
+    public float getPositionScoreMultiplier() {
+        return positionScoreMultiplier;
+    }
+
+    public void setPositionScoreMultiplier(float positionScoreMultiplier) {
+        this.positionScoreMultiplier = positionScoreMultiplier;
+    }
+
+    public float getScore() {
+        return score;
+    }
+
+    public void addScore(float deltaScore){
+        this.score += deltaScore;
+    }
+
+    public double getLevelMarksMultiplier() {
+        return levelMarksMultiplier;
+    }
+
+    public void setLevelMarksMultiplier(double levelMarksMultiplier) {
+        this.levelMarksMultiplier = levelMarksMultiplier;
     }
 
     public float getTNeta() {

@@ -52,4 +52,12 @@ public class GameParameters{
     public float getWindAccelerationMultiplier(){
         return 1.0f;
     }
+
+    public float getMarksMultiplierCoefficient(){
+        return 0.1f;
+    }
+
+    public float getMLevelarksMultiplierDelta() {
+        return 1.0f;
+    }
 }

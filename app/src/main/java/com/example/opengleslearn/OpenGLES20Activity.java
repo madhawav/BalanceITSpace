@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 
@@ -13,6 +14,8 @@ public class OpenGLES20Activity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
 
         // Create a GLSurfaceView instance and set it
         // as the ContentView for this Activity.

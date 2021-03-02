@@ -9,26 +9,16 @@ public class GameLogic extends AbstractLogic{
     private GameParameters gameParameters;
     private Callback callback;
 
-    private WindLogic windLogic;
-    private BallLogic ballLogic;
-    private LevelLogic levelLogic;
 
     public GameLogic(GameState gameState, GameParameters gameParameters, Callback callback){
         this.gameState = gameState;
         this.gameParameters = gameParameters;
         this.callback = callback;
 
-        this.windLogic = new WindLogic(gameState, gameParameters);
-        this.ballLogic = new BallLogic(gameState, gameParameters);
-        this.levelLogic = new LevelLogic(gameState, gameParameters, new LevelLogic.Callback() {
-            @Override
-            public void onLevelUp() {
-                GameLogic.this.levelUp();
-            }
-        });
-        registerLogic(windLogic);
-        registerLogic(ballLogic);
-        registerLogic(levelLogic);
+        registerLogic( new WindLogic(gameState, gameParameters));
+        registerLogic(new BallLogic(gameState, gameParameters));
+        registerLogic(new LevelLogic(gameState, gameParameters, GameLogic.this::levelUp));
+        registerLogic(new ScoreLogic(gameState, gameParameters));
     }
 
     public void onUpdate(double elapsedSec, MathUtil.Vector3 gravity){
