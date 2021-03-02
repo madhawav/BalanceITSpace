@@ -22,7 +22,7 @@ public class MyGame extends AbstractGame {
     private SpriteEngine spriteEngine;
 
     public MyGame(Context context, Bundle savedInstanceState){
-        super(context, new GameDescription(30, true, 1280.0f/720.0f));
+        super(context, new GameDescription(30, true, 1280.0f/720.0f, false));
 
         AbstractShader shader = new BasicShader(
                 ResourceUtil.readTextFileFromRawResource(context, R.raw.shader_vs),

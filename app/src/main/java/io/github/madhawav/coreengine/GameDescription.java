@@ -4,12 +4,19 @@ public final class GameDescription {
     private int updateRateMillis;
     private boolean useGravitySensor;
     private float aspectRatio;
+    private boolean useVibrator;
 
-    public GameDescription(int updateRateMillis, boolean useGravitySensor, float aspectRatio){
+    public GameDescription(int updateRateMillis, boolean useGravitySensor, float aspectRatio, boolean useVibrator){
         this.updateRateMillis = updateRateMillis;
         this.useGravitySensor = useGravitySensor;
         this.aspectRatio = aspectRatio;
+        this.useVibrator = useVibrator;
     }
+
+    public boolean isUseVibrator() {
+        return useVibrator;
+    }
+
     public float getAspectRatio() {
         return aspectRatio;
     }

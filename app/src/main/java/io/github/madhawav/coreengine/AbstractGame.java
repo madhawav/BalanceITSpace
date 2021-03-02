@@ -37,6 +37,8 @@ public abstract class AbstractGame extends EngineModule {
     private GameState gameState;
     private MathUtil.Rect2I viewport;
 
+    private Vibrator vibrator;
+
     private double gameTime;
 
     protected AbstractGame(Context context, GameDescription gameDescription){
@@ -57,8 +59,16 @@ public abstract class AbstractGame extends EngineModule {
         this.lastUpdateTime = 0;
         this.gameState = GameState.PRE_START;
 
+        if(gameDescription.isUseVibrator())
+            vibrator = new Vibrator(context);
 
         this.initializeSensors(gameDescription);
+    }
+
+    public Vibrator getVibrator() {
+        if(vibrator == null)
+            throw new UnsupportedOperationException("Vibrator not requested");
+        return vibrator;
     }
 
     public Context getContext() {
@@ -92,31 +102,31 @@ public abstract class AbstractGame extends EngineModule {
 
     /**
      * User has initiated a touch operation
-     * @param x
-     * @param y
+     * @param x Touch Position x
+     * @param y Touch Position y
      * @return True if event is handled
      */
     public abstract boolean onTouchDown(float x, float y);
 
     /**
      * User has moved touch position
-     * @param x
-     * @param y
+     * @param x Touch Position x
+     * @param y Touch Position y
      * @return True if event is handled
      */
     public abstract boolean onTouchMove(float x,float y);
 
     /**
      * User has finished the touch operation
-     * @param x
-     * @param y
+     * @param x Touch Position x
+     * @param y Touch Position y
      * @return True if event is handled
      */
     public abstract boolean onTouchReleased(float x, float y);
 
     /**
      * Callback to render graphics
-     * @param gl10
+     * @param gl10 GL 10
      */
     protected abstract void onRender(GL10  gl10);
 
@@ -128,7 +138,7 @@ public abstract class AbstractGame extends EngineModule {
 
     /**
      * Returns runtime of game in sec
-     * @return
+     * @return Game time in seconds
      */
     public double getGameTime() {
         return gameTime;
@@ -136,13 +146,13 @@ public abstract class AbstractGame extends EngineModule {
 
     /**
      * Callback to update animations/physics.
-     * @param elapsedSec
+     * @param elapsedSec Elapsed seconds since last update
      */
     protected abstract void onUpdate(double elapsedSec);
 
     /**
      * GLSurfaceView that should be set as activity content.
-     * @return
+     * @return Surface view added to activity
      */
     public EngineSurfaceView getSurfaceView() {
         return surfaceView;

@@ -34,7 +34,7 @@ public class MyMultisceneGame extends AbstractMultiSceneGame {
 
 
     public MyMultisceneGame(Context context, Bundle savedInstanceState) {
-        super(context, new GameDescription(30, true,  720.0f/1280.0f));
+        super(context, new GameDescription(30, true,  720.0f/1280.0f, true));
 
         AbstractShader shader = new BasicShader(
                 ResourceUtil.readTextFileFromRawResource(context, R.raw.shader_vs),
@@ -70,8 +70,6 @@ class GamePlayScene extends UIElementScene {
     private GameLogic gameLogic;
     private GameParameters gameParameters;
 
-    private Vibrator vib = null;
-
     public GamePlayScene(){
         gameParameters = new GameParameters();
         gameState = new GameState(gameParameters);
@@ -83,7 +81,7 @@ class GamePlayScene extends UIElementScene {
 
             @Override
             public void onLevelUp() {
-                vib.vibrate(200);
+                getGame().getVibrator().vibrate(200);
             }
         });
     }
@@ -116,7 +114,6 @@ class GamePlayScene extends UIElementScene {
     @Override
     public void onStart() {
         super.onStart();
-         vib = (Vibrator) getGame().getContext().getSystemService(VIBRATOR_SERVICE);
     }
 
     @Override
