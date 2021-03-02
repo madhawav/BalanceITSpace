@@ -22,6 +22,12 @@ public class GameState{
     private float windRotateSpeed;
     private float windAcceleration;
 
+    private int level;
+    private double levelTotalTime;
+    private double levelRemainTime;
+
+    private float tNeta;
+
     public GameState(GameParameters gameParameters){
         ballPosition = new MathUtil.Vector3();
         ballVelocity = new MathUtil.Vector3();
@@ -40,12 +46,53 @@ public class GameState{
         windAngle = 0.0f;
         windRotateSpeed = 0.02f;
         windAcceleration = 0.005f;
+
+        level = 1;
+        levelTotalTime = 50;
+        levelRemainTime = 30 / 3.0; // (Factor 3 from original code)
+        tNeta = 0.1f;
+    }
+
+    public float getTNeta() {
+        return tNeta;
+    }
+
+    public void setTNeta(float tNeta) {
+        this.tNeta = tNeta;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public double getLevelRemainTime() {
+        return levelRemainTime;
+    }
+
+    public double getLevelTotalTime() {
+        return levelTotalTime;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void setLevelTotalTime(double levelTotalTime) {
+        this.levelTotalTime = levelTotalTime;
+    }
+
+    public void setLevelRemainTime(double levelRemainTime) {
+        this.levelRemainTime = levelRemainTime;
     }
 
     public float getWindAcceleration() {
         return windAcceleration;
     }
 
+
+    public void setWindRotateSpeed(float windRotateSpeed) {
+        this.windRotateSpeed = windRotateSpeed;
+    }
 
     public float getWindRotateSpeed() {
         return windRotateSpeed;
@@ -122,5 +169,9 @@ public class GameState{
 
     public void setWindStrength(float windStrength) {
         this.windStrength = windStrength;
+    }
+
+    public void setWindAcceleration(float windAcceleration) {
+        this.windAcceleration = windAcceleration;
     }
 }

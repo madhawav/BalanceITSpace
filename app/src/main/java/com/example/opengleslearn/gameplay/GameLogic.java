@@ -12,6 +12,7 @@ public class GameLogic{
 
     private WindLogic windLogic;
     private BallLogic ballLogic;
+    private LevelLogic levelLogic;
 
     public GameLogic(GameState gameState, GameParameters gameParameters, Callback callback){
         this.gameState = gameState;
@@ -20,13 +21,20 @@ public class GameLogic{
         this.ran = new Random();
         this.windLogic = new WindLogic(gameState, gameParameters);
         this.ballLogic = new BallLogic(gameState, gameParameters);
+        this.levelLogic = new LevelLogic(gameState, gameParameters, new LevelLogic.Callback() {
+            @Override
+            public void onLevelUp() {
+                ballLogic.onLevelUp();
+                windLogic.onLevelUp();
+                callback.onLevelUp();
+            }
+        });
     }
-
-
 
     public void update(double elapsedSec, double gameTime, MathUtil.Vector3 gravity){
         windLogic.update(elapsedSec, gameTime);
         ballLogic.update(elapsedSec, gravity);
+        levelLogic.update(elapsedSec);
 
         float radi = gameState.getBallPosition().getX() * gameState.getBallPosition().getX() + gameState.getBallPosition().getY() * gameState.getBallPosition().getY();
         if (radi > (gameParameters.getBoardSize()/2)*(gameParameters.getBoardSize()/2)){
@@ -38,5 +46,6 @@ public class GameLogic{
 
     public interface Callback{
         void onGameOver();
+        void onLevelUp();
     }
 }

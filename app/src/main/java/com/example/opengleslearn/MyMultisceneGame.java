@@ -2,6 +2,7 @@ package com.example.opengleslearn;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Vibrator;
 
 import com.example.opengleslearn.gameplay.GameLogic;
 import com.example.opengleslearn.gameplay.GameParameters;
@@ -24,9 +25,13 @@ import io.github.madhawav.graphics.GraphicsEngine;
 import io.github.madhawav.graphics.GraphicsEngineDescription;
 import io.github.madhawav.graphics.SpriteEngine;
 
+import static android.content.Context.VIBRATOR_SERVICE;
+
 public class MyMultisceneGame extends AbstractMultiSceneGame {
     private GraphicsEngine graphicsEngine;
     private SpriteEngine spriteEngine;
+
+
 
     public MyMultisceneGame(Context context, Bundle savedInstanceState) {
         super(context, new GameDescription(30, true,  720.0f/1280.0f));
@@ -64,6 +69,9 @@ class GamePlayScene extends UIElementScene {
     private GameState gameState;
     private GameLogic gameLogic;
     private GameParameters gameParameters;
+
+    private Vibrator vib = null;
+
     public GamePlayScene(){
         gameParameters = new GameParameters();
         gameState = new GameState(gameParameters);
@@ -71,6 +79,11 @@ class GamePlayScene extends UIElementScene {
             @Override
             public void onGameOver() {
                 getGame().swapScene(new MyScene2());
+            }
+
+            @Override
+            public void onLevelUp() {
+                vib.vibrate(200);
             }
         });
     }
@@ -103,6 +116,7 @@ class GamePlayScene extends UIElementScene {
     @Override
     public void onStart() {
         super.onStart();
+         vib = (Vibrator) getGame().getContext().getSystemService(VIBRATOR_SERVICE);
     }
 
     @Override

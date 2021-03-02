@@ -20,7 +20,7 @@ public class BallLogic {
         gameState.getBallVelocity().add(wind);
 
         // Terminal Velocity
-        gameState.getBallVelocity().multiply(gameParameters.getTNeta());
+        gameState.getBallVelocity().multiply(1.0f - gameState.getTNeta());
 
         MathUtil.Vector3 scaledVelocity = gameState.getBallVelocity().clone();
         scaledVelocity.multiply((float)elapsedSec * gameParameters.getTimeScale());
@@ -32,5 +32,9 @@ public class BallLogic {
         relativeGravity.multiply(0.5f);
 
         gameState.getBallVelocity().add(relativeGravity);
+    }
+
+    public void onLevelUp() {
+        gameState.setTNeta(gameState.getTNeta() * gameParameters.getTNetaMultiplier());
     }
 }

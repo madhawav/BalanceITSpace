@@ -7,8 +7,8 @@ public class GameParameters{
         return boardSize;
     }
 
-    public float getTNeta(){
-        return 0.9f;
+    public float getTNetaMultiplier(){
+        return 0.8f;
     }
 
     public int getParticleCount(){
@@ -35,5 +35,21 @@ public class GameParameters{
 
     public int getPreferredParticleDensity(){
         return 50;
+    }
+
+    // Level related
+    public double getLevelDurationDelta(){
+        return 20;
+    }
+
+    public float getLevelMaxWindStrengthMultiplier(){
+        return 1.1f;
+    }
+    public float getWindRotateSpeedMultiplier(){
+        return 1.0f;
+    }
+
+    public float getWindAccelerationMultiplier(){
+        return 1.0f;
     }
 }

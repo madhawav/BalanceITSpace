@@ -108,4 +108,10 @@ public class WindLogic {
         updateWind(elapsedSec, gameTime);
         updateParticles(elapsedSec);
     }
+
+    public void onLevelUp() {
+        gameState.setLevelMaxWindStrength(gameState.getLevelMaxWindStrength() * gameParameters.getLevelMaxWindStrengthMultiplier());
+        gameState.setWindRotateSpeed(gameState.getWindRotateSpeed() * gameParameters.getWindRotateSpeedMultiplier());
+        gameState.setWindAcceleration(gameState.getWindAcceleration() * gameParameters.getWindAccelerationMultiplier());
+    }
 }
