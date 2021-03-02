@@ -13,36 +13,23 @@ import javax.microedition.khronos.opengles.GL10;
 import io.github.madhawav.MathUtil;
 import io.github.madhawav.graphics.BitmapTexture;
 
-public class Label extends AbstractUIElement {
+public class Rectangle extends AbstractUIElement {
     private BitmapTexture texture;
     private Bitmap sourceBitmap;
 
-    private String text;
-
-    private int canvasSize;
     private float x;
     private float y;
     private float width;
     private float height;
-    private int fontSize;
     private float z;
-
-    private Paint.Align textAlign;
-    private Typeface typeface;
 
     private MathUtil.Vector4 color;
 
     private boolean dirty;
 
-    public Label(GraphicsContext graphicsContext, String text, int canvasSize, float x, float y, float width, float height, MathUtil.Vector4 color, int fontSize) {
+    public Rectangle(GraphicsContext graphicsContext, float x, float y, float width, float height, MathUtil.Vector4 color) {
         super(graphicsContext);
-        if(!(canvasSize == 512 || canvasSize == 256 || canvasSize == 128 || canvasSize == 64 || canvasSize == 32)){
-            throw new IllegalArgumentException("Unsupported canvas size");
-        }
-        this.canvasSize = canvasSize;
         this.color = color;
-        this.fontSize = fontSize;
-        this.text = text;
         this.x = x;
         this.y = y;
         this.z = 1.0f;
@@ -51,75 +38,25 @@ public class Label extends AbstractUIElement {
 
         this.sourceBitmap = null;
         this.texture = null;
-        this.textAlign = Paint.Align.LEFT;
-        this.typeface =Typeface.DEFAULT;
 
         this.dirty = true;
-    }
-
-    public Typeface getTypeface() {
-        return typeface;
-    }
-
-    public void setTypeface(Typeface typeface) {
-        this.typeface = typeface;
-        dirty = true;
-    }
-
-    public Paint.Align getTextAlign() {
-        return textAlign;
-    }
-
-    public void setTextAlign(Paint.Align textAlign) {
-        this.textAlign = textAlign;
-        dirty = true;
     }
 
     public void invalidate(){
         if(sourceBitmap == null)
         {
-            sourceBitmap = Bitmap.createBitmap(canvasSize ,canvasSize, Bitmap.Config.ARGB_8888);
+            sourceBitmap = Bitmap.createBitmap(32 ,32, Bitmap.Config.ARGB_8888);
             texture = BitmapTexture.create(sourceBitmap, this);
         }
 
         Canvas canvas = new Canvas(sourceBitmap);
+
         Paint paint = new Paint();
-        paint.setXfermode(new PorterDuffXfermode( PorterDuff.Mode.SRC_OUT));
-        paint.setAlpha(0);
-//        canvas.drawRect(new Rect(0,0, canvasSize,canvasSize),paint);
-        canvas.drawPaint(paint);
-
-        paint = new Paint();
         paint.setARGB((int)(color.getW() * 255), (int)(color.getX() * 255), (int)(color.getY() * 255), (int)(color.getZ() * 255));
-        paint.setTextSize(fontSize);
-        paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        paint.setTextAlign(textAlign);
-        paint.setTypeface(typeface);
-
-        Rect textBound = new Rect();
-        paint.getTextBounds(text, 0, text.length(), textBound);
-
-        if(textAlign== Paint.Align.LEFT){
-            canvas.drawText(text, -textBound.left, -textBound.top, paint);
-        }
-        else if (textAlign== Paint.Align.RIGHT){
-            canvas.drawText(text, canvasSize-textBound.left, -textBound.top, paint);
-        }
-        else{
-            canvas.drawText(text, (int)(canvasSize/2), -textBound.top, paint);
-        }
+        canvas.drawPaint(paint);
 
         texture.invalidate();
         dirty = false;
-    }
-
-    public void setText(String text) {
-        if(text == null)
-            throw new IllegalArgumentException("Null string");
-        if(this.text.equals(text))
-            return;
-        this.text = text;
-        dirty = true;
     }
 
     public void setColor(MathUtil.Vector4 color) {
@@ -129,10 +66,6 @@ public class Label extends AbstractUIElement {
 
     public MathUtil.Vector4 getColor() {
         return color;
-    }
-
-    public String getText(){
-        return text;
     }
 
     @Override

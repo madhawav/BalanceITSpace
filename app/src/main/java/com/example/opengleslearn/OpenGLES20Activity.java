@@ -8,6 +8,8 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 
+import io.github.madhawav.graphics.Texture;
+
 public class OpenGLES20Activity extends Activity {
     private GLSurfaceView gLView;
     private MyMultisceneGame game;
@@ -47,5 +49,8 @@ public class OpenGLES20Activity extends Activity {
     public void onDestroy(){
         super.onDestroy();
         this.game.finish();
+        if(Texture.textureCount > 0){
+            throw new IllegalStateException("Un-freed textures");
+        }
     }
 }

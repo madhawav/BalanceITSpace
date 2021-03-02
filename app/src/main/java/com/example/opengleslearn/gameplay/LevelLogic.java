@@ -24,7 +24,7 @@ public class LevelLogic extends AbstractLogic {
 
     @Override
     protected void onUpdate(double elapsedSec, MathUtil.Vector3 gravity) {
-        gameState.setLevelRemainTime(gameState.getLevelRemainTime() - elapsedSec * 2);
+        gameState.setLevelRemainTime(gameState.getLevelRemainTime() - elapsedSec * 10);
         if(gameState.getLevelRemainTime() <= 0){
             callback.onLevelUp();
         }

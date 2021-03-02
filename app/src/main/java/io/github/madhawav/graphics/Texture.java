@@ -9,8 +9,10 @@ import io.github.madhawav.coreengine.EngineModule;
 
 public class Texture extends EngineModule {
     private int handle;
+    public static int textureCount = 0;
 
     Texture(int handle){
+        textureCount+=1;
         this.handle = handle;
     }
 
@@ -38,6 +40,7 @@ public class Texture extends EngineModule {
     public void finish() {
         if(!this.isFinished()){
             GLES20.glDeleteTextures(1, new int[]{handle}, 0);
+            textureCount -= 1;
         }
         super.finish();
     }

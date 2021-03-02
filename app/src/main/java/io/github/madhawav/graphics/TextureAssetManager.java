@@ -69,6 +69,14 @@ public class TextureAssetManager extends EngineModule {
         texture.finish();
     }
 
+    public void revokeTexture(Texture texture, EngineModule owner){
+        this.textureOwnerMap.get(texture).remove(owner);
+        if(this.textureOwnerMap.get(texture).isEmpty()){ // Dispose if no more owners
+            // Dispose
+            disposeTexture(texture);
+        }
+    }
+
     /**
      * Revoke ownerships by the owner. Dispose if nobody holds.
      * @param owner
@@ -80,11 +88,7 @@ public class TextureAssetManager extends EngineModule {
             return; // Doesn't hold any textures
 
         this.ownerTexturesMap.get(owner).forEach(texture -> { // Iterate over textures and remove ownership
-            this.textureOwnerMap.get(texture).remove(owner);
-            if(this.textureOwnerMap.get(texture).isEmpty()){ // Dispose if no more owners
-                // Dispose
-                disposeTexture(texture);
-            }
+            revokeTexture(texture, owner);
         });
         this.ownerTexturesMap.remove(owner);
     }

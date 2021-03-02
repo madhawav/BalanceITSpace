@@ -52,7 +52,7 @@ public class GameState{
 
         level = 1;
         levelTotalTime = 50;
-        levelRemainTime = 30 / 3.0; // (Factor 3 from original code)
+        levelRemainTime = 30;
         tNeta = 0.1f;
 
         levelMarksMultiplier = 1.0f;
