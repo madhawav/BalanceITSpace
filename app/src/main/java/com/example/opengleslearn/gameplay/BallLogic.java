@@ -4,7 +4,7 @@ import java.util.Random;
 
 import io.github.madhawav.MathUtil;
 
-public class BallLogic {
+public class BallLogic extends AbstractLogic {
     private GameState gameState;
     private GameParameters gameParameters;
 
@@ -14,7 +14,13 @@ public class BallLogic {
         this.gameParameters = gameParameters;
     }
 
-    public void update(double elapsedSec, MathUtil.Vector3 gravity){
+    @Override
+    public void onLevelUp() {
+        gameState.setTNeta(gameState.getTNeta() * gameParameters.getTNetaMultiplier());
+    }
+
+    @Override
+    protected void onUpdate(double elapsedSec, MathUtil.Vector3 gravity) {
         // Effect of wind on ball
         MathUtil.Vector3 wind = gameState.getWindVector();
         gameState.getBallVelocity().add(wind);
@@ -32,9 +38,5 @@ public class BallLogic {
         relativeGravity.multiply(0.5f);
 
         gameState.getBallVelocity().add(relativeGravity);
-    }
-
-    public void onLevelUp() {
-        gameState.setTNeta(gameState.getTNeta() * gameParameters.getTNetaMultiplier());
     }
 }

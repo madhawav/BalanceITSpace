@@ -4,7 +4,7 @@ import java.util.Random;
 
 import io.github.madhawav.MathUtil;
 
-public class WindLogic {
+public class WindLogic extends AbstractLogic {
     private Random ran;
     private GameState gameState;
     private GameParameters gameParameters;
@@ -104,14 +104,16 @@ public class WindLogic {
     }
 
 
-    public void update(double elapsedSec, double gameTime){
-        updateWind(elapsedSec, gameTime);
-        updateParticles(elapsedSec);
-    }
-
+    @Override
     public void onLevelUp() {
         gameState.setLevelMaxWindStrength(gameState.getLevelMaxWindStrength() * gameParameters.getLevelMaxWindStrengthMultiplier());
         gameState.setWindRotateSpeed(gameState.getWindRotateSpeed() * gameParameters.getWindRotateSpeedMultiplier());
         gameState.setWindAcceleration(gameState.getWindAcceleration() * gameParameters.getWindAccelerationMultiplier());
+    }
+
+    @Override
+    protected void onUpdate(double elapsedSec, MathUtil.Vector3 gravity) {
+        updateWind(elapsedSec, getLogicTime());
+        updateParticles(elapsedSec);
     }
 }

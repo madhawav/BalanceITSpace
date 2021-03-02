@@ -125,7 +125,7 @@ class GamePlayScene extends UIElementScene {
         MyMultisceneGame game = (MyMultisceneGame)getGame();
         if(game.getGravitySensor().isAvailable()) {
 //            Logger.getLogger(MyGame.class.getName()).info(Arrays.toString(this.getGravitySensor().getGravity()));
-            this.gameLogic.update(elapsedSec, getGame().getGameTime(), game.getGravitySensor().getGravity());
+            this.gameLogic.update(elapsedSec, game.getGravitySensor().getGravity());
         }
     }
 }

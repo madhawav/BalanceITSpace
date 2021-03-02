@@ -1,8 +1,9 @@
 package com.example.opengleslearn.gameplay;
 
-import android.os.Vibrator;
 
-public class LevelLogic {
+import io.github.madhawav.MathUtil;
+
+public class LevelLogic extends AbstractLogic {
     private GameState gameState;
     private GameParameters gameParameters;
     private Callback callback;
@@ -13,12 +14,18 @@ public class LevelLogic {
         this.callback = callback;
     }
 
-    public void update(double elapsedSec){
+    @Override
+    protected void onLevelUp() {
+        super.onLevelUp();
+        gameState.setLevel(gameState.getLevel() + 1);
+        gameState.setLevelTotalTime(gameState.getLevelTotalTime() + gameParameters.getLevelDurationDelta());
+        gameState.setLevelRemainTime(gameState.getLevelTotalTime());
+    }
+
+    @Override
+    protected void onUpdate(double elapsedSec, MathUtil.Vector3 gravity) {
         gameState.setLevelRemainTime(gameState.getLevelRemainTime() - elapsedSec);
         if(gameState.getLevelRemainTime() <= 0){
-            gameState.setLevel(gameState.getLevel() + 1);
-            gameState.setLevelTotalTime(gameState.getLevelTotalTime() + gameParameters.getLevelDurationDelta());
-            gameState.setLevelRemainTime(gameState.getLevelTotalTime());
             callback.onLevelUp();
         }
     }

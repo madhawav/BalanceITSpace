@@ -4,11 +4,10 @@ import java.util.Random;
 
 import io.github.madhawav.MathUtil;
 
-public class GameLogic{
+public class GameLogic extends AbstractLogic{
     private GameState gameState;
     private GameParameters gameParameters;
     private Callback callback;
-    private Random ran;
 
     private WindLogic windLogic;
     private BallLogic ballLogic;
@@ -18,30 +17,32 @@ public class GameLogic{
         this.gameState = gameState;
         this.gameParameters = gameParameters;
         this.callback = callback;
-        this.ran = new Random();
+
         this.windLogic = new WindLogic(gameState, gameParameters);
         this.ballLogic = new BallLogic(gameState, gameParameters);
         this.levelLogic = new LevelLogic(gameState, gameParameters, new LevelLogic.Callback() {
             @Override
             public void onLevelUp() {
-                ballLogic.onLevelUp();
-                windLogic.onLevelUp();
-                callback.onLevelUp();
+                GameLogic.this.levelUp();
             }
         });
+        registerLogic(windLogic);
+        registerLogic(ballLogic);
+        registerLogic(levelLogic);
     }
 
-    public void update(double elapsedSec, double gameTime, MathUtil.Vector3 gravity){
-        windLogic.update(elapsedSec, gameTime);
-        ballLogic.update(elapsedSec, gravity);
-        levelLogic.update(elapsedSec);
-
+    public void onUpdate(double elapsedSec, MathUtil.Vector3 gravity){
         float radi = gameState.getBallPosition().getX() * gameState.getBallPosition().getX() + gameState.getBallPosition().getY() * gameState.getBallPosition().getY();
         if (radi > (gameParameters.getBoardSize()/2)*(gameParameters.getBoardSize()/2)){
             callback.onGameOver();
             return;
         }
+    }
 
+    @Override
+    protected void onLevelUp() {
+        super.onLevelUp();
+        callback.onLevelUp();
     }
 
     public interface Callback{
