@@ -1,5 +1,6 @@
 package io.github.madhawav.balanceit.scenes;
 
+import io.github.madhawav.balanceit.layers.BalanceAssistanceLayer;
 import io.github.madhawav.balanceit.layers.GamePlayLayer;
 import io.github.madhawav.balanceit.layers.HUDLayer;
 import io.github.madhawav.balanceit.BalanceITGame;
@@ -15,6 +16,10 @@ import io.github.madhawav.gameengine.ui.LayeredUI;
 import io.github.madhawav.gameengine.ui.Rectangle;
 import io.github.madhawav.gameengine.ui.UIElementScene;
 
+/**
+ * This scene has the game-play stage. It creates a game-state and a game-logic using a given set of game parameters.
+ * It also shows the UI layers.
+ */
 public class GamePlayScene extends UIElementScene {
     private GraphicsContext graphicsContext;
     private GameState gameState;
@@ -23,15 +28,18 @@ public class GamePlayScene extends UIElementScene {
     private Rectangle warningLayer;
     private HUDLayer hudLayer;
 
-    private static float BOARD_WARNING_SIZE_FRACTION = 0.7f;
+    private static final float BOARD_WARNING_SIZE_FRACTION = 0.7f;
     private static final float PAUSE_ANIMATION_TIME_SCALE_DECREMENT = 0.0005f;
 
     private float pauseAnimationTimeScale = 1.0f;
 
     private boolean started = false; // The game starts after user balances the phone.
 
+    private BalanceAssistanceLayer balanceAssistanceLayer;
+    private GamePlayLayer gamePlayLayer;
+
     public GamePlayScene(){
-        gameParameters = new GameParameters();
+        gameParameters = new GameParameters(); // Switch GameParameters to adjust difficulty of the game.
         gameState = new GameState(gameParameters);
         gameLogic = new GameLogic(gameState,gameParameters , new GameLogic.Callback() {
             @Override
@@ -51,6 +59,8 @@ public class GamePlayScene extends UIElementScene {
     protected AbstractUIElement getUIElement() {
         BalanceITGame game = (BalanceITGame)getGame();
         graphicsContext = new GraphicsContext( game.getGraphicsEngine(), game.getSpriteEngine(), game.getTextureAssetManager(), game);
+
+        gamePlayLayer = new GamePlayLayer(gameState, gameParameters.getBoardSize(), graphicsContext);
 
         warningLayer = new Rectangle(graphicsContext, 0, 0, graphicsContext.getGraphicsEngine().getScreenWidth(), graphicsContext.getGraphicsEngine().getViewportHeight(),
                 new MathUtil.Vector4(1.0f, 0.0f, 0.0f,1.0f));
@@ -74,11 +84,14 @@ public class GamePlayScene extends UIElementScene {
             }
         });
 
+        balanceAssistanceLayer = new BalanceAssistanceLayer(graphicsContext, game.getGravitySensor());
+
         LayeredUI layeredUI = new LayeredUI(graphicsContext);
         layeredUI.addElement(new SpaceBackgroundLayer(graphicsContext));
         layeredUI.addElement(warningLayer);
-        layeredUI.addElement(new GamePlayLayer(gameState, gameParameters.getBoardSize(), graphicsContext));
+        layeredUI.addElement(gamePlayLayer);
         layeredUI.addElement(hudLayer);
+        layeredUI.addElement(balanceAssistanceLayer);
         return layeredUI;
     }
 
@@ -103,6 +116,7 @@ public class GamePlayScene extends UIElementScene {
         if(started)
             throw new IllegalStateException("Game already started");
         started = true;
+        balanceAssistanceLayer.setVisible(false);
         hudLayer.notifyStarted();
     }
 
@@ -122,9 +136,10 @@ public class GamePlayScene extends UIElementScene {
     @Override
     protected void onUpdate(double elapsedSec) {
         super.onUpdate(elapsedSec);
-        if(!started)
+        if(!started) {
+            balanceAssistanceLayer.setCamOffset(gamePlayLayer.getCamOffset());
             checkStartCondition();
-
+        }
         if(started && pauseAnimationTimeScale > 0){
             BalanceITGame game = (BalanceITGame)getGame();
             this.gameLogic.update(elapsedSec * pauseAnimationTimeScale, game.getGravitySensor().getGravity());

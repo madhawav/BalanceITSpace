@@ -13,6 +13,9 @@ import io.github.madhawav.gameengine.ui.Label;
 import io.github.madhawav.gameengine.ui.LayeredUI;
 import io.github.madhawav.gameengine.ui.Rectangle;
 
+/**
+ * This layer contains indicators such as current level, level completion progressbar, score, score multiplier, paused indicator.
+ */
 public class HUDLayer extends LayeredUI {
     private Callback callback;
     private Label levelLabel;
@@ -26,13 +29,14 @@ public class HUDLayer extends LayeredUI {
 
     private Image warmUpImg;
     private Label warmUpLeftLabel;
-
     private boolean started = false;
 
     public HUDLayer(GraphicsContext graphicsContext, GameState gameState,  Callback callback) {
         super(graphicsContext);
         this.callback = callback;
         this.gameState = gameState;
+
+        //TODO: Remove hard-corded UI layout information. Read from resources.
 
         // Label indicating the level on top left
         levelLabel = new Label(graphicsContext, "Level", 256, 0, 0, 256,

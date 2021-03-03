@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import io.github.madhawav.balanceit.opengleslearn.R;
+import io.github.madhawav.balanceit.scenes.GamePlayScene;
 import io.github.madhawav.balanceit.scenes.MyScene2;
 
 import io.github.madhawav.gameengine.multiscene.AbstractMultiSceneGame;

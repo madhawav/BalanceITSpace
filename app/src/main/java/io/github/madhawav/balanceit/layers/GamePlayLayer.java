@@ -13,7 +13,9 @@ import io.github.madhawav.gameengine.ui.AbstractUIElement;
 import io.github.madhawav.gameengine.ui.GraphicsContext;
 
 
-
+/**
+ * This layer contains the deck (space ship_ and the ball.
+ */
 public class GamePlayLayer extends AbstractUIElement {
     private static final float REFERENCE_WIDTH = 720f;
     private static final float REFERENCE_HEIGHT = 1280f;
@@ -45,11 +47,13 @@ public class GamePlayLayer extends AbstractUIElement {
         camOffset.setY(-gameState.getBallPosition().getY() * REFERENCE_HEIGHT / boardSize + REFERENCE_HEIGHT/2.0f);
     }
 
+    public MathUtil.Vector3 getCamOffset(){
+        return new MathUtil.Vector3(camOffset.getX() / REFERENCE_WIDTH * getGraphicsContext().getGraphicsEngine().getViewportWidth(),
+                camOffset.getY() / REFERENCE_HEIGHT * getGraphicsContext().getGraphicsEngine().getViewportHeight(), 0);
+    }
 
     @Override
     public void onRender(GL10 gl10) {
-//        getGraphicsContext().getSpriteEngine().drawSprite(getGraphicsContext().getTextureManager().getTextureFromResource(R.drawable.loading, this),
-//                0, 0, 1000, 1000, 1, 1.0f);
         spriteCanvas.drawSprite(getGraphicsContext().getTextureAssetManager().getTextureFromResource(R.drawable.ufo, this),
                 camOffset.getX(),
                 camOffset.getY(),
