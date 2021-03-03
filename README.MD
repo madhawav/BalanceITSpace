@@ -11,7 +11,7 @@ The development of menus is future work.
 As before, everything is developed directly on top of the OpenGL ES library available with Android SDK using Java.
 I have developed a new game engine layer which implements low-level features while issolating the game code from the platform.
 
-The following is a screenshot from the newly developed version.
+The following are screenshots from the newly developed version.
 
 <img src="docs/preview.jpg" height="350"> <span></span>   <img src="docs/preview2.jpg" height="350">
 
