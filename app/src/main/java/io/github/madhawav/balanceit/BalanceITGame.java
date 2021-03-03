@@ -47,8 +47,8 @@ public class BalanceITGame extends AbstractMultiSceneGame {
     }
 
     @Override
-    public AbstractScene onStart() {
-        return new MyScene2();
+    public AbstractScene getInitialScene() {
+        return new GamePlayScene();
     }
 }
 

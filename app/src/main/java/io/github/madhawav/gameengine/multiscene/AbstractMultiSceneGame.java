@@ -19,13 +19,11 @@ public abstract class AbstractMultiSceneGame extends AbstractGame {
     /**
      * Should be overriden to setup the start scene
      */
-    public abstract AbstractScene onStart();
+    public abstract AbstractScene getInitialScene();
 
     @Override
-    public void start() {
-        super.start();
-
-        AbstractScene initialScene = onStart();
+    public void onStart() {
+        AbstractScene initialScene = getInitialScene();
         if(initialScene == null)
             throw new IllegalStateException("Must return a valid scene");
         beginScene(initialScene);

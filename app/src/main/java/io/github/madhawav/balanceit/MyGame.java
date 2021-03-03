@@ -67,6 +67,11 @@ public class MyGame extends AbstractGame {
     }
 
     @Override
+    public void onStart() {
+
+    }
+
+    @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig config) {
         super.onSurfaceCreated(gl10, config);
     }

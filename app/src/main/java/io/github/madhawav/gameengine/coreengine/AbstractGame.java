@@ -37,8 +37,10 @@ public abstract class AbstractGame extends EngineModule {
     private MathUtil.Rect2I viewport;
 
     private Vibrator vibrator;
-
     private double gameTime;
+
+    private boolean glContextReady = false; // Is GL Context available? Did onSurfaceChanged event occured?
+    private boolean awaitOnStartUntilGLContextReady = false; // Should onStart be called at next onSurfaceChanged? Used to delay propagation of onStart event until GL context is available.
 
     protected AbstractGame(Context context, GameDescription gameDescription){
         this.context = context;
@@ -130,14 +132,20 @@ public abstract class AbstractGame extends EngineModule {
     }
 
     boolean touchDown(float x, float y){
+        if(awaitOnStartUntilGLContextReady)
+            return false;
         return onTouchDown(x - viewport.getX(), y - viewport.getY());
     }
 
     boolean touchMove(float x, float y){
+        if(awaitOnStartUntilGLContextReady)
+            return false;
         return onTouchMove(x - viewport.getX(), y - viewport.getY());
     }
 
     boolean touchReleased(float x, float y){
+        if(awaitOnStartUntilGLContextReady)
+            return false;
         return onTouchReleased(x - viewport.getX(), y - viewport.getY());
     }
 
@@ -207,7 +215,15 @@ public abstract class AbstractGame extends EngineModule {
             throw new IllegalStateException("Game already started");
         }
         this.gameState = GameState.PAUSED;
+        if(glContextReady) {
+            this.onStart();
+        }
+        else{
+            awaitOnStartUntilGLContextReady = true;
+        }
     }
+
+    public abstract void onStart();
 
     /**
      * Finish the game.
@@ -248,6 +264,8 @@ public abstract class AbstractGame extends EngineModule {
                 synchronized (AbstractGame.this){
                     long currentTime = System.nanoTime();
                     if(AbstractGame.this.getGameState() == GameState.RUNNING) {
+                        if(awaitOnStartUntilGLContextReady)
+                            return;
                         update((double) (currentTime - lastUpdateTime) / 1000000000.0);
                     }
                     AbstractGame.this.lastUpdateTime = currentTime;
@@ -271,8 +289,13 @@ public abstract class AbstractGame extends EngineModule {
 
     public void onSurfaceChanged(GL10 gl10, int width, int height, MathUtil.Rect2I viewport){
         synchronized (this) {
+            glContextReady = true;
             this.viewport = viewport;
             super.onSurfaceChanged(gl10, width, height, viewport);
+            if(awaitOnStartUntilGLContextReady) {
+                awaitOnStartUntilGLContextReady = false;
+                onStart();
+            }
         }
     }
 }
