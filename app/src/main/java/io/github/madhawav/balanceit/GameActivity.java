@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 
 import io.github.madhawav.gameengine.graphics.Texture;
 
-public class OpenGLES20Activity extends Activity {
+public class GameActivity extends Activity {
     private GLSurfaceView gLView;
     private BalanceITGame game;
     @Override
