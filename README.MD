@@ -9,7 +9,7 @@ So far, I have completed the implementation of game-play.
 The development of menus is future work. Everything is developed directly on top of the OpenGL ES library available with Android SDK using Java.
 
 The following is a screenshot from the newly developed version.
-![preview](docs/preview.jpg)
+![preview](docs/preview.jpg | width=100)
 
 The codebase consists of two sections:
  1) [The Game](app/src/main/java/io/github/madhawav/balanceit)
