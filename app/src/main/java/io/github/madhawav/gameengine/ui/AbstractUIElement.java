@@ -2,10 +2,13 @@ package io.github.madhawav.gameengine.ui;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import io.github.madhawav.gameengine.coreengine.EngineModule;
+import io.github.madhawav.gameengine.coreengine.AbstractEngineModule;
 
-public abstract class AbstractUIElement extends EngineModule {
-    private GraphicsContext graphicsContext;
+/**
+ * Extend this class to implement a UI Element (E.g. buttons, labels..)
+ */
+public abstract class AbstractUIElement extends AbstractEngineModule {
+    private GraphicsContext graphicsContext; // Graphics context holding the graphics engine, sprite engine and the texture asset manager.
     private boolean visible;
 
     private float opacity;
@@ -13,7 +16,6 @@ public abstract class AbstractUIElement extends EngineModule {
     public float getOpacity() {
         return opacity;
     }
-
     public void setOpacity(float opacity) {
         this.opacity = opacity;
     }
@@ -23,6 +25,11 @@ public abstract class AbstractUIElement extends EngineModule {
         this.visible = true;
         this.opacity = 1.0f;
     }
+
+    /**
+     * Retrieve GraphicsContext associated with the UI element
+     * @return
+     */
     public GraphicsContext getGraphicsContext(){
         return graphicsContext;
     }
@@ -30,7 +37,6 @@ public abstract class AbstractUIElement extends EngineModule {
     public boolean isVisible() {
         return visible;
     }
-
     public void setVisible(boolean visible) {
         this.visible = visible;
     }
@@ -44,6 +50,7 @@ public abstract class AbstractUIElement extends EngineModule {
 
     @Override
     public void finish() {
+        // Revoke resources held by the UI element
         getGraphicsContext().getTextureAssetManager().revokeResources(this);
         super.finish();
     }

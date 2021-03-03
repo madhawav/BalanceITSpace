@@ -6,15 +6,27 @@ import java.util.NoSuchElementException;
 
 import javax.microedition.khronos.opengles.GL10;
 
+/**
+ * Layered UI is a container of multiple UI elements. Elements are ordered based on the order they were added.
+ */
 public class LayeredUI extends AbstractUIElement {
     private boolean started;
     private List<AbstractUIElement> elements;
+
+    /**
+     * Creates a LayeredUI container.
+     * @param graphicsContext
+     */
     public LayeredUI(GraphicsContext graphicsContext){
         super(graphicsContext);
         this.elements = new ArrayList<>();
         started = false;
     }
 
+    /**
+     * Adds an element as a new layer at the top.
+     * @param element
+     */
     public void addElement(AbstractUIElement element){
         if(this.isFinished())
             throw new IllegalStateException("LayeredUI has Finished");
@@ -25,6 +37,10 @@ public class LayeredUI extends AbstractUIElement {
             element.onStart();
     }
 
+    /**
+     * Removes and disposes an element.
+     * @param element
+     */
     public void finishElement(AbstractUIElement element){
         if(this.isFinished())
             throw new IllegalStateException("LayeredUI has Finished");
@@ -36,6 +52,11 @@ public class LayeredUI extends AbstractUIElement {
         element.finish();
     }
 
+    /**
+     * Get element at index
+     * @param index
+     * @return
+     */
     public AbstractUIElement get(int index){
         return this.elements.get(index);
     }
@@ -51,11 +72,17 @@ public class LayeredUI extends AbstractUIElement {
         this.elements.forEach((element -> element.onUpdate(elapsedSec)));
     }
 
+    /**
+     * Draw elements from first to last.
+     * @param gl10
+     */
     @Override
     public void onRender(GL10 gl10) {
         if(!isVisible())
             return;
         float preservedOpacity = this.getGraphicsContext().getOpacity();
+
+        // Propagates opacity of self to children
         this.getGraphicsContext().setOpacity(getOpacity() * preservedOpacity);
 
         this.elements.forEach((element -> element.onRender(gl10)));
@@ -68,6 +95,7 @@ public class LayeredUI extends AbstractUIElement {
         if(!isVisible())
             return false;
 
+        // Touch events are processed from the last element to the first.
         for(int i = elements.size() - 1; i >= 0; i--){
             if(elements.get(i).onTouchDown(x,y))
                 return true;
@@ -80,6 +108,7 @@ public class LayeredUI extends AbstractUIElement {
         if(!isVisible())
             return false;
 
+        // Touch events are processed from the last element to the first.
         for(int i = elements.size() - 1; i >= 0; i--){
             if(elements.get(i).onTouchMove(x,y))
                 return true;
@@ -92,6 +121,7 @@ public class LayeredUI extends AbstractUIElement {
         if(!isVisible())
             return false;
 
+        // Touch events are processed from the last element to the first.
         for(int i = elements.size() - 1; i >= 0; i--){
             if(elements.get(i).onTouchReleased(x,y))
                 return true;

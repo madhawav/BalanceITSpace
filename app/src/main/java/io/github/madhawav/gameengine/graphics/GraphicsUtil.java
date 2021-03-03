@@ -7,35 +7,12 @@ import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.opengl.Matrix;
 
+/**
+ * Utility methods for 3D graphics rendering
+ */
 public class GraphicsUtil {
     private GraphicsUtil(){}
-    private static float PROJECTION_CULL_FAR = 4000.0f;
-    private static float PROJECTION_CULL_NEAR = 0.01f;
-    static void setupSpriteProjectionMatrix(float[] matrix, float screenWidth, float screenHeight){
-        Matrix.orthoM(matrix, 0, 0, screenWidth, screenHeight, 0, PROJECTION_CULL_NEAR, PROJECTION_CULL_FAR);
-    }
 
-    static void setupSpriteViewMatrix(float[] matrix){
-        // Position the eye in front of the origin.
-        final float eyeX = 0.0f;
-        final float eyeY = 0.0f;
-        final float eyeZ = 0f;
-
-        // We are looking toward the distance
-        final float lookX = 0.0f;
-        final float lookY = 0.0f;
-        final float lookZ = -2.0f;
-
-        // Set our up vector. This is where our head would be pointing were we holding the camera.
-        final float upX = 0.0f;
-        final float upY = 1.0f;
-        final float upZ = 0.0f;
-
-        // Set the view matrix. This matrix can be said to represent the camera position.
-        // NOTE: In OpenGL 1, a ModelView matrix is used, which is a combination of a model and
-        // view matrix. In OpenGL 2, we can keep track of these matrices separately if we choose.
-        Matrix.setLookAtM(matrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
-    }
 
     /**
      * Helper function to compile a shader.
@@ -44,7 +21,7 @@ public class GraphicsUtil {
      * @param shaderSource The shader source code.
      * @return An OpenGL handle to the shader.
      */
-    public static int compileShader(final int shaderType, final String shaderSource)
+    static int compileShader(final int shaderType, final String shaderSource)
     {
         int shaderHandle = GLES20.glCreateShader(shaderType);
 
@@ -85,7 +62,7 @@ public class GraphicsUtil {
      * @param attributes Attributes that need to be bound to the program.
      * @return An OpenGL handle to the program.
      */
-    public static int createAndLinkProgram(final int vertexShaderHandle, final int fragmentShaderHandle, final String[] attributes)
+    static int createAndLinkProgram(final int vertexShaderHandle, final int fragmentShaderHandle, final String[] attributes)
     {
         int programHandle = GLES20.glCreateProgram();
 
@@ -131,7 +108,13 @@ public class GraphicsUtil {
         return programHandle;
     }
 
-    public static int loadTexture(final Context context, final int resourceId)
+    /**
+     * Helper function to load a texture from a Android resource
+     * @param context
+     * @param resourceId
+     * @return
+     */
+    static int loadTexture(final Context context, final int resourceId)
     {
         final int[] textureHandle = new int[1];
 

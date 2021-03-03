@@ -7,6 +7,9 @@ import android.opengl.GLSurfaceView;
 
 import io.github.madhawav.gameengine.MathUtil;
 
+/**
+ * Implementation of OpenGL Renderer interface required for supporting OpenGL.
+ */
 class EngineGLRenderer implements GLSurfaceView.Renderer {
     private final float desiredAspectRatio;
     private final Callback callback;

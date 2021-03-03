@@ -2,12 +2,25 @@ package io.github.madhawav.gameengine.ui;
 
 import javax.microedition.khronos.opengles.GL10;
 
+/**
+ * A rectangle shaped image button that respond to click events.
+ */
 public class ImageButton extends AbstractUIElement {
     private int imageResourceId;
     private ClickListener clickListener;
 
     float x,y,z, width,height;
 
+    /**
+     * Creates an ImageButton
+     * @param graphicsContext
+     * @param imageResourceId
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param clickListener
+     */
     public ImageButton(GraphicsContext graphicsContext, int imageResourceId, float x, float y, float width, float height, ClickListener clickListener){
         super(graphicsContext);
         this.imageResourceId = imageResourceId;
@@ -84,6 +97,7 @@ public class ImageButton extends AbstractUIElement {
     public boolean onTouchDown(float x, float y) {
         if(!isVisible())
             return false;
+
         if(this.x < x && x < this.x + this.width && this.y < y && y < this.y+this.height){
             return this.clickListener.onClick(this,x -  this.x, y - this.y);
         }

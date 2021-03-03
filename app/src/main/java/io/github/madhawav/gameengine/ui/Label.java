@@ -13,9 +13,12 @@ import javax.microedition.khronos.opengles.GL10;
 import io.github.madhawav.gameengine.MathUtil;
 import io.github.madhawav.gameengine.graphics.BitmapTexture;
 
+/**
+ * A text label UI element.
+ */
 public class Label extends AbstractUIElement {
-    private BitmapTexture texture;
-    private Bitmap sourceBitmap;
+    private BitmapTexture texture; // Texture used for rendering
+    private Bitmap sourceBitmap; // Underlying bitmap with text
 
     private String text;
 
@@ -32,8 +35,20 @@ public class Label extends AbstractUIElement {
 
     private MathUtil.Vector4 color;
 
-    private boolean dirty;
+    private boolean dirty; // Mark dirty to recreate the sourceBitmap and texture during next render call.
 
+    /**
+     * Creates a text label
+     * @param graphicsContext
+     * @param text
+     * @param canvasSize Size of Android Canvas on which the texture is rendered internally. Should be either 32, 64, 128, 256 or 512
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param color
+     * @param fontSize
+     */
     public Label(GraphicsContext graphicsContext, String text, int canvasSize, float x, float y, float width, float height, MathUtil.Vector4 color, int fontSize) {
         super(graphicsContext);
         if(!(canvasSize == 512 || canvasSize == 256 || canvasSize == 128 || canvasSize == 64 || canvasSize == 32)){
@@ -57,6 +72,10 @@ public class Label extends AbstractUIElement {
         this.dirty = true;
     }
 
+    /**
+     * Return typeface of font
+     * @return
+     */
     public Typeface getTypeface() {
         return typeface;
     }
@@ -66,6 +85,10 @@ public class Label extends AbstractUIElement {
         dirty = true;
     }
 
+    /**
+     * Return text alignment
+     * @return
+     */
     public Paint.Align getTextAlign() {
         return textAlign;
     }
@@ -75,20 +98,25 @@ public class Label extends AbstractUIElement {
         dirty = true;
     }
 
+    /**
+     * Re-generates the bitmap and the texture
+     */
     public void invalidate(){
         if(sourceBitmap == null)
         {
+            // First time call
             sourceBitmap = Bitmap.createBitmap(canvasSize ,canvasSize, Bitmap.Config.ARGB_8888);
             texture = BitmapTexture.create(sourceBitmap, this);
         }
 
+        // Clear existing content
         Canvas canvas = new Canvas(sourceBitmap);
         Paint paint = new Paint();
         paint.setXfermode(new PorterDuffXfermode( PorterDuff.Mode.SRC_OUT));
         paint.setAlpha(0);
-//        canvas.drawRect(new Rect(0,0, canvasSize,canvasSize),paint);
         canvas.drawPaint(paint);
 
+        // Draw text
         paint = new Paint();
         paint.setARGB((int)(color.getW() * 255), (int)(color.getX() * 255), (int)(color.getY() * 255), (int)(color.getZ() * 255));
         paint.setTextSize(fontSize);
@@ -109,7 +137,7 @@ public class Label extends AbstractUIElement {
             canvas.drawText(text, (int)(canvasSize/2), -textBound.top, paint);
         }
 
-        texture.invalidate();
+        texture.invalidate(); // Inform the BitmapTexture to update.
         dirty = false;
     }
 
@@ -149,7 +177,7 @@ public class Label extends AbstractUIElement {
     public void onRender(GL10 gl10) {
         if(!isVisible()) return;
 
-        if(dirty)
+        if(dirty) // If dirty, regenerate texture.
             invalidate();
 
         this.getGraphicsContext().getSpriteEngine().drawSpriteAA(

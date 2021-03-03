@@ -7,9 +7,12 @@ import javax.microedition.khronos.opengles.GL10;
 import io.github.madhawav.gameengine.coreengine.AbstractGame;
 import io.github.madhawav.gameengine.coreengine.GameDescription;
 
+/**
+ * Extend this class to develop a game with multiple scenes. (E.g. main-menu, game-play, etc.)
+ */
 public abstract class AbstractMultiSceneGame extends AbstractGame {
-    private AbstractScene currentScene = null;
-    private AbstractScene nextScene = null;
+    private AbstractScene currentScene = null; // Currently active scene.
+    private AbstractScene nextScene = null; // Next scene scheduled to swap the current scene.
     private boolean started = false;
 
     public AbstractMultiSceneGame(Context context, GameDescription gameDescription) {
@@ -17,7 +20,7 @@ public abstract class AbstractMultiSceneGame extends AbstractGame {
     }
 
     /**
-     * Should be overriden to setup the start scene
+     * Override to setup the start scene
      */
     public abstract AbstractScene getInitialScene();
 
@@ -36,6 +39,10 @@ public abstract class AbstractMultiSceneGame extends AbstractGame {
         this.registerModule(scene);
     }
 
+    /**
+     * Swap the current scene to the provided new scene.
+     * @param newScene
+     */
     public void swapScene(AbstractScene newScene){
         this.nextScene = newScene;
     }
@@ -70,7 +77,7 @@ public abstract class AbstractMultiSceneGame extends AbstractGame {
 
         // Changeover check
         if(this.nextScene != null){
-            this.currentScene.finish();
+            this.currentScene.finish(); // Informs current scene to revoke its resources.
             this.unregisterModule(this.currentScene);
 
             beginScene(this.nextScene);

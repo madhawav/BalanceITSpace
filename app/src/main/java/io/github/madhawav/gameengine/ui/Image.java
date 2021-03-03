@@ -4,6 +4,9 @@ import javax.microedition.khronos.opengles.GL10;
 
 import io.github.madhawav.gameengine.graphics.Texture;
 
+/**
+ * Image UI Element
+ */
 public class Image extends AbstractUIElement {
     private Texture texture;
     private float x;
@@ -11,38 +14,50 @@ public class Image extends AbstractUIElement {
     private float z;
     private float width;
     private float height;
-    private int resourceId;
+    private int imageResourceId;
     private boolean dirty;
 
-    public Image(GraphicsContext graphicsContext, int resourceId, float x, float y, float width, float height) {
+    /**
+     * Creates an Image UI Element
+     * @param graphicsContext
+     * @param imageResourceId
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     */
+    public Image(GraphicsContext graphicsContext, int imageResourceId, float x, float y, float width, float height) {
         super(graphicsContext);
         this.x = x;
         this.y = y;
         this.z = 1.0f;
         this.width = width;
         this.height = height;
-        this.resourceId = resourceId;
+        this.imageResourceId = imageResourceId;
         this.dirty = true;
     }
 
-    public int getResourceId() {
-        return resourceId;
+    public int getImageResourceId() {
+        return imageResourceId;
     }
 
-    public void setResourceId(int resourceId) {
-        if(resourceId == this.resourceId)
+    public void setImageResourceId(int imageResourceId) {
+        if(imageResourceId == this.imageResourceId)
             return;
-        this.resourceId = resourceId;
+        this.imageResourceId = imageResourceId;
         dirty = true;
     }
 
+    /**
+     * Unloads current texture and loads specified texture
+     */
     private void invalidate(){
         if(this.texture != null){
             getGraphicsContext().getTextureAssetManager().revokeTexture(this.texture, this); //Revoke claim to the current texture
             this.texture = null;
         }
         // Load new texture
-        this.texture = getGraphicsContext().getTextureAssetManager().getTextureFromResource(resourceId, this);
+        this.texture = getGraphicsContext().getTextureAssetManager().getTextureFromResource(imageResourceId, this);
         dirty = false;
     }
 

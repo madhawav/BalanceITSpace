@@ -4,6 +4,9 @@ import javax.microedition.khronos.opengles.GL10;
 
 import io.github.madhawav.gameengine.multiscene.AbstractScene;
 
+/**
+ * Extend this to build a multi-scene scene which hosts a UI element.
+ */
 public abstract class UIElementScene extends AbstractScene {
     private AbstractUIElement uiElement;
     private boolean started;

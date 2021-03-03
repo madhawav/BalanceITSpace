@@ -32,4 +32,9 @@ public class GameOverScene extends UIElementScene {
         return true;
     }
 
+    @Override
+    protected void onFinish() {
+
+    }
+
 }

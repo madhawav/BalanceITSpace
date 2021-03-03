@@ -5,6 +5,9 @@ import android.opengl.GLES20;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+/**
+ * A basic shader implementation with texture support. No lighting.
+ */
 public class BasicShader extends AbstractShader {
     private String vertexShaderSource;
     private String fragmentShaderSource;
@@ -12,10 +15,8 @@ public class BasicShader extends AbstractShader {
     private int hShaderProgram;
     private int hOpacity;
     private int hMVPMatrix;
-    private int hMVMatrix;
     private int hTextureUniform;
     private int hPosition;
-    private int hNormal;
     private int hTextureCoordinate;
 
     public BasicShader(String basicVertexShaderSource, String basicFragmentShaderSource){
@@ -33,10 +34,8 @@ public class BasicShader extends AbstractShader {
 
         hOpacity = GLES20.glGetUniformLocation(hShaderProgram, "u_Opacity");
         hMVPMatrix = GLES20.glGetUniformLocation(hShaderProgram, "u_MVPMatrix");
-        hMVMatrix = GLES20.glGetUniformLocation(hShaderProgram, "u_MVMatrix");
         hTextureUniform = GLES20.glGetUniformLocation(hShaderProgram, "u_Texture");
         hPosition = GLES20.glGetAttribLocation(hShaderProgram, "a_Position");
-        hNormal = GLES20.glGetAttribLocation(hShaderProgram, "a_Normal");
         hTextureCoordinate = GLES20.glGetAttribLocation(hShaderProgram, "a_TexCoordinate");
     }
 
@@ -50,18 +49,12 @@ public class BasicShader extends AbstractShader {
      * @param geometry
      */
     public void bindGeometry(Geometry geometry){
+        // Pass in position information
         geometry.getPositions().position(0);
         GLES20.glVertexAttribPointer(hPosition, Geometry.POSITION_SEEK, GLES20.GL_FLOAT, false,
                 0, geometry.getPositions());
 
         GLES20.glEnableVertexAttribArray(hPosition);
-
-        // Pass in the normal information
-        geometry.getNormals().position(0);
-        GLES20.glVertexAttribPointer(hNormal, Geometry.NORMAL_SEEK, GLES20.GL_FLOAT, false,
-                0, geometry.getNormals());
-
-        GLES20.glEnableVertexAttribArray(hNormal);
 
         // Pass in the texture coordinate information
         geometry.getTextureCoordinates().position(0);
@@ -73,14 +66,7 @@ public class BasicShader extends AbstractShader {
 
     public void unbindGeometry(){
         GLES20.glDisableVertexAttribArray(hPosition);
-        GLES20.glDisableVertexAttribArray(hNormal);
         GLES20.glDisableVertexAttribArray(hTextureCoordinate);
-    }
-
-    @Override
-    public void bindMVMatrix(float[] matrix){
-        // Pass in the modelview matrix.
-        GLES20.glUniformMatrix4fv(hMVMatrix, 1, false,matrix , 0);
     }
 
     @Override

@@ -9,9 +9,12 @@ import javax.microedition.khronos.opengles.GL10;
 import io.github.madhawav.gameengine.MathUtil;
 import io.github.madhawav.gameengine.graphics.BitmapTexture;
 
+/**
+ * A solid colored rectangle shape.
+ */
 public class Rectangle extends AbstractUIElement {
-    private BitmapTexture texture;
-    private Bitmap sourceBitmap;
+    private BitmapTexture texture; // Texture used for rendering
+    private Bitmap sourceBitmap; // Underlying bitmap holding the color
 
     private float x;
     private float y;
@@ -21,8 +24,17 @@ public class Rectangle extends AbstractUIElement {
 
     private MathUtil.Vector4 color;
 
-    private boolean dirty;
+    private boolean dirty; // Re-create the internal bitmap and texture in the next render cycle.
 
+    /**
+     * Creates a Rectangle
+     * @param graphicsContext
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param color
+     */
     public Rectangle(GraphicsContext graphicsContext, float x, float y, float width, float height, MathUtil.Vector4 color) {
         super(graphicsContext);
         this.color = color;
@@ -38,20 +50,25 @@ public class Rectangle extends AbstractUIElement {
         this.dirty = true;
     }
 
+    /**
+     * Refresh the appearance (color).
+     */
     public void invalidate(){
         if(sourceBitmap == null)
         {
+            // first time
             sourceBitmap = Bitmap.createBitmap(32 ,32, Bitmap.Config.ARGB_8888);
             texture = BitmapTexture.create(sourceBitmap, this);
         }
 
+        // Update color
         Canvas canvas = new Canvas(sourceBitmap);
-
         Paint paint = new Paint();
         paint.setARGB((int)(color.getW() * 255), (int)(color.getX() * 255), (int)(color.getY() * 255), (int)(color.getZ() * 255));
         canvas.drawPaint(paint);
 
-        texture.invalidate();
+        texture.invalidate(); // Inform texture to update itself
+
         dirty = false;
     }
 

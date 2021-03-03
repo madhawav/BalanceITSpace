@@ -5,11 +5,14 @@ import android.opengl.GLES20;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import io.github.madhawav.gameengine.coreengine.EngineModule;
+import io.github.madhawav.gameengine.coreengine.AbstractEngineModule;
 
-public class Texture extends EngineModule {
-    private int handle;
-    public static int textureCount = 0;
+/**
+ * A texture.
+ */
+public class Texture extends AbstractEngineModule {
+    private int handle; // OpenGL Handle
+    public static int textureCount = 0; // Static counter of textures. For debugging purposes.
 
     Texture(int handle){
         textureCount+=1;

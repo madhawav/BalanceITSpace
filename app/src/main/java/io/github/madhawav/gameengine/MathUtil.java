@@ -2,6 +2,9 @@ package io.github.madhawav.gameengine;
 
 import android.opengl.Matrix;
 
+/**
+ * Utility class for various 2D and 3D geometry methods
+ */
 public class MathUtil {
     public static float vectorToAngle(float x, float y){
         double radi= Math.sqrt(x*x+y*y);

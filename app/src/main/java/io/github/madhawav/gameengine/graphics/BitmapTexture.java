@@ -7,8 +7,11 @@ import android.opengl.GLUtils;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import io.github.madhawav.gameengine.coreengine.EngineModule;
+import io.github.madhawav.gameengine.coreengine.AbstractEngineModule;
 
+/**
+ * A texture backed by an Android Bitmap.
+ */
 public class BitmapTexture extends Texture {
     private Bitmap bitmap;
     BitmapTexture(int textureHandle) {
@@ -40,8 +43,6 @@ public class BitmapTexture extends Texture {
 
         // Load the bitmap into the bound texture.
         GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
-
-//        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
     }
 
     @Override
@@ -69,7 +70,7 @@ public class BitmapTexture extends Texture {
      * @param owner
      * @return
      */
-    public static BitmapTexture create(Bitmap bitmap, EngineModule owner){
+    public static BitmapTexture create(Bitmap bitmap, AbstractEngineModule owner){
         final int[] textureHandle = new int[1];
         GLES20.glGenTextures(1, textureHandle, 0);
 
@@ -77,7 +78,6 @@ public class BitmapTexture extends Texture {
         {
             throw new RuntimeException("Error creating texture.");
         }
-
 
         BitmapTexture texture = new BitmapTexture(textureHandle[0]);
         texture.setBitmap(bitmap);

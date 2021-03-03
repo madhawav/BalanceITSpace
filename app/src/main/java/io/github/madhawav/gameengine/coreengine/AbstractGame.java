@@ -15,12 +15,13 @@ import io.github.madhawav.gameengine.MathUtil;
 import io.github.madhawav.gameengine.coreengine.sensors.AbstractSensor;
 import io.github.madhawav.gameengine.coreengine.sensors.GravitySensor;
 import io.github.madhawav.gameengine.coreengine.sensors.SensorType;
-import io.github.madhawav.gameengine.graphics.TextureAssetManager;
 
 /**
  * Extend this class to create a game. Provides onUpdate and onRender events.
  */
-public abstract class AbstractGame extends EngineModule {
+public abstract class AbstractGame extends AbstractEngineModule {
+    // Monitor lock of this class is used to synchronize events from 3 threads, onUpdateTimer, GL onRender and onTouchEvents.
+
     private final Context context;
     private final EngineSurfaceView surfaceView; // Used to capture touch events
     private final EngineGLRenderer renderer; // OpenGL Renderer
@@ -35,21 +36,27 @@ public abstract class AbstractGame extends EngineModule {
     // Sensors
     private Map<SensorType, AbstractSensor> sensors;
 
+    // An asset manager manages resources held by a game. (E.g Textures)
     private AbstractAssetManager assetManager;
-    private GameState gameState;
-    private MathUtil.Rect2I viewport;
 
-    private Vibrator vibrator;
-    private double gameTime;
+    private GameEngineState gameEngineState; // Indicates whether the game engine is paused, running, ...
+    private MathUtil.Rect2I viewport; // Viewport for GL rendering
 
-    private boolean glContextReady = false; // Is GL Context available? Did onSurfaceChanged event occured?
+    private Vibrator vibrator; // Vibrator if requested by user
+    private double gameTime; // Total elapsed time in game (seconds)
+
+    private boolean glContextReady = false; // Is GL Context available? I.e. Did onSurfaceChanged event occurred?
     private boolean awaitOnStartUntilGLContextReady = false; // Should onStart be called at next onSurfaceChanged? Used to delay propagation of onStart event until GL context is available.
 
+    /**
+     * Constructor of a Game.
+     * @param context
+     * @param gameDescription
+     */
     protected AbstractGame(Context context, GameDescription gameDescription){
         this.context = context;
 
         this.updateRateMillis = gameDescription.getUpdateRateMillis();
-//        this.textureAssetManager = new TextureAssetManager(context);
         this.assetManager = gameDescription.getAssetManager();
         registerModule(this.assetManager);
 
@@ -90,7 +97,7 @@ public abstract class AbstractGame extends EngineModule {
 
             @Override
             public void onDrawFrame(GL10 gl10) {
-                if(AbstractGame.this.getGameState() == GameState.RUNNING)
+                if(AbstractGame.this.getGameEngineState() == GameEngineState.RUNNING)
                 {
                     synchronized (AbstractGame.this){
                         AbstractGame.this.onRender(gl10);
@@ -104,7 +111,7 @@ public abstract class AbstractGame extends EngineModule {
 
         this.gameTime = 0;
         this.lastUpdateTime = 0;
-        this.gameState = GameState.PRE_START;
+        this.gameEngineState = GameEngineState.PRE_START;
 
         if(gameDescription.isUseVibrator())
             vibrator = new Vibrator(context);
@@ -112,6 +119,10 @@ public abstract class AbstractGame extends EngineModule {
         this.initializeSensors(gameDescription);
     }
 
+    /**
+     * Return Vibrator
+     * @return
+     */
     public Vibrator getVibrator() {
         if(vibrator == null)
             throw new UnsupportedOperationException("Vibrator not requested");
@@ -122,6 +133,10 @@ public abstract class AbstractGame extends EngineModule {
         return context;
     }
 
+    /**
+     * Return asset manager used by the game
+     * @return
+     */
     public AbstractAssetManager getAssetManager() {
         return assetManager;
     }
@@ -131,22 +146,41 @@ public abstract class AbstractGame extends EngineModule {
             this.sensors.put(SensorType.GRAVITY_SENSOR, new GravitySensor(this.context));
         }
     }
-    public GameState getGameState(){
-        return gameState;
+
+    public GameEngineState getGameEngineState(){
+        return gameEngineState;
     }
 
+    /**
+     * Notify touch down
+     * @param x
+     * @param y
+     * @return
+     */
     boolean touchDown(float x, float y){
         if(awaitOnStartUntilGLContextReady)
             return false;
         return onTouchDown(x - viewport.getX(), y - viewport.getY());
     }
 
+    /**
+     * Notify touch move
+     * @param x
+     * @param y
+     * @return
+     */
     boolean touchMove(float x, float y){
         if(awaitOnStartUntilGLContextReady)
             return false;
         return onTouchMove(x - viewport.getX(), y - viewport.getY());
     }
 
+    /**
+     * Notify touch release
+     * @param x
+     * @param y
+     * @return
+     */
     boolean touchReleased(float x, float y){
         if(awaitOnStartUntilGLContextReady)
             return false;
@@ -215,10 +249,10 @@ public abstract class AbstractGame extends EngineModule {
      * Starts the game. Puts it to paused state.
      */
     public void start(){
-        if(this.gameState != GameState.PRE_START){
+        if(this.gameEngineState != GameEngineState.PRE_START){
             throw new IllegalStateException("Game already started");
         }
-        this.gameState = GameState.PAUSED;
+        this.gameEngineState = GameEngineState.PAUSED;
         if(glContextReady) {
             this.onStart();
         }
@@ -234,7 +268,7 @@ public abstract class AbstractGame extends EngineModule {
      */
     public void finish(){
 //        textureAssetManager.revokeTextures(this);
-        this.gameState = GameState.FINISHED;
+        this.gameEngineState = GameEngineState.FINISHED;
         super.finish();
     }
 
@@ -242,10 +276,10 @@ public abstract class AbstractGame extends EngineModule {
      * Pause game. Call on Activity.onPause().
      */
     public void pause(){
-        if(this.gameState!= GameState.RUNNING)
+        if(this.gameEngineState != GameEngineState.RUNNING)
             throw new IllegalStateException("Game not running");
 
-        this.gameState = GameState.PAUSED;
+        this.gameEngineState = GameEngineState.PAUSED;
         this.sensors.forEach((sensorType, sensor) -> sensor.pause());
         this.updateTimer.cancel();
     }
@@ -254,9 +288,9 @@ public abstract class AbstractGame extends EngineModule {
      * Resume game. Call on Activity.onResume().
      */
     public void resume(){
-        if(this.gameState!= GameState.PAUSED)
+        if(this.gameEngineState != GameEngineState.PAUSED)
             throw new IllegalStateException("Game not paused");
-        this.gameState = GameState.RUNNING;
+        this.gameEngineState = GameEngineState.RUNNING;
         this.sensors.forEach((sensorType, sensor) -> sensor.resume());
 
         this.lastUpdateTime = System.nanoTime();
@@ -267,7 +301,7 @@ public abstract class AbstractGame extends EngineModule {
             public void run() {
                 synchronized (AbstractGame.this){
                     long currentTime = System.nanoTime();
-                    if(AbstractGame.this.getGameState() == GameState.RUNNING) {
+                    if(AbstractGame.this.getGameEngineState() == GameEngineState.RUNNING) {
                         if(awaitOnStartUntilGLContextReady)
                             return;
                         update((double) (currentTime - lastUpdateTime) / 1000000000.0);
@@ -279,23 +313,39 @@ public abstract class AbstractGame extends EngineModule {
         this.updateTimer.schedule(this.updateTask, 0, this.updateRateMillis);
     }
 
+    /**
+     * Returns the gravity sensor
+     * @return
+     */
     public GravitySensor getGravitySensor(){
         if(!this.sensors.containsKey(SensorType.GRAVITY_SENSOR))
             throw new UnsupportedOperationException("Gravity sensor not available");
         return (GravitySensor) this.sensors.get(SensorType.GRAVITY_SENSOR);
     }
 
+    /**
+     * GL callback onSurfaceCreated
+     * @param gl10
+     * @param config
+     */
     public void onSurfaceCreated(GL10 gl10, EGLConfig config){
         synchronized (this){
-            super.onSurfaceCreated(gl10, config);
+            super.onSurfaceCreated(gl10, config); // Propagates to registered modules
         }
     }
 
+    /**
+     * GL callback onSurfaceChanged
+     * @param gl10
+     * @param width
+     * @param height
+     * @param viewport
+     */
     public void onSurfaceChanged(GL10 gl10, int width, int height, MathUtil.Rect2I viewport){
         synchronized (this) {
             glContextReady = true;
             this.viewport = viewport;
-            super.onSurfaceChanged(gl10, width, height, viewport);
+            super.onSurfaceChanged(gl10, width, height, viewport); // Propagates to registered modules
             if(awaitOnStartUntilGLContextReady) {
                 awaitOnStartUntilGLContextReady = false;
                 onStart();

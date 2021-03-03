@@ -8,13 +8,16 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import io.github.madhawav.gameengine.MathUtil;
-import io.github.madhawav.gameengine.coreengine.EngineModule;
+import io.github.madhawav.gameengine.coreengine.AbstractEngineModule;
 
-public class GraphicsEngine extends EngineModule {
+/**
+ * Graphics engine implementation with support to rendering 3D geometry
+ */
+public class GraphicsEngine extends AbstractEngineModule {
     private final Context context;
     private final AbstractShader shader;
 
-    // Preserve transformation matrices to avoid GC calls
+    // Transformation matrices
     private final float[] modelMatrix = new float[16];
     private final float[] viewMatrix = new float[16];
     private final float[] projectionMatrix = new float[16];
@@ -23,16 +26,19 @@ public class GraphicsEngine extends EngineModule {
     private int screenWidth = 0;
     private int screenHeight = 0;
 
-    private boolean depthEnabled = false;
-    private boolean cullBackFace = false;
-
+    private boolean depthEnabled = false; // Is depth testing enabled?
+    private boolean cullBackFace = false; // Should back faces be omitted?
 
     private MathUtil.Rect2I viewport;
-
     public MathUtil.Rect2I getViewport() {
         return viewport;
     }
 
+    /**
+     * Creates a new Graphics Engine.
+     * @param context
+     * @param description
+     */
     public GraphicsEngine(Context context, GraphicsEngineDescription description){
         this.context = context;
         this.shader = description.getShader();
@@ -40,16 +46,33 @@ public class GraphicsEngine extends EngineModule {
         this.viewport = null;
     }
 
+    /**
+     * Clears RGB buffer using specified RGB. Also clears depth buffer.
+     * @param r
+     * @param g
+     * @param b
+     * @param a
+     */
     public void clear(float r, float g, float b, float a){
         GLES20.glClearColor(r,g,b,a);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT|GLES20.GL_DEPTH_BUFFER_BIT);
     }
 
-
+    /**
+     * Notify GL surface created
+     * @param gl10
+     * @param config
+     */
     public void onSurfaceCreated(GL10 gl10, EGLConfig config) {
         super.onSurfaceCreated(gl10, config);
     }
 
+    /**
+     * Draw a geometry on surface. Uses transformation matrices set in the graphics engine.
+     * @param geometry
+     * @param texture
+     * @param opacity
+     */
     public void drawGeometry(Geometry geometry, Texture texture, float opacity){
         this.shader.bindShaderProgram();
 
@@ -60,7 +83,7 @@ public class GraphicsEngine extends EngineModule {
 
         // Pass in transformations
         Matrix.multiplyMM(MVPMatrix, 0, viewMatrix, 0, modelMatrix, 0);
-        this.shader.bindMVMatrix(MVPMatrix);
+        //        this.shader.bindMVMatrix(MVPMatrix);
 
         Matrix.multiplyMM(MVPMatrix, 0, projectionMatrix, 0, MVPMatrix, 0);
         this.shader.bindMVPMatrix(MVPMatrix);
@@ -142,13 +165,20 @@ public class GraphicsEngine extends EngineModule {
         return modelMatrix;
     }
 
+    /**
+     * Notify GL canvas size has changed.
+     * @param gl10
+     * @param screenWidth
+     * @param screenHeight
+     * @param viewport
+     */
     public void onSurfaceChanged(GL10 gl10, int screenWidth, int screenHeight, MathUtil.Rect2I viewport) {
         super.onSurfaceChanged(gl10, screenWidth, screenHeight, viewport);
         this.viewport = viewport;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
 
-        // Enable blending
+        // Enable alpha blending
         GLES20.glEnable(GLES20.GL_ALPHA);
         GLES20.glEnable(GLES20.GL_BLEND);
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
@@ -156,6 +186,6 @@ public class GraphicsEngine extends EngineModule {
         GLES20.glDepthFunc(GLES20.GL_LEQUAL);
 
         setDepthEnabled(depthEnabled); // Updates GL with depth configuration
-        setCullBackFace(cullBackFace); // Updates GL with backface culling configuration
+        setCullBackFace(cullBackFace); // Updates GL with back face culling configuration
     }
 }

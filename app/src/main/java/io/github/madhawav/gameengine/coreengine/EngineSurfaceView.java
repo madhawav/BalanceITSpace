@@ -3,6 +3,9 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
+/**
+ * Implementation of GLSurfaceView class required to listen to touch events on a GL Canvas.
+ */
 class EngineSurfaceView extends GLSurfaceView {
     private final Callback callback;
     public EngineSurfaceView(Context context, Callback callback){

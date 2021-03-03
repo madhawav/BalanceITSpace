@@ -10,10 +10,16 @@ import javax.microedition.khronos.opengles.GL10;
 
 import io.github.madhawav.gameengine.MathUtil;
 
-public abstract class EngineModule {
+/**
+ * A module supports registering of submodules, to which useful events are propagated.
+ * The propagated events are GL onSurfaceChanged, GL onSurfaceCreated and onFinish.
+ * Finished is called on a module at the end of its useful life time.
+ * A module should release its GL resources when finish is called.
+ */
+public abstract class AbstractEngineModule {
     private boolean finished = false;
-    private List<EngineModule> registeredModules;
-    public EngineModule(){
+    private List<AbstractEngineModule> registeredModules;
+    public AbstractEngineModule(){
         this.registeredModules = new ArrayList<>();
     }
 
@@ -25,22 +31,39 @@ public abstract class EngineModule {
      * Registers an Engine Module so that it receives lifecycle events
      * @param module
      */
-    public void registerModule(EngineModule module){
+    public void registerModule(AbstractEngineModule module){
         if(isFinished())
             throw new IllegalStateException("Module has finished");
         this.registeredModules.add(module);
     }
 
-    public void unregisterModule(EngineModule module) {
+    /**
+     * Unregisters an Engine Module
+     * @param module
+     */
+    public void unregisterModule(AbstractEngineModule module) {
         if(isFinished())
             throw new IllegalStateException("Module has finished");
         this.registeredModules.remove(module);
     }
 
+    /**
+     * GL Surface Changed event
+     * @param gl10
+     * @param screenWidth
+     * @param screenHeight
+     * @param viewport
+     */
     protected void onSurfaceChanged(GL10 gl10, int screenWidth, int screenHeight, MathUtil.Rect2I viewport)
     {
         this.registeredModules.forEach((module)->module.onSurfaceChanged(gl10, screenWidth, screenHeight, viewport));
     }
+
+    /**
+     * GL Surface Created event
+     * @param gl10
+     * @param config
+     */
     protected void onSurfaceCreated(GL10 gl10, EGLConfig config){
         this.registeredModules.forEach((module)->module.onSurfaceCreated(gl10, config));
     }
@@ -53,7 +76,7 @@ public abstract class EngineModule {
             return;
 
         Collections.reverse(this.registeredModules);
-        this.registeredModules.forEach(EngineModule::finish);
+        this.registeredModules.forEach(AbstractEngineModule::finish);
         this.registeredModules.clear();
         finished = true;
         Logger.getLogger(getClass().getName()).info("Finished");

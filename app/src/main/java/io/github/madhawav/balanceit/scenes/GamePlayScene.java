@@ -50,7 +50,7 @@ public class GamePlayScene extends UIElementScene {
 
             @Override
             public void onLevelUp() {
-                getGame().getVibrator().vibrate(200);
+                getGame().getVibrator().vibrate(0.2f);
             }
         });
     }
@@ -151,5 +151,10 @@ public class GamePlayScene extends UIElementScene {
         }
 
         updateWarningLayer();
+    }
+
+    @Override
+    protected void onFinish() {
+
     }
 }

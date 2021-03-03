@@ -6,6 +6,9 @@ import java.nio.FloatBuffer;
 
 import io.github.madhawav.gameengine.MathUtil;
 
+/**
+ * A 3D Mesh.
+ */
 public class Geometry {
     private FloatBuffer positions;
     private FloatBuffer normals;
@@ -41,16 +44,11 @@ public class Geometry {
         return textureCoordinates;
     }
 
+    /**
+     * Generates a mesh of a square centered at origin, in the XY plane. Each side has a unit length.
+     * @return
+     */
     public static Geometry generateSquareGeometry() {
-//        final float[] squarePositionData =
-//                {
-//                        0, 0, 0,
-//                        0, -1, 0,
-//                        1, 0, 0,
-//                        0, -1, 0,
-//                        1, -1, 0,
-//                        1, 0, 0,
-//                };
 
         final float[] squarePositionData =
                 {
@@ -100,6 +98,13 @@ public class Geometry {
     }
 
 
+    /**
+     * Generates geometry of a sphere.
+     * @param radi
+     * @param yawSegCount
+     * @param pitchSegCount
+     * @return
+     */
     public static Geometry generateSphereGeometry(float radi, int yawSegCount, int pitchSegCount)
     {
 
@@ -218,6 +223,10 @@ public class Geometry {
         return new Geometry(mSpherePositions, mSphereNormals, mSphereTextureCoordinates, sphereVertexCount);
     }
 
+    /**
+     * Return number of vertices
+     * @return
+     */
     public int getVertexCount() {
         return vertexCount;
     }
