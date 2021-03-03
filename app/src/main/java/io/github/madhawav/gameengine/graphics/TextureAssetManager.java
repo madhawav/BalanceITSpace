@@ -12,12 +12,13 @@ import java.util.logging.Logger;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import io.github.madhawav.gameengine.coreengine.AbstractAssetManager;
 import io.github.madhawav.gameengine.coreengine.EngineModule;
 
 /**
  * Manager of resource backed textures
  */
-public class TextureAssetManager extends EngineModule {
+public class TextureAssetManager extends AbstractAssetManager {
     private final Context context;
     private final Map<Integer, Texture> resourceTextureMap;
     private final Map<EngineModule, Set<Texture>> ownerTexturesMap;
@@ -66,6 +67,7 @@ public class TextureAssetManager extends EngineModule {
             textureOwnerMap.get(texture).forEach((owner)->ownerTexturesMap.get(owner).remove(texture));
         }
         textureOwnerMap.remove(texture);
+        unregisterModule(texture);
         texture.finish();
     }
 
@@ -77,21 +79,6 @@ public class TextureAssetManager extends EngineModule {
         }
     }
 
-    /**
-     * Revoke ownerships by the owner. Dispose if nobody holds.
-     * @param owner
-     */
-    public void revokeTextures(EngineModule owner){
-        Logger.getLogger(getClass().getName()).info("Revoking resources owned by " + owner.toString());
-
-        if(!this.ownerTexturesMap.containsKey(owner))
-            return; // Doesn't hold any textures
-
-        this.ownerTexturesMap.get(owner).forEach(texture -> { // Iterate over textures and remove ownership
-            revokeTexture(texture, owner);
-        });
-        this.ownerTexturesMap.remove(owner);
-    }
 
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig config){
@@ -107,5 +94,22 @@ public class TextureAssetManager extends EngineModule {
         this.ownerTexturesMap.clear();
         this.textureOwnerMap.clear();
         super.finish();
+    }
+
+    /**
+     * Revoke ownerships by the owner. Dispose if nobody holds.
+     * @param owner
+     */
+    @Override
+    public void revokeResources(EngineModule owner) {
+        Logger.getLogger(getClass().getName()).info("Revoking resources owned by " + owner.toString());
+
+        if(!this.ownerTexturesMap.containsKey(owner))
+            return; // Doesn't hold any textures
+
+        this.ownerTexturesMap.get(owner).forEach(texture -> { // Iterate over textures and remove ownership
+            revokeTexture(texture, owner);
+        });
+        this.ownerTexturesMap.remove(owner);
     }
 }

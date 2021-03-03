@@ -22,17 +22,20 @@ import io.github.madhawav.gameengine.graphics.TextureAssetManager;
  */
 public abstract class AbstractGame extends EngineModule {
     private final Context context;
-    private final EngineSurfaceView surfaceView;
-    private final EngineGLRenderer renderer;
+    private final EngineSurfaceView surfaceView; // Used to capture touch events
+    private final EngineGLRenderer renderer; // OpenGL Renderer
 
     private long lastUpdateTime; // nanoTime of most recent update event
 
+    // Timer for update events
     private TimerTask updateTask;
     private Timer updateTimer;
-    private Map<SensorType, AbstractSensor> sensors;
-    private long updateRateMillis;
+    private long updateRateMillis; // interval for onUpdate calls
 
-    private TextureAssetManager textureAssetManager;
+    // Sensors
+    private Map<SensorType, AbstractSensor> sensors;
+
+    private AbstractAssetManager assetManager;
     private GameState gameState;
     private MathUtil.Rect2I viewport;
 
@@ -46,8 +49,9 @@ public abstract class AbstractGame extends EngineModule {
         this.context = context;
 
         this.updateRateMillis = gameDescription.getUpdateRateMillis();
-        this.textureAssetManager = new TextureAssetManager(context);
-        registerModule(this.textureAssetManager);
+//        this.textureAssetManager = new TextureAssetManager(context);
+        this.assetManager = gameDescription.getAssetManager();
+        registerModule(this.assetManager);
 
         this.sensors = new HashMap<>();
 
@@ -118,8 +122,8 @@ public abstract class AbstractGame extends EngineModule {
         return context;
     }
 
-    public TextureAssetManager getTextureAssetManager() {
-        return textureAssetManager;
+    public AbstractAssetManager getAssetManager() {
+        return assetManager;
     }
 
     private void initializeSensors(GameDescription gameDescription){
@@ -229,7 +233,7 @@ public abstract class AbstractGame extends EngineModule {
      * Finish the game.
      */
     public void finish(){
-        textureAssetManager.revokeTextures(this);
+//        textureAssetManager.revokeTextures(this);
         this.gameState = GameState.FINISHED;
         super.finish();
     }

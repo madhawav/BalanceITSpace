@@ -10,6 +10,7 @@ import io.github.madhawav.balanceit.gameplay.GameParameters;
 import io.github.madhawav.balanceit.gameplay.GameState;
 
 import io.github.madhawav.gameengine.MathUtil;
+import io.github.madhawav.gameengine.graphics.TextureAssetManager;
 import io.github.madhawav.gameengine.ui.AbstractUIElement;
 import io.github.madhawav.gameengine.ui.GraphicsContext;
 import io.github.madhawav.gameengine.ui.LayeredUI;
@@ -58,7 +59,7 @@ public class GamePlayScene extends UIElementScene {
     @Override
     protected AbstractUIElement getUIElement() {
         BalanceITGame game = (BalanceITGame)getGame();
-        graphicsContext = new GraphicsContext( game.getGraphicsEngine(), game.getSpriteEngine(), game.getTextureAssetManager(), game);
+        graphicsContext = new GraphicsContext( game.getGraphicsEngine(), game.getSpriteEngine(), (TextureAssetManager) game.getAssetManager(), game);
 
         gamePlayLayer = new GamePlayLayer(gameState, gameParameters.getBoardSize(), graphicsContext);
 

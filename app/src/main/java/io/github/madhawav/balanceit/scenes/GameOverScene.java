@@ -4,6 +4,7 @@ import io.github.madhawav.balanceit.BalanceITGame;
 
 import io.github.madhawav.balanceit.gameplay.GameParameters;
 import io.github.madhawav.gameengine.MathUtil;
+import io.github.madhawav.gameengine.graphics.TextureAssetManager;
 import io.github.madhawav.gameengine.ui.AbstractUIElement;
 import io.github.madhawav.gameengine.ui.GraphicsContext;
 import io.github.madhawav.gameengine.ui.Label;
@@ -19,7 +20,7 @@ public class GameOverScene extends UIElementScene {
     @Override
     protected AbstractUIElement getUIElement() {
         game = (BalanceITGame)getGame();
-        GraphicsContext graphicsContext = new GraphicsContext( game.getGraphicsEngine(), game.getSpriteEngine(), game.getTextureAssetManager(), game);
+        GraphicsContext graphicsContext = new GraphicsContext( game.getGraphicsEngine(), game.getSpriteEngine(), (TextureAssetManager) game.getAssetManager(), game);
         label = new Label(graphicsContext, "Game Over. Tap to restart.", 256, 0, 0, 256, 256, new MathUtil.Vector4(1,0,0,1), 48);
         return label;
 

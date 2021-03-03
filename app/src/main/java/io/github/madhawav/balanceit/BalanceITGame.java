@@ -6,6 +6,7 @@ import io.github.madhawav.balanceit.gameplay.GameParameters;
 import io.github.madhawav.balanceit.opengleslearn.R;
 import io.github.madhawav.balanceit.scenes.GamePlayScene;
 
+import io.github.madhawav.gameengine.graphics.TextureAssetManager;
 import io.github.madhawav.gameengine.multiscene.AbstractMultiSceneGame;
 import io.github.madhawav.gameengine.multiscene.AbstractScene;
 import io.github.madhawav.gameengine.ResourceUtil;
@@ -24,7 +25,7 @@ public class BalanceITGame extends AbstractMultiSceneGame {
     private SpriteEngine spriteEngine;
 
     public BalanceITGame(Context context) {
-        super(context, new GameDescription(30, true,  720.0f/1280.0f, true));
+        super(context, new GameDescription(30, true,  720.0f/1280.0f, true, new TextureAssetManager(context)));
 
         AbstractShader shader = new BasicShader(
                 ResourceUtil.readTextFileFromRawResource(context, R.raw.shader_vs),

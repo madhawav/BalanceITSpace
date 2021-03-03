@@ -5,12 +5,19 @@ public final class GameDescription {
     private boolean useGravitySensor;
     private float aspectRatio;
     private boolean useVibrator;
+    private AbstractAssetManager assetManager;
 
-    public GameDescription(int updateRateMillis, boolean useGravitySensor, float aspectRatio, boolean useVibrator){
+
+    public GameDescription(int updateRateMillis, boolean useGravitySensor, float aspectRatio, boolean useVibrator, AbstractAssetManager assetManager){
         this.updateRateMillis = updateRateMillis;
         this.useGravitySensor = useGravitySensor;
         this.aspectRatio = aspectRatio;
         this.useVibrator = useVibrator;
+        this.assetManager = assetManager;
+    }
+
+    public AbstractAssetManager getAssetManager() {
+        return assetManager;
     }
 
     public boolean isUseVibrator() {
