@@ -16,5 +16,5 @@ The following is a screenshot from the newly developed version.
 <img src="docs/preview.jpg" height="350"> <span></span>   <img src="docs/preview2.jpg" height="350">
 
 The codebase consists of two sections:
- 1) [The Game](app/src/main/java/io/github/madhawav/balanceit)
- 2) [The Game Engine](app/src/main/java/io/github/madhawav/gameengine): Consists of core game engine which provides onUpdate and onRender calls. The graphics package wraps OpenGL ES 2.0 library using a 3D graphics engine and a sprite engine. Multi-scene package allow swapping between scenes (E.g. gameplay scene, game over scene). The UI package implements common UI elements such as Label, ImageButton and Image etc. 
+ 1) [The Game](app/src/main/java/io/github/madhawav/balanceit): Implements the gameplay scene, game over scene and the gameplay logic.
+ 2) [The Game Engine](app/src/main/java/io/github/madhawav/gameengine): Consists of core game engine which provides onUpdate and onRender calls. The graphics package wraps OpenGL ES 2.0 library using a 3D graphics engine and a sprite engine. Multi-scene package allow swapping between scenes (E.g. gameplay scene, game over scene). The UI package implements common UI elements such as Label, ImageButton, Image etc. 
