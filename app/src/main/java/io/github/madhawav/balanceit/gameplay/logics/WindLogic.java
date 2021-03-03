@@ -1,9 +1,15 @@
-package io.github.madhawav.balanceit.gameplay;
+package io.github.madhawav.balanceit.gameplay.logics;
 
 import java.util.Random;
 
+import io.github.madhawav.balanceit.gameplay.GameParameters;
+import io.github.madhawav.balanceit.gameplay.GameState;
+import io.github.madhawav.balanceit.gameplay.ParticleState;
 import io.github.madhawav.gameengine.MathUtil;
 
+/**
+ * Logic implementing the effect of wind and particles (meteors).
+ */
 public class WindLogic extends AbstractLogic {
     private Random ran;
     private GameState gameState;
@@ -20,16 +26,6 @@ public class WindLogic extends AbstractLogic {
 
         float delta=gameState.getTargetWindStrength()-gameState.getWindStrength();
         delta = (float) (Math.min(Math.abs(delta), maxChange) * Math.sin(delta));
-//        if(delta>0)
-//        {
-//            delta=Math.min(delta,maxChange);
-//            gameState.setWindStrength(gameState.getWindStrength() + delta);
-//        }
-//        else if(delta<0)
-//        {
-//            delta=Math.max(delta, -maxChange);
-//
-//        }
         gameState.setWindStrength(gameState.getWindStrength() + delta);
     }
 
@@ -78,7 +74,7 @@ public class WindLogic extends AbstractLogic {
         MathUtil.Vector3 wind = gameState.getWindVector();
         wind.multiply(gameParameters.getParticleSpeedMultiplier());
 
-        for(Particle particle: gameState.getParticles()){
+        for(ParticleState particle: gameState.getParticles()){
             if(particle.isEnabled()){
                 MathUtil.Vector3 scaledVelocity = particle.getVelocity().clone();
                 scaledVelocity.multiply((float) (elapsedSec * gameParameters.getTimeScale()));

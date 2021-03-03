@@ -1,7 +1,12 @@
-package io.github.madhawav.balanceit.gameplay;
+package io.github.madhawav.balanceit.gameplay.logics;
 
+import io.github.madhawav.balanceit.gameplay.GameParameters;
+import io.github.madhawav.balanceit.gameplay.GameState;
 import io.github.madhawav.gameengine.MathUtil;
 
+/**
+ * Logic on movement of ball on the deck.
+ */
 public class BallLogic extends AbstractLogic {
     private GameState gameState;
     private GameParameters gameParameters;

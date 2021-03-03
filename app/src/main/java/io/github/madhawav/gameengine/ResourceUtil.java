@@ -1,4 +1,4 @@
-package io.github.madhawav.gameengine.multiscene;
+package io.github.madhawav.gameengine;
 
 import android.content.Context;
 

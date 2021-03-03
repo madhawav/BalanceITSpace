@@ -14,7 +14,7 @@ import io.github.madhawav.gameengine.ui.GraphicsContext;
 
 
 /**
- * This layer contains the deck (space ship_ and the ball.
+ * This layer renders the deck, the spaceship and the ball.
  */
 public class GamePlayLayer extends AbstractUIElement {
     private static final float REFERENCE_WIDTH = 720f;

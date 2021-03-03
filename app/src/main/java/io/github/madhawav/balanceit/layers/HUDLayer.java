@@ -14,7 +14,7 @@ import io.github.madhawav.gameengine.ui.LayeredUI;
 import io.github.madhawav.gameengine.ui.Rectangle;
 
 /**
- * This layer contains indicators such as current level, level completion progressbar, score, score multiplier, paused indicator.
+ * This layer renders indicators such as current level, level completion progressbar, score, score multiplier and pause indicator.
  */
 public class HUDLayer extends LayeredUI {
     private Callback callback;

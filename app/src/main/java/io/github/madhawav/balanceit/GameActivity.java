@@ -10,22 +10,20 @@ import androidx.annotation.NonNull;
 
 import io.github.madhawav.gameengine.graphics.Texture;
 
+/**
+ * Android activity hosting the game
+ */
 public class GameActivity extends Activity {
-    private GLSurfaceView gLView;
     private BalanceITGame game;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        this.game = new BalanceITGame(this);
+        setContentView(this.game.getSurfaceView());
 
-        // Create a GLSurfaceView instance and set it
-        // as the ContentView for this Activity.
-        this.game = new BalanceITGame(this, savedInstanceState);
-        this.gLView = this.game.getSurfaceView();
-        setContentView(gLView);
-
-        this.game.start(); // Puts game to paused state
+        this.game.start(); // Puts the game engine to paused state
     }
 
     @Override
@@ -36,13 +34,13 @@ public class GameActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        this.game.resume();
+        this.game.resume(); // Resumes the game engine
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        this.game.pause();
+        this.game.pause(); // Pauses the game engine
     }
 
     @Override

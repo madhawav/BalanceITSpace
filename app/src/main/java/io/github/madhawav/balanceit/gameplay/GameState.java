@@ -2,10 +2,15 @@ package io.github.madhawav.balanceit.gameplay;
 
 import io.github.madhawav.gameengine.MathUtil;
 
+/**
+ * Keeps track of state of game-play.
+ * The initial GameState is created based on a provided GameParameters object.
+ * Afterwards, the GameState is updated using the different logics of the game.
+ */
 public class GameState{
     private MathUtil.Vector3 ballPosition;
     private MathUtil.Vector3 ballVelocity;
-    private Particle[] particles;
+    private ParticleState[] particles;
     private int activeParticleCount;
 
     private float windStrength;
@@ -40,9 +45,9 @@ public class GameState{
     public void loadFromGameParameters(GameParameters gameParameters){
         ballPosition = new MathUtil.Vector3();
         ballVelocity = new MathUtil.Vector3();
-        particles = new Particle[gameParameters.getMaxParticleCount()];
+        particles = new ParticleState[gameParameters.getMaxParticleCount()];
         for(int i = 0; i < particles.length; i++)
-            particles[i] = new Particle();
+            particles[i] = new ParticleState();
 
         activeParticleCount = 0;
         windStrength = gameParameters.getInitialWindStrength();
@@ -195,7 +200,7 @@ public class GameState{
         this.levelMaxWindStrength = levelMaxWindStrength;
     }
 
-    public Particle[] getParticles() {
+    public ParticleState[] getParticles() {
         return particles;
     }
 

@@ -5,7 +5,7 @@ import io.github.madhawav.balanceit.layers.GamePlayLayer;
 import io.github.madhawav.balanceit.layers.HUDLayer;
 import io.github.madhawav.balanceit.BalanceITGame;
 import io.github.madhawav.balanceit.layers.SpaceBackgroundLayer;
-import io.github.madhawav.balanceit.gameplay.GameLogic;
+import io.github.madhawav.balanceit.gameplay.logics.GameLogic;
 import io.github.madhawav.balanceit.gameplay.GameParameters;
 import io.github.madhawav.balanceit.gameplay.GameState;
 
@@ -38,13 +38,13 @@ public class GamePlayScene extends UIElementScene {
     private BalanceAssistanceLayer balanceAssistanceLayer;
     private GamePlayLayer gamePlayLayer;
 
-    public GamePlayScene(){
-        gameParameters = new GameParameters(); // Switch GameParameters to adjust difficulty of the game.
+    public GamePlayScene(GameParameters gameParameters){
+        this.gameParameters = gameParameters;
         gameState = new GameState(gameParameters);
         gameLogic = new GameLogic(gameState,gameParameters , new GameLogic.Callback() {
             @Override
             public void onGameOver() {
-                getGame().swapScene(new MyScene2());
+                getGame().swapScene(new GameOverScene());
             }
 
             @Override
@@ -80,7 +80,7 @@ public class GamePlayScene extends UIElementScene {
 
             @Override
             public void onExit() {
-                game.swapScene(new MyScene2());
+                game.swapScene(new GameOverScene());
             }
         });
 
@@ -150,7 +150,5 @@ public class GamePlayScene extends UIElementScene {
         }
 
         updateWarningLayer();
-
-
     }
 }

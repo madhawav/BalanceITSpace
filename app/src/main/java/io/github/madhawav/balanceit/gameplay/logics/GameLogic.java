@@ -1,7 +1,12 @@
-package io.github.madhawav.balanceit.gameplay;
+package io.github.madhawav.balanceit.gameplay.logics;
 
+import io.github.madhawav.balanceit.gameplay.GameParameters;
+import io.github.madhawav.balanceit.gameplay.GameState;
 import io.github.madhawav.gameengine.MathUtil;
 
+/**
+ * Main logic of the game incorporating the BallLogic, LevelLogic, ScoreLogic, WarmUpModeLogic, WindLogic etc.
+ */
 public class GameLogic extends AbstractLogic{
     private GameState gameState;
     private GameParameters gameParameters;

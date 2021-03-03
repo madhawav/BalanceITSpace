@@ -2,12 +2,15 @@ package io.github.madhawav.balanceit.gameplay;
 
 import io.github.madhawav.gameengine.MathUtil;
 
-public class Particle {
+/**
+ * State of a particle (meteor)
+ */
+public class ParticleState {
     private boolean enabled;
     private MathUtil.Vector3 position;
     private MathUtil.Vector3 velocity;
 
-    public Particle(){
+    public ParticleState(){
         this.enabled = false;
         this.position = new MathUtil.Vector3();
         this.velocity = new MathUtil.Vector3();

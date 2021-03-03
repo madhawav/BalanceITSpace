@@ -1,15 +1,14 @@
 package io.github.madhawav.balanceit;
 
 import android.content.Context;
-import android.os.Bundle;
 
+import io.github.madhawav.balanceit.gameplay.GameParameters;
 import io.github.madhawav.balanceit.opengleslearn.R;
 import io.github.madhawav.balanceit.scenes.GamePlayScene;
-import io.github.madhawav.balanceit.scenes.MyScene2;
 
 import io.github.madhawav.gameengine.multiscene.AbstractMultiSceneGame;
 import io.github.madhawav.gameengine.multiscene.AbstractScene;
-import io.github.madhawav.gameengine.multiscene.ResourceUtil;
+import io.github.madhawav.gameengine.ResourceUtil;
 import io.github.madhawav.gameengine.coreengine.GameDescription;
 import io.github.madhawav.gameengine.graphics.AbstractShader;
 import io.github.madhawav.gameengine.graphics.BasicShader;
@@ -17,12 +16,14 @@ import io.github.madhawav.gameengine.graphics.GraphicsEngine;
 import io.github.madhawav.gameengine.graphics.GraphicsEngineDescription;
 import io.github.madhawav.gameengine.graphics.SpriteEngine;
 
+/**
+ * The entry point of the game. This is a multi-scene game. (E.g. Game-play scene, GameOver scene)
+ */
 public class BalanceITGame extends AbstractMultiSceneGame {
     private GraphicsEngine graphicsEngine;
     private SpriteEngine spriteEngine;
 
-
-    public BalanceITGame(Context context, Bundle savedInstanceState) {
+    public BalanceITGame(Context context) {
         super(context, new GameDescription(30, true,  720.0f/1280.0f, true));
 
         AbstractShader shader = new BasicShader(
@@ -46,9 +47,13 @@ public class BalanceITGame extends AbstractMultiSceneGame {
         return spriteEngine;
     }
 
+    /**
+     * Return the initial scene.
+     * @return
+     */
     @Override
     public AbstractScene getInitialScene() {
-        return new GamePlayScene();
+        return new GamePlayScene(new GameParameters());
     }
 }
 

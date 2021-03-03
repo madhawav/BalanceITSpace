@@ -9,4 +9,4 @@ Everything is developed directly on top of the OpenGL ES library available with 
 
 The codebase consists of two sections:
  1) [The Game](app/src/main/java/io/github/madhawav/balanceit)
- 2) [The Game Engine]((app/src/main/java/io/github/madhawav/gameengine))
+ 2) [The Game Engine](app/src/main/java/io/github/madhawav/gameengine)

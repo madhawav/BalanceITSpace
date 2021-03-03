@@ -1,7 +1,12 @@
-package io.github.madhawav.balanceit.gameplay;
+package io.github.madhawav.balanceit.gameplay.logics;
 
+import io.github.madhawav.balanceit.gameplay.GameParameters;
+import io.github.madhawav.balanceit.gameplay.GameState;
 import io.github.madhawav.gameengine.MathUtil;
 
+/**
+ * Logic that implements the warm-up mode at the start of a game.
+ */
 public class WarmUpModeLogic extends AbstractLogic {
     private GameState gameState;
     private GameParameters gameParameters;

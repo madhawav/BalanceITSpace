@@ -1,8 +1,13 @@
-package io.github.madhawav.balanceit.gameplay;
+package io.github.madhawav.balanceit.gameplay.logics;
 
 
+import io.github.madhawav.balanceit.gameplay.GameParameters;
+import io.github.madhawav.balanceit.gameplay.GameState;
 import io.github.madhawav.gameengine.MathUtil;
 
+/**
+ * Logic related to automatic level with time progression.
+ */
 public class LevelLogic extends AbstractLogic {
     private GameState gameState;
     private GameParameters gameParameters;
