@@ -9,7 +9,7 @@ This code repository is a re-implementation of that same game using a better-des
 So far, I have completed the implementation of game-play stage.
 The development of menus is future work. 
 As before, everything is developed directly on top of the OpenGL ES library available with Android SDK using Java.
-I have added a new game engine layer developed by me to issolate the game code from the platform.
+I have developed a new game engine layer which implements low-level features while issolating the game code from the platform.
 
 The following is a screenshot from the newly developed version.
 
@@ -17,4 +17,4 @@ The following is a screenshot from the newly developed version.
 
 The codebase consists of two sections:
  1) [The Game](app/src/main/java/io/github/madhawav/balanceit)
- 2) [The Game Engine](app/src/main/java/io/github/madhawav/gameengine)
+ 2) [The Game Engine](app/src/main/java/io/github/madhawav/gameengine): Consists of core game engine which provides onUpdate and onRender calls. The graphics package wraps OpenGL ES 2.0 library using a 3D graphics engine and a sprite engine. Multi-scene package allow swapping between scenes (E.g. gameplay scene, game over scene). The UI package implements common UI elements such as Label, ImageButton and Image etc. 
