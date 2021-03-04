@@ -24,7 +24,7 @@ public class BalanceAssistanceLayer extends LayeredUI {
         GraphicsEngine graphicsEngine = graphicsContext.getGraphicsEngine();
 
 
-        Image image = new Image(graphicsContext, R.drawable.hold_balanced, (float) graphicsEngine.getViewportWidth()/2-200, (float)graphicsEngine.getViewportHeight() * 2/3 - 100, 400, 400);
+        Image image = new Image(graphicsContext, R.drawable.hold_balanced, (float) graphicsEngine.getViewportWidth() / 2 - 200, (float) graphicsEngine.getViewportHeight() * 2 / 3 - 100, 400, 400);
         addElement(image);
 
         crossHairMarker = new Image(graphicsContext, R.drawable.aim, -100, -100, 100, 100);
@@ -35,7 +35,7 @@ public class BalanceAssistanceLayer extends LayeredUI {
     public void onUpdate(double elapsedSec) {
         super.onUpdate(elapsedSec);
         MathUtil.Vector3 gravity = gravitySensor.getGravity().copy();
-        gravity.multiply(1.0f/gravity.getLength());
+        gravity.multiply(1.0f / gravity.getLength());
         crossHairMarker.setX(camOffset.getX() - gravity.getX() * getGraphicsContext().getGraphicsEngine().getViewportWidth() - 50);
         crossHairMarker.setY(camOffset.getY() + gravity.getY() * getGraphicsContext().getGraphicsEngine().getViewportHeight() - 50);
     }

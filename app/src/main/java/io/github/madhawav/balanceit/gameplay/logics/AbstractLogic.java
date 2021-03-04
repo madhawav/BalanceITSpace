@@ -8,40 +8,44 @@ import io.github.madhawav.gameengine.MathUtil;
 public abstract class AbstractLogic {
     private final List<AbstractLogic> registeredLogics;
     private double logicTime;
-    public AbstractLogic(){
+
+    public AbstractLogic() {
         this.registeredLogics = new ArrayList<>();
         this.logicTime = 0;
     }
 
     /**
      * Register a sub-logic. onUpdate and onLevelUp events are propagated to registered sub-logics.
+     *
      * @param logic Sublogic to register
      */
-    public void registerLogic(AbstractLogic logic){
+    public void registerLogic(AbstractLogic logic) {
         this.registeredLogics.add(logic);
     }
 
     /**
      * Notify an update to self and any sub-logics registered.
+     *
      * @param elapsedSec Elapsed time in seconds
-     * @param gravity Gravity sensor vector
+     * @param gravity    Gravity sensor vector
      */
-    public void update(double elapsedSec, MathUtil.Vector3 gravity){
+    public void update(double elapsedSec, MathUtil.Vector3 gravity) {
         logicTime += elapsedSec;
         onUpdate(elapsedSec, gravity);
-        registeredLogics.forEach(logic->logic.update(elapsedSec, gravity));
+        registeredLogics.forEach(logic -> logic.update(elapsedSec, gravity));
     }
 
     /**
      * Notifies the logic to update the game state for a level up.
      */
-    public void levelUp(){
+    public void levelUp() {
         this.onLevelUp();
         registeredLogics.forEach(AbstractLogic::levelUp);
     }
 
     /**
      * Returns time in seconds since start of logic.
+     *
      * @return time in seconds since start of logic
      */
     public double getLogicTime() {
@@ -51,14 +55,15 @@ public abstract class AbstractLogic {
     /**
      * Override to implement the on level-up state update logic.
      */
-    protected void onLevelUp(){
+    protected void onLevelUp() {
 
     }
 
     /**
      * Update game state,
+     *
      * @param elapsedTime Elapsed time in seconds since last update
-     * @param gravity Gravity vector from sensor
+     * @param gravity     Gravity vector from sensor
      */
     protected abstract void onUpdate(double elapsedTime, MathUtil.Vector3 gravity);
 }

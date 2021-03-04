@@ -16,12 +16,13 @@ public final class GraphicsContext {
 
     /**
      * Creates a graphics context object
-     * @param graphicsEngine Graphics Engine used for rendering
-     * @param spriteEngine Sprite Engine used for rendering
+     *
+     * @param graphicsEngine      Graphics Engine used for rendering
+     * @param spriteEngine        Sprite Engine used for rendering
      * @param textureAssetManager Asset manager of textures
-     * @param userData User data
+     * @param userData            User data
      */
-    public GraphicsContext(GraphicsEngine graphicsEngine, SpriteEngine spriteEngine, TextureAssetManager textureAssetManager, Object userData){
+    public GraphicsContext(GraphicsEngine graphicsEngine, SpriteEngine spriteEngine, TextureAssetManager textureAssetManager, Object userData) {
         this.graphicsEngine = graphicsEngine;
         this.spriteEngine = spriteEngine;
         this.textureAssetManager = textureAssetManager;
@@ -47,6 +48,7 @@ public final class GraphicsContext {
 
     /**
      * Retrieve opacity multiplier. Opacity multiplier is used to compound opacity of ancestors to a child element.
+     *
      * @return opacity multiplier
      */
     public float getOpacity() {
@@ -55,6 +57,7 @@ public final class GraphicsContext {
 
     /**
      * Set opacity multiplier. Opacity multiplier is used to compound opacity of ancestors to a child element.
+     *
      * @param opacity opacity multiplier
      */
     public void setOpacity(float opacity) {

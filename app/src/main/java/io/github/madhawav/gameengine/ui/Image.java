@@ -19,12 +19,13 @@ public class Image extends AbstractUIElement {
 
     /**
      * Creates an Image UI Element.
+     *
      * @param graphicsContext Graphics content to bind to
      * @param imageResourceId Android resource containing the image
-     * @param x X coordinate of top left corner
-     * @param y Y coordinate of top left corner
-     * @param width Width of image
-     * @param height Height of image
+     * @param x               X coordinate of top left corner
+     * @param y               Y coordinate of top left corner
+     * @param width           Width of image
+     * @param height          Height of image
      */
     public Image(GraphicsContext graphicsContext, int imageResourceId, float x, float y, float width, float height) {
         super(graphicsContext);
@@ -42,7 +43,7 @@ public class Image extends AbstractUIElement {
     }
 
     public void setImageResourceId(int imageResourceId) {
-        if(imageResourceId == this.imageResourceId)
+        if (imageResourceId == this.imageResourceId)
             return;
         this.imageResourceId = imageResourceId;
         dirty = true;
@@ -51,8 +52,8 @@ public class Image extends AbstractUIElement {
     /**
      * Unloads current texture and loads specified texture
      */
-    private void invalidate(){
-        if(this.texture != null){
+    private void invalidate() {
+        if (this.texture != null) {
             getGraphicsContext().getTextureAssetManager().revokeTexture(this.texture, this); //Revoke claim to the current texture
             this.texture = null;
         }
@@ -73,12 +74,12 @@ public class Image extends AbstractUIElement {
 
     @Override
     public void onRender(GL10 gl10) {
-        if(!isVisible())
+        if (!isVisible())
             return;
-        if(dirty)
+        if (dirty)
             invalidate();
 
-        getGraphicsContext().getSpriteEngine().drawSpriteAA(texture, x, y, width, height, z,getOpacity() * getGraphicsContext().getOpacity());
+        getGraphicsContext().getSpriteEngine().drawSpriteAA(texture, x, y, width, height, z, getOpacity() * getGraphicsContext().getOpacity());
     }
 
     @Override
@@ -96,36 +97,36 @@ public class Image extends AbstractUIElement {
         return false;
     }
 
-    public void setWidth(float width) {
-        this.width = width;
+    public float getHeight() {
+        return height;
     }
 
     public void setHeight(float height) {
         this.height = height;
     }
 
-    public float getHeight() {
-        return height;
-    }
-
     public float getWidth() {
         return width;
     }
 
-    public void setX(float x) {
-        this.x = x;
+    public void setWidth(float width) {
+        this.width = width;
     }
 
     public float getX() {
         return x;
     }
 
-    public void setY(float y) {
-        this.y = y;
+    public void setX(float x) {
+        this.x = x;
     }
 
     public float getY() {
         return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
     }
 
     public float getZ() {

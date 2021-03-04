@@ -13,7 +13,7 @@ public class LevelLogic extends AbstractLogic {
     private final GameParameters gameParameters;
     private final Callback callback;
 
-    public LevelLogic(GameState gameState, GameParameters gameParameters, Callback callback){
+    public LevelLogic(GameState gameState, GameParameters gameParameters, Callback callback) {
         this.gameParameters = gameParameters;
         this.gameState = gameState;
         this.callback = callback;
@@ -30,12 +30,12 @@ public class LevelLogic extends AbstractLogic {
     @Override
     protected void onUpdate(double elapsedSec, MathUtil.Vector3 gravity) {
         gameState.setLevelRemainTime(gameState.getLevelRemainTime() - elapsedSec * 10);
-        if(gameState.getLevelRemainTime() <= 0){
+        if (gameState.getLevelRemainTime() <= 0) {
             callback.onLevelUp();
         }
     }
 
-    public interface Callback{
+    public interface Callback {
         void onLevelUp();
     }
 }

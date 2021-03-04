@@ -17,57 +17,60 @@ import io.github.madhawav.gameengine.MathUtil;
  * A module should release its GL resources when finish is called.
  */
 public abstract class AbstractEngineModule {
-    private boolean finished = false;
     private final List<AbstractEngineModule> registeredModules;
-    public AbstractEngineModule(){
+    private boolean finished = false;
+
+    public AbstractEngineModule() {
         this.registeredModules = new ArrayList<>();
     }
 
-    protected boolean isFinished(){
+    protected boolean isFinished() {
         return finished;
     }
 
     /**
      * Registers an Engine Module so that it receives lifecycle events
+     *
      * @param module Module to register
      */
-    public void registerModule(AbstractEngineModule module){
-        if(isFinished())
+    public void registerModule(AbstractEngineModule module) {
+        if (isFinished())
             throw new IllegalStateException("Module has finished");
         this.registeredModules.add(module);
     }
 
     /**
      * Unregisters an Engine Module
+     *
      * @param module Module to unregister
      */
     public void unregisterModule(AbstractEngineModule module) {
-        if(isFinished())
+        if (isFinished())
             throw new IllegalStateException("Module has finished");
         this.registeredModules.remove(module);
     }
 
     /**
      * GL Surface Changed event
+     *
      * @param viewport Rectangle specifying currently used OpenGL Viewport
      */
-    protected void onSurfaceChanged(GL10 gl10, int canvasWidth, int canvasHeight, MathUtil.Rect2I viewport)
-    {
-        this.registeredModules.forEach((module)->module.onSurfaceChanged(gl10, canvasWidth, canvasHeight, viewport));
+    protected void onSurfaceChanged(GL10 gl10, int canvasWidth, int canvasHeight, MathUtil.Rect2I viewport) {
+        this.registeredModules.forEach((module) -> module.onSurfaceChanged(gl10, canvasWidth, canvasHeight, viewport));
     }
 
     /**
      * GL Surface Created event
      */
-    protected void onSurfaceCreated(GL10 gl10, EGLConfig config){
-        this.registeredModules.forEach((module)->module.onSurfaceCreated(gl10, config));
+    protected void onSurfaceCreated(GL10 gl10, EGLConfig config) {
+        this.registeredModules.forEach((module) -> module.onSurfaceCreated(gl10, config));
     }
 
     /**
      * End life-cycle of the module. Propagate message to registered sub-modules
      */
-    public void finish(){
-        if(isFinished())
+    public void finish() {
+        if (isFinished())
             return;
 
         Collections.reverse(this.registeredModules);

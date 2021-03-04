@@ -10,22 +10,21 @@ import android.opengl.GLUtils;
  * Utility methods for 3D graphics rendering
  */
 public class GraphicsUtil {
-    private GraphicsUtil(){}
+    private GraphicsUtil() {
+    }
 
 
     /**
      * Helper function to compile a shader.
      *
-     * @param shaderType The shader type.
+     * @param shaderType   The shader type.
      * @param shaderSource The shader source code.
      * @return An OpenGL handle to the shader.
      */
-    static int compileShader(final int shaderType, final String shaderSource)
-    {
+    static int compileShader(final int shaderType, final String shaderSource) {
         int shaderHandle = GLES20.glCreateShader(shaderType);
 
-        if (shaderHandle != 0)
-        {
+        if (shaderHandle != 0) {
             // Pass in the shader source.
             GLES20.glShaderSource(shaderHandle, shaderSource);
 
@@ -37,15 +36,13 @@ public class GraphicsUtil {
             GLES20.glGetShaderiv(shaderHandle, GLES20.GL_COMPILE_STATUS, compileStatus, 0);
 
             // If the compilation failed, delete the shader.
-            if (compileStatus[0] == 0)
-            {
+            if (compileStatus[0] == 0) {
                 GLES20.glDeleteShader(shaderHandle);
                 shaderHandle = 0;
             }
         }
 
-        if (shaderHandle == 0)
-        {
+        if (shaderHandle == 0) {
             throw new RuntimeException("Error creating shader.");
         }
 
@@ -55,17 +52,15 @@ public class GraphicsUtil {
     /**
      * Helper function to compile and link a program.
      *
-     * @param vertexShaderHandle An OpenGL handle to an already-compiled vertex shader.
+     * @param vertexShaderHandle   An OpenGL handle to an already-compiled vertex shader.
      * @param fragmentShaderHandle An OpenGL handle to an already-compiled fragment shader.
-     * @param attributes Attributes that need to be bound to the program.
+     * @param attributes           Attributes that need to be bound to the program.
      * @return An OpenGL handle to the program.
      */
-    static int createAndLinkProgram(final int vertexShaderHandle, final int fragmentShaderHandle, final String[] attributes)
-    {
+    static int createAndLinkProgram(final int vertexShaderHandle, final int fragmentShaderHandle, final String[] attributes) {
         int programHandle = GLES20.glCreateProgram();
 
-        if (programHandle != 0)
-        {
+        if (programHandle != 0) {
             // Bind the vertex shader to the program.
             GLES20.glAttachShader(programHandle, vertexShaderHandle);
 
@@ -73,11 +68,9 @@ public class GraphicsUtil {
             GLES20.glAttachShader(programHandle, fragmentShaderHandle);
 
             // Bind attributes
-            if (attributes != null)
-            {
+            if (attributes != null) {
                 final int size = attributes.length;
-                for (int i = 0; i < size; i++)
-                {
+                for (int i = 0; i < size; i++) {
                     GLES20.glBindAttribLocation(programHandle, i, attributes[i]);
                 }
             }
@@ -90,15 +83,13 @@ public class GraphicsUtil {
             GLES20.glGetProgramiv(programHandle, GLES20.GL_LINK_STATUS, linkStatus, 0);
 
             // If the link failed, delete the program.
-            if (linkStatus[0] == 0)
-            {
+            if (linkStatus[0] == 0) {
                 GLES20.glDeleteProgram(programHandle);
                 programHandle = 0;
             }
         }
 
-        if (programHandle == 0)
-        {
+        if (programHandle == 0) {
             throw new RuntimeException("Error creating program.");
         }
 
@@ -107,20 +98,19 @@ public class GraphicsUtil {
 
     /**
      * Helper function to load a texture from a Android resource
-     * @param context Android context
+     *
+     * @param context    Android context
      * @param resourceId Android resource id
      * @return OpenGL Texture handle
      */
-    static int loadTexture(final Context context, final int resourceId)
-    {
+    static int loadTexture(final Context context, final int resourceId) {
         final int[] textureHandle = new int[1];
 
         GLES20.glGenTextures(1, textureHandle, 0);
 
-        if (textureHandle[0] != 0)
-        {
+        if (textureHandle[0] != 0) {
             final BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inScaled = false;	// No pre-scaling
+            options.inScaled = false;    // No pre-scaling
 
             // Read in the resource
             final Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId, options);
@@ -139,8 +129,7 @@ public class GraphicsUtil {
             bitmap.recycle();
         }
 
-        if (textureHandle[0] == 0)
-        {
+        if (textureHandle[0] == 0) {
             throw new RuntimeException("Error loading texture.");
         }
 

@@ -1,12 +1,11 @@
 package io.github.madhawav.balanceit.layers;
 
-import io.github.madhawav.balanceit.opengleslearn.R;
-import io.github.madhawav.balanceit.gameplay.GameState;
-
 import java.util.Arrays;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import io.github.madhawav.balanceit.gameplay.GameState;
+import io.github.madhawav.balanceit.opengleslearn.R;
 import io.github.madhawav.gameengine.MathUtil;
 import io.github.madhawav.gameengine.graphics.SpriteEngine;
 import io.github.madhawav.gameengine.ui.AbstractUIElement;
@@ -33,7 +32,7 @@ public class GamePlayLayer extends AbstractUIElement {
         super(graphicsContext);
         this.gameState = gameState;
         this.boardSize = boardSize;
-        camOffset = new MathUtil.Vector3(REFERENCE_WIDTH/2.0f, REFERENCE_HEIGHT/2.0f, 0f);
+        camOffset = new MathUtil.Vector3(REFERENCE_WIDTH / 2.0f, REFERENCE_HEIGHT / 2.0f, 0f);
     }
 
     @Override
@@ -43,11 +42,11 @@ public class GamePlayLayer extends AbstractUIElement {
 
     @Override
     public void onUpdate(double elapsedSec) {
-        camOffset.setX(-gameState.getBallPosition().getX() * REFERENCE_WIDTH / boardSize + REFERENCE_WIDTH/2.0f);
-        camOffset.setY(-gameState.getBallPosition().getY() * REFERENCE_HEIGHT / boardSize + REFERENCE_HEIGHT/2.0f);
+        camOffset.setX(-gameState.getBallPosition().getX() * REFERENCE_WIDTH / boardSize + REFERENCE_WIDTH / 2.0f);
+        camOffset.setY(-gameState.getBallPosition().getY() * REFERENCE_HEIGHT / boardSize + REFERENCE_HEIGHT / 2.0f);
     }
 
-    public MathUtil.Vector3 getCamOffset(){
+    public MathUtil.Vector3 getCamOffset() {
         return new MathUtil.Vector3(camOffset.getX() / REFERENCE_WIDTH * getGraphicsContext().getGraphicsEngine().getViewportWidth(),
                 camOffset.getY() / REFERENCE_HEIGHT * getGraphicsContext().getGraphicsEngine().getViewportHeight(), 0);
     }
@@ -62,7 +61,7 @@ public class GamePlayLayer extends AbstractUIElement {
                 boardSize,
                 1.0f,
                 1.0f
-                );
+        );
 
         spriteCanvas.drawSprite(getGraphicsContext().getTextureAssetManager().getTextureFromResource(R.drawable.ball, this),
                 gameState.getBallPosition().getX() + camOffset.getX(),
@@ -75,7 +74,7 @@ public class GamePlayLayer extends AbstractUIElement {
         );
 
         Arrays.stream(gameState.getParticles()).forEach((particle -> {
-            if(particle.isEnabled()){
+            if (particle.isEnabled()) {
                 float angle = MathUtil.vectorToAngle(particle.getVelocity().getX(), particle.getVelocity().getY());
 
                 spriteCanvas.drawSprite(getGraphicsContext().getTextureAssetManager().getTextureFromResource(R.drawable.met2, this),

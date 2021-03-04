@@ -17,12 +17,10 @@ import io.github.madhawav.gameengine.graphics.BitmapTexture;
  * A text label UI element.
  */
 public class Label extends AbstractUIElement {
+    private final int canvasSize;
     private BitmapTexture texture; // Texture used for rendering
     private Bitmap sourceBitmap; // Underlying bitmap with text
-
     private String text;
-
-    private final int canvasSize;
     private float x;
     private float y;
     private float width;
@@ -141,15 +139,6 @@ public class Label extends AbstractUIElement {
         dirty = false;
     }
 
-    public void setText(String text) {
-        if (text == null)
-            throw new IllegalArgumentException("Null string");
-        if (this.text.equals(text))
-            return;
-        this.text = text;
-        dirty = true;
-    }
-
     public int getFontSize() {
         return fontSize;
     }
@@ -161,17 +150,26 @@ public class Label extends AbstractUIElement {
         dirty = true;
     }
 
+    public MathUtil.Vector4 getColor() {
+        return color;
+    }
+
     public void setColor(MathUtil.Vector4 color) {
         this.color = color;
         dirty = true;
     }
 
-    public MathUtil.Vector4 getColor() {
-        return color;
-    }
-
     public String getText() {
         return text;
+    }
+
+    public void setText(String text) {
+        if (text == null)
+            throw new IllegalArgumentException("Null string");
+        if (this.text.equals(text))
+            return;
+        this.text = text;
+        dirty = true;
     }
 
     @Override

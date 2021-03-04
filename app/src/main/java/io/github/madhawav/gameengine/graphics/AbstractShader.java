@@ -16,6 +16,7 @@ public abstract class AbstractShader extends AbstractEngineModule {
 
     /**
      * Bind a geometry to the shader
+     *
      * @param geometry Geometry to be bound
      */
     public abstract void bindGeometry(Geometry geometry);
@@ -23,18 +24,21 @@ public abstract class AbstractShader extends AbstractEngineModule {
 
     /**
      * Bind the model-view-projection combined matrix to the shader
+     *
      * @param matrix Matrix to bind
      */
     public abstract void bindMVPMatrix(float[] matrix);
 
     /**
      * Pass opacity to shader
+     *
      * @param opacity opacity as a fraction between 0 and 1
      */
     public abstract void bindOpacity(float opacity);
 
     /**
      * Bind texture to shader
+     *
      * @param texture Texture to be bound
      */
     public abstract void bindTexture(int texture);

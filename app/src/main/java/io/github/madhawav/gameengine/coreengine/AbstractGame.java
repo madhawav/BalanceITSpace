@@ -24,19 +24,14 @@ public abstract class AbstractGame extends AbstractEngineModule {
 
     private final Context context;
     private final EngineSurfaceView surfaceView; // Used to capture touch events
-
-    private long lastUpdateTime; // nanoTime of most recent update event
-
-    // Timer for update events
-    private Timer updateTimer;
     private final long updateRateMillis; // interval for onUpdate calls
-
     // Sensors
     private final Map<SensorType, AbstractSensor> sensors;
-
     // An asset manager manages resources held by a game. (E.g Textures)
     private final AbstractAssetManager assetManager;
-
+    private long lastUpdateTime; // nanoTime of most recent update event
+    // Timer for update events
+    private Timer updateTimer;
     private GameEngineState gameEngineState; // Indicates whether the game engine is paused, running, ...
     private MathUtil.Rect2I viewport; // Viewport for GL rendering
 
@@ -48,10 +43,11 @@ public abstract class AbstractGame extends AbstractEngineModule {
 
     /**
      * Constructor of a Game.
-     * @param context Android context
+     *
+     * @param context         Android context
      * @param gameDescription Game description
      */
-    protected AbstractGame(Context context, GameDescription gameDescription){
+    protected AbstractGame(Context context, GameDescription gameDescription) {
         this.context = context;
 
         this.updateRateMillis = gameDescription.getUpdateRateMillis();
@@ -63,26 +59,26 @@ public abstract class AbstractGame extends AbstractEngineModule {
         this.surfaceView = new EngineSurfaceView(context, new EngineSurfaceView.Callback() {
             @Override
             public boolean onTouchDown(float x, float y) {
-                synchronized (AbstractGame.this){
+                synchronized (AbstractGame.this) {
                     return AbstractGame.this.touchDown(x, y);
                 }
             }
 
             @Override
             public boolean onTouchMove(float x, float y) {
-                synchronized (AbstractGame.this){
-                    return AbstractGame.this.touchMove(x,y);
+                synchronized (AbstractGame.this) {
+                    return AbstractGame.this.touchMove(x, y);
                 }
             }
 
             @Override
             public boolean onTouchReleased(float x, float y) {
-                synchronized (AbstractGame.this){
-                    return AbstractGame.this.touchReleased(x,y);
+                synchronized (AbstractGame.this) {
+                    return AbstractGame.this.touchReleased(x, y);
                 }
             }
         });
-        EngineGLRenderer renderer = new EngineGLRenderer( gameDescription.getAspectRatio(), new EngineGLRenderer.Callback() {
+        EngineGLRenderer renderer = new EngineGLRenderer(gameDescription.getAspectRatio(), new EngineGLRenderer.Callback() {
             @Override
             public void onSurfaceChanged(GL10 gl10, int width, int height, MathUtil.Rect2I viewport) {
                 AbstractGame.this.onSurfaceChanged(gl10, width, height, viewport);
@@ -95,9 +91,8 @@ public abstract class AbstractGame extends AbstractEngineModule {
 
             @Override
             public void onDrawFrame(GL10 gl10) {
-                if(AbstractGame.this.getGameEngineState() == GameEngineState.RUNNING)
-                {
-                    synchronized (AbstractGame.this){
+                if (AbstractGame.this.getGameEngineState() == GameEngineState.RUNNING) {
+                    synchronized (AbstractGame.this) {
                         AbstractGame.this.onRender(gl10);
                     }
                 }
@@ -111,7 +106,7 @@ public abstract class AbstractGame extends AbstractEngineModule {
         this.lastUpdateTime = 0;
         this.gameEngineState = GameEngineState.PRE_START;
 
-        if(gameDescription.isUseVibrator())
+        if (gameDescription.isUseVibrator())
             vibrator = new Vibrator(context);
 
         this.initializeSensors(gameDescription);
@@ -121,7 +116,7 @@ public abstract class AbstractGame extends AbstractEngineModule {
      * Return Vibrator
      */
     public Vibrator getVibrator() {
-        if(vibrator == null)
+        if (vibrator == null)
             throw new UnsupportedOperationException("Vibrator not requested");
         return vibrator;
     }
@@ -137,21 +132,21 @@ public abstract class AbstractGame extends AbstractEngineModule {
         return assetManager;
     }
 
-    private void initializeSensors(GameDescription gameDescription){
-        if(gameDescription.isUseGravitySensor()){
+    private void initializeSensors(GameDescription gameDescription) {
+        if (gameDescription.isUseGravitySensor()) {
             this.sensors.put(SensorType.GRAVITY_SENSOR, new GravitySensor(this.context));
         }
     }
 
-    public GameEngineState getGameEngineState(){
+    public GameEngineState getGameEngineState() {
         return gameEngineState;
     }
 
     /**
      * Notify touch down
      */
-    boolean touchDown(float x, float y){
-        if(awaitOnStartUntilGLContextReady)
+    boolean touchDown(float x, float y) {
+        if (awaitOnStartUntilGLContextReady)
             return false;
         return onTouchDown(x - viewport.getX(), y - viewport.getY());
     }
@@ -159,8 +154,8 @@ public abstract class AbstractGame extends AbstractEngineModule {
     /**
      * Notify touch move
      */
-    boolean touchMove(float x, float y){
-        if(awaitOnStartUntilGLContextReady)
+    boolean touchMove(float x, float y) {
+        if (awaitOnStartUntilGLContextReady)
             return false;
         return onTouchMove(x - viewport.getX(), y - viewport.getY());
     }
@@ -168,14 +163,15 @@ public abstract class AbstractGame extends AbstractEngineModule {
     /**
      * Notify touch release
      */
-    boolean touchReleased(float x, float y){
-        if(awaitOnStartUntilGLContextReady)
+    boolean touchReleased(float x, float y) {
+        if (awaitOnStartUntilGLContextReady)
             return false;
         return onTouchReleased(x - viewport.getX(), y - viewport.getY());
     }
 
     /**
      * User has initiated a touch operation
+     *
      * @param x Touch Position x relative to the viewport
      * @param y Touch Position y relative to the viewport
      * @return True if event is handled
@@ -184,14 +180,16 @@ public abstract class AbstractGame extends AbstractEngineModule {
 
     /**
      * User has moved touch position
+     *
      * @param x Touch Position x relative to the viewport
      * @param y Touch Position y relative to the viewport
      * @return True if event is handled
      */
-    public abstract boolean onTouchMove(float x,float y);
+    public abstract boolean onTouchMove(float x, float y);
 
     /**
      * User has finished the touch operation
+     *
      * @param x Touch Position x relative to the viewport
      * @param y Touch Position y relative to the viewport
      * @return True if event is handled
@@ -201,9 +199,9 @@ public abstract class AbstractGame extends AbstractEngineModule {
     /**
      * Callback to render graphics
      */
-    protected abstract void onRender(GL10  gl10);
+    protected abstract void onRender(GL10 gl10);
 
-    private void update(double elapsedSec){
+    private void update(double elapsedSec) {
         this.gameTime += elapsedSec;
         AbstractGame.this.onUpdate(elapsedSec);
         AbstractGame.this.surfaceView.requestRender();
@@ -211,6 +209,7 @@ public abstract class AbstractGame extends AbstractEngineModule {
 
     /**
      * Returns runtime of game engine
+     *
      * @return runtime in seconds
      */
     public double getGameTime() {
@@ -219,12 +218,14 @@ public abstract class AbstractGame extends AbstractEngineModule {
 
     /**
      * Callback to update animations/physics.
+     *
      * @param elapsedSec Elapsed seconds since last update
      */
     protected abstract void onUpdate(double elapsedSec);
 
     /**
      * GLSurfaceView that should be set as activity content.
+     *
      * @return Surface view added to activity
      */
     public EngineSurfaceView getSurfaceView() {
@@ -234,15 +235,14 @@ public abstract class AbstractGame extends AbstractEngineModule {
     /**
      * Starts the game. Puts it to paused state.
      */
-    public void start(){
-        if(this.gameEngineState != GameEngineState.PRE_START){
+    public void start() {
+        if (this.gameEngineState != GameEngineState.PRE_START) {
             throw new IllegalStateException("Game already started");
         }
         this.gameEngineState = GameEngineState.PAUSED;
-        if(glContextReady) {
+        if (glContextReady) {
             this.onStart();
-        }
-        else{
+        } else {
             awaitOnStartUntilGLContextReady = true;
         }
     }
@@ -252,7 +252,7 @@ public abstract class AbstractGame extends AbstractEngineModule {
     /**
      * Finish the game.
      */
-    public void finish(){
+    public void finish() {
         this.gameEngineState = GameEngineState.FINISHED;
         super.finish();
     }
@@ -260,8 +260,8 @@ public abstract class AbstractGame extends AbstractEngineModule {
     /**
      * Pause game. Call on Activity.onPause().
      */
-    public void pause(){
-        if(this.gameEngineState != GameEngineState.RUNNING)
+    public void pause() {
+        if (this.gameEngineState != GameEngineState.RUNNING)
             throw new IllegalStateException("Game not running");
 
         this.gameEngineState = GameEngineState.PAUSED;
@@ -272,8 +272,8 @@ public abstract class AbstractGame extends AbstractEngineModule {
     /**
      * Resume game. Call on Activity.onResume().
      */
-    public void resume(){
-        if(this.gameEngineState != GameEngineState.PAUSED)
+    public void resume() {
+        if (this.gameEngineState != GameEngineState.PAUSED)
             throw new IllegalStateException("Game not paused");
         this.gameEngineState = GameEngineState.RUNNING;
         this.sensors.forEach((sensorType, sensor) -> sensor.resume());
@@ -284,10 +284,10 @@ public abstract class AbstractGame extends AbstractEngineModule {
         TimerTask updateTask = new TimerTask() {
             @Override
             public void run() {
-                synchronized (AbstractGame.this){
+                synchronized (AbstractGame.this) {
                     long currentTime = System.nanoTime();
-                    if(AbstractGame.this.getGameEngineState() == GameEngineState.RUNNING) {
-                        if(awaitOnStartUntilGLContextReady)
+                    if (AbstractGame.this.getGameEngineState() == GameEngineState.RUNNING) {
+                        if (awaitOnStartUntilGLContextReady)
                             return;
                         update((double) (currentTime - lastUpdateTime) / 1000000000.0);
                     }
@@ -301,8 +301,8 @@ public abstract class AbstractGame extends AbstractEngineModule {
     /**
      * Returns the gravity sensor
      */
-    public GravitySensor getGravitySensor(){
-        if(!this.sensors.containsKey(SensorType.GRAVITY_SENSOR))
+    public GravitySensor getGravitySensor() {
+        if (!this.sensors.containsKey(SensorType.GRAVITY_SENSOR))
             throw new UnsupportedOperationException("Gravity sensor not available");
         return (GravitySensor) this.sensors.get(SensorType.GRAVITY_SENSOR);
     }
@@ -310,8 +310,8 @@ public abstract class AbstractGame extends AbstractEngineModule {
     /**
      * GL callback onSurfaceCreated
      */
-    public void onSurfaceCreated(GL10 gl10, EGLConfig config){
-        synchronized (this){
+    public void onSurfaceCreated(GL10 gl10, EGLConfig config) {
+        synchronized (this) {
             super.onSurfaceCreated(gl10, config); // Propagates to registered modules
         }
     }
@@ -319,12 +319,12 @@ public abstract class AbstractGame extends AbstractEngineModule {
     /**
      * GL callback onSurfaceChanged
      */
-    public void onSurfaceChanged(GL10 gl10, int canvasWidth, int canvasHeight, MathUtil.Rect2I viewport){
+    public void onSurfaceChanged(GL10 gl10, int canvasWidth, int canvasHeight, MathUtil.Rect2I viewport) {
         synchronized (this) {
             glContextReady = true;
             this.viewport = viewport;
             super.onSurfaceChanged(gl10, canvasWidth, canvasHeight, viewport); // Propagates to registered modules
-            if(awaitOnStartUntilGLContextReady) {
+            if (awaitOnStartUntilGLContextReady) {
                 awaitOnStartUntilGLContextReady = false;
                 onStart();
             }

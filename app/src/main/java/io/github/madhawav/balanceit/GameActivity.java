@@ -15,13 +15,14 @@ import io.github.madhawav.gameengine.graphics.Texture;
  */
 public class GameActivity extends Activity {
     private BalanceITGame game;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         this.game = new BalanceITGame(this);
-        if(!this.game.getGravitySensor().isSupported()){
+        if (!this.game.getGravitySensor().isSupported()) {
             Toast.makeText(this, "Error: Gravity sensor not available!", Toast.LENGTH_LONG).show();
             finish();
         }
@@ -48,10 +49,10 @@ public class GameActivity extends Activity {
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         this.game.finish();
-        if(Texture.textureCount > 0){
+        if (Texture.textureCount > 0) {
             throw new IllegalStateException("Un-freed textures");
         }
     }

@@ -11,7 +11,7 @@ public class BallLogic extends AbstractLogic {
     private final GameState gameState;
     private final GameParameters gameParameters;
 
-    public BallLogic(GameState gameState, GameParameters gameParameters){
+    public BallLogic(GameState gameState, GameParameters gameParameters) {
         this.gameState = gameState;
         this.gameParameters = gameParameters;
     }
@@ -31,7 +31,7 @@ public class BallLogic extends AbstractLogic {
         gameState.getBallVelocity().multiply(1.0f - gameState.getFrictionCoefficient());
 
         MathUtil.Vector3 scaledVelocity = gameState.getBallVelocity().copy();
-        scaledVelocity.multiply((float)elapsedSec * gameParameters.TIME_SCALE);
+        scaledVelocity.multiply((float) elapsedSec * gameParameters.TIME_SCALE);
         gameState.getBallPosition().add(scaledVelocity);
         gameState.getBallPosition().setZ(0);
 

@@ -7,7 +7,7 @@ import io.github.madhawav.gameengine.MathUtil;
  * The initial GameState is created based on a provided GameParameters object.
  * Afterwards, the GameState is updated using the different logics of the game.
  */
-public class GameState{
+public class GameState {
     private MathUtil.Vector3 ballPosition;
     private MathUtil.Vector3 ballVelocity;
     private ParticleState[] particles;
@@ -38,15 +38,15 @@ public class GameState{
     private boolean warmUpMode;
     private double warmUpTimeLeft;
 
-    public GameState(GameParameters gameParameters){
+    public GameState(GameParameters gameParameters) {
         loadFromGameParameters(gameParameters);
     }
 
-    public void loadFromGameParameters(GameParameters gameParameters){
+    public void loadFromGameParameters(GameParameters gameParameters) {
         ballPosition = new MathUtil.Vector3();
         ballVelocity = new MathUtil.Vector3();
         particles = new ParticleState[gameParameters.MAX_PARTICLE_COUNT];
-        for(int i = 0; i < particles.length; i++)
+        for (int i = 0; i < particles.length; i++)
             particles[i] = new ParticleState();
 
         activeParticleCount = 0;
@@ -73,7 +73,7 @@ public class GameState{
         warmUpTimeLeft = gameParameters.WARM_UP_SEC;
     }
 
-    public void reduceWarmUpTime(double dTime){
+    public void reduceWarmUpTime(double dTime) {
         warmUpTimeLeft -= dTime;
         warmUpTimeLeft = Math.max(warmUpTimeLeft, 0);
     }
@@ -111,7 +111,7 @@ public class GameState{
         return score;
     }
 
-    public void addScore(float deltaScore){
+    public void addScore(float deltaScore) {
         this.score += deltaScore;
     }
 
@@ -135,37 +135,40 @@ public class GameState{
         return level;
     }
 
-    public double getLevelRemainTime() {
-        return levelRemainTime;
-    }
-
-    public double getLevelTotalTime() {
-        return levelTotalTime;
-    }
-
     public void setLevel(int level) {
         this.level = level;
     }
 
-    public void setLevelTotalTime(double levelTotalTime) {
-        this.levelTotalTime = levelTotalTime;
+    public double getLevelRemainTime() {
+        return levelRemainTime;
     }
 
     public void setLevelRemainTime(double levelRemainTime) {
         this.levelRemainTime = levelRemainTime;
     }
 
+    public double getLevelTotalTime() {
+        return levelTotalTime;
+    }
+
+    public void setLevelTotalTime(double levelTotalTime) {
+        this.levelTotalTime = levelTotalTime;
+    }
+
     public float getWindAcceleration() {
         return windAcceleration;
     }
 
-
-    public void setMaxWindAngularVelocity(float maxWindAngularVelocity) {
-        this.maxWindAngularVelocity = maxWindAngularVelocity;
+    public void setWindAcceleration(float windAcceleration) {
+        this.windAcceleration = windAcceleration;
     }
 
     public float getMaxWindAngularVelocity() {
         return maxWindAngularVelocity;
+    }
+
+    public void setMaxWindAngularVelocity(float maxWindAngularVelocity) {
+        this.maxWindAngularVelocity = maxWindAngularVelocity;
     }
 
     public float getTargetWindAngle() {
@@ -208,7 +211,7 @@ public class GameState{
         return activeParticleCount;
     }
 
-    public void changeActiveParticleCount(int by){
+    public void changeActiveParticleCount(int by) {
         this.activeParticleCount += by;
     }
 
@@ -216,8 +219,16 @@ public class GameState{
         return windStrength;
     }
 
+    public void setWindStrength(float windStrength) {
+        this.windStrength = windStrength;
+    }
+
     public float getWindAngle() {
         return windAngle;
+    }
+
+    public void setWindAngle(float windAngle) {
+        this.windAngle = windAngle;
     }
 
     public MathUtil.Vector3 getWindVector() {
@@ -230,19 +241,6 @@ public class GameState{
 
     public MathUtil.Vector3 getBallVelocity() {
         return ballVelocity;
-    }
-
-
-    public void setWindAngle(float windAngle) {
-        this.windAngle = windAngle;
-    }
-
-    public void setWindStrength(float windStrength) {
-        this.windStrength = windStrength;
-    }
-
-    public void setWindAcceleration(float windAcceleration) {
-        this.windAcceleration = windAcceleration;
     }
 
     public void resetScore() {

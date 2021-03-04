@@ -11,25 +11,25 @@ import io.github.madhawav.gameengine.coreengine.AbstractEngineModule;
  * A texture.
  */
 public class Texture extends AbstractEngineModule {
-    private int handle; // OpenGL Handle
     public static int textureCount = 0; // Static counter of textures. For debugging purposes.
+    private int handle; // OpenGL Handle
 
-    Texture(int handle){
-        textureCount+=1;
+    Texture(int handle) {
+        textureCount += 1;
         this.handle = handle;
     }
 
     public int getHandle() {
-        if(this.isFinished())
+        if (this.isFinished())
             throw new IllegalStateException("Attempt to use disposed texture");
         return handle;
     }
 
-    void setHandle(int newHandle){
+    void setHandle(int newHandle) {
         this.handle = newHandle;
     }
 
-    public boolean isAvailable(){
+    public boolean isAvailable() {
         return !this.isFinished();
     }
 
@@ -41,7 +41,7 @@ public class Texture extends AbstractEngineModule {
 
     @Override
     public void finish() {
-        if(!this.isFinished()){
+        if (!this.isFinished()) {
             GLES20.glDeleteTextures(1, new int[]{handle}, 0);
             textureCount -= 1;
         }

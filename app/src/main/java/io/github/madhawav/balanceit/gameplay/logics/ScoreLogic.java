@@ -30,7 +30,7 @@ public class ScoreLogic extends AbstractLogic {
         gameState.setLevelMarksMultiplier(gameState.getLevelMarksMultiplier() + gameParameters.LEVEL_SCORE_MULTIPLIER_DELTA);
     }
 
-    public void onBorderBounce(){
+    public void onBorderBounce() {
         gameState.resetScore();
         //                redMarkLeft = 1;
     }

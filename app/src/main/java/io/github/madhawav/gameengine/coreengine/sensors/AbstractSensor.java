@@ -16,12 +16,14 @@ public abstract class AbstractSensor {
 
     /**
      * Check whether the sensor is supported
+     *
      * @return True if sensor is supported by the device. Otherwise false.
      */
     public abstract boolean isSupported();
 
     /**
      * Checks whether readings are available
+     *
      * @return True if sensor readings are available. Otherwise false.
      */
     public abstract boolean isAvailable();

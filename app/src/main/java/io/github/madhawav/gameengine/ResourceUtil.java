@@ -8,10 +8,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class ResourceUtil {
-    private ResourceUtil(){}
+    private ResourceUtil() {
+    }
 
-    public static String readTextFileFromRawResource(final Context context, final int resourceId)
-    {
+    /**
+     * Read a text from android resource
+     * @param context Android context
+     * @param resourceId Resource id
+     * @return Text from the resource
+     */
+    public static String readTextFileFromRawResource(final Context context, final int resourceId) {
         final InputStream inputStream = context.getResources().openRawResource(
                 resourceId);
         final InputStreamReader inputStreamReader = new InputStreamReader(
@@ -22,16 +28,12 @@ public class ResourceUtil {
         String nextLine;
         final StringBuilder body = new StringBuilder();
 
-        try
-        {
-            while ((nextLine = bufferedReader.readLine()) != null)
-            {
+        try {
+            while ((nextLine = bufferedReader.readLine()) != null) {
                 body.append(nextLine);
                 body.append('\n');
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new IllegalArgumentException("Error in reading resource");
         }
 

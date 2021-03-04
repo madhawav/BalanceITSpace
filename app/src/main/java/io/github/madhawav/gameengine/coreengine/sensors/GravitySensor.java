@@ -16,7 +16,7 @@ public class GravitySensor extends AbstractSensor {
     private final MathUtil.Vector3 gravity;
     private long timestamp;
 
-    public GravitySensor(Context context){
+    public GravitySensor(Context context) {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         gravitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         gravity = new MathUtil.Vector3();
@@ -36,14 +36,14 @@ public class GravitySensor extends AbstractSensor {
         };
     }
 
-    public void resume(){
-        if(!isSupported())
+    public void resume() {
+        if (!isSupported())
             return;
         sensorManager.registerListener(sensorEventListener, gravitySensor, SensorManager.SENSOR_DELAY_GAME);
     }
 
-    public void pause(){
-        if(!isSupported())
+    public void pause() {
+        if (!isSupported())
             return;
         sensorManager.unregisterListener(sensorEventListener);
     }
@@ -60,18 +60,20 @@ public class GravitySensor extends AbstractSensor {
 
     /**
      * Returns gravity vector. Null if gravity data not available.
+     *
      * @return Gravity vector or null.
      */
     public MathUtil.Vector3 getGravity() {
-        if(!isSupported())
+        if (!isSupported())
             throw new UnsupportedOperationException("Gravity sensor not supported");
-        if(!isAvailable())
+        if (!isAvailable())
             throw new IllegalStateException("Gravity reading not available");
         return gravity;
     }
 
     /**
      * Return timestamp at which sensor readings were retrieved
+     *
      * @return timestamp in nano-seconds
      */
     public long getTimestamp() {

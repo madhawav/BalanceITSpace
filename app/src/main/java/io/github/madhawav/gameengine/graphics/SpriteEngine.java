@@ -11,97 +11,28 @@ public class SpriteEngine extends AbstractEngineModule {
     private final Geometry squareGeometry;
     private final GraphicsEngine graphicsEngine;
 
-    public SpriteEngine(GraphicsEngine graphicsEngine){
+    public SpriteEngine(GraphicsEngine graphicsEngine) {
         squareGeometry = Geometry.generateSquareGeometry();
         this.graphicsEngine = graphicsEngine;
     }
 
     /**
-     * Draw an axis aligned sprite with a rectangle boundary
-     * @param texture Texture of the sprite
-     * @param x X coordinate of the top left corner
-     * @param y Y coordinate of the top left corner
-     * @param width Width of the sprite
-     * @param height Height of the sprite
-     * @param z Z index
-     * @param opacity Opacity of the sprite
-     */
-    public void drawSpriteAA(Texture texture, float x, float y, float width, float height, float z, float opacity){
-        setupSpriteProjectionMatrix(graphicsEngine.getProjectionMatrix(),  graphicsEngine.getViewportWidth(), graphicsEngine.getViewportHeight());
-        setupSpriteViewMatrix(graphicsEngine.getViewMatrix());
-
-        float[] modelMatrix = graphicsEngine.getModelMatrix();
-        Matrix.setIdentityM(modelMatrix, 0);
-        Matrix.translateM(modelMatrix, 0, x, y, -z);
-        Matrix.scaleM(modelMatrix, 0, width, -height, 1);
-        Matrix.translateM(modelMatrix, 0, 0.5f, -0.5f, -z);
-
-        drawQuad(texture, opacity);
-    }
-
-    /**
-     * Draws a center aligned oriented sprite with a rectangular boundary.
-     * @param texture Texture of the sprite
-     * @param cx X coordinate of the center
-     * @param cy Y coordinate of the center
-     * @param angle Angle across Z axis
-     * @param width Width of the sprite
-     * @param height Height of the sprite
-     * @param z Z index
-     * @param opacity Opacity of the sprite
-     */
-    public void drawSprite(Texture texture, float cx, float cy, float angle, float width, float height, float z, float opacity){
-        setupSpriteProjectionMatrix(graphicsEngine.getProjectionMatrix(),  graphicsEngine.getViewportWidth(), graphicsEngine.getViewportHeight());
-        setupSpriteViewMatrix(graphicsEngine.getViewMatrix());
-
-        float[] modelMatrix = graphicsEngine.getModelMatrix();
-        Matrix.setIdentityM(modelMatrix, 0);
-        Matrix.translateM(modelMatrix, 0, cx, cy, -z);
-        Matrix.rotateM(modelMatrix, 0,  angle,0, 0, 1);
-        Matrix.scaleM(modelMatrix, 0, width, -height, 1);
-
-
-        drawQuad(texture, opacity);
-    }
-
-    /**
-     * Draw a unit sized square
-     * @param texture Draws a texture using the current transformation of the graphics engine
-     * @param opacity Opacity
-     */
-    void drawQuad(Texture texture,  float opacity){
-        boolean preserveDepthSetting = graphicsEngine.isDepthEnabled();
-        graphicsEngine.setDepthEnabled(false);
-        graphicsEngine.drawGeometry(squareGeometry, texture, opacity);
-        graphicsEngine.setDepthEnabled(preserveDepthSetting);
-    }
-
-    /**
-     * Create a sprite canvas with a specified viewport size, which gets scaled to fit the output canvas.
-     * @param width Viewport width
-     * @param height Viewport height
-     * @return ScaledSpriteCanvas
-     */
-    public ScaledSpriteCanvas createSpriteCanvas(float width, float height){
-        return new ScaledSpriteCanvas(width, height);
-    }
-
-    /**
      * Setup provided projection matrix for sprite rendering
-     * @param matrix Matrix to be modified
-     * @param ViewportWidth Width of the viewport
+     *
+     * @param matrix         Matrix to be modified
+     * @param ViewportWidth  Width of the viewport
      * @param ViewportHeight Height of the viewport
      */
-    static void setupSpriteProjectionMatrix(float[] matrix, float ViewportWidth, float ViewportHeight){
+    static void setupSpriteProjectionMatrix(float[] matrix, float ViewportWidth, float ViewportHeight) {
         Matrix.orthoM(matrix, 0, 0, ViewportWidth, ViewportHeight, 0, PROJECTION_CULL_NEAR, PROJECTION_CULL_FAR);
     }
 
-
     /**
      * Setup provided view matrix for sprite rendering
+     *
      * @param matrix Matrix to be modified
      */
-    static void setupSpriteViewMatrix(float[] matrix){
+    static void setupSpriteViewMatrix(float[] matrix) {
         // Position the eye in front of the origin.
         final float eyeX = 0.0f;
         final float eyeY = 0.0f;
@@ -124,12 +55,87 @@ public class SpriteEngine extends AbstractEngineModule {
     }
 
     /**
+     * Draw an axis aligned sprite with a rectangle boundary
+     *
+     * @param texture Texture of the sprite
+     * @param x       X coordinate of the top left corner
+     * @param y       Y coordinate of the top left corner
+     * @param width   Width of the sprite
+     * @param height  Height of the sprite
+     * @param z       Z index
+     * @param opacity Opacity of the sprite
+     */
+    public void drawSpriteAA(Texture texture, float x, float y, float width, float height, float z, float opacity) {
+        setupSpriteProjectionMatrix(graphicsEngine.getProjectionMatrix(), graphicsEngine.getViewportWidth(), graphicsEngine.getViewportHeight());
+        setupSpriteViewMatrix(graphicsEngine.getViewMatrix());
+
+        float[] modelMatrix = graphicsEngine.getModelMatrix();
+        Matrix.setIdentityM(modelMatrix, 0);
+        Matrix.translateM(modelMatrix, 0, x, y, -z);
+        Matrix.scaleM(modelMatrix, 0, width, -height, 1);
+        Matrix.translateM(modelMatrix, 0, 0.5f, -0.5f, -z);
+
+        drawQuad(texture, opacity);
+    }
+
+    /**
+     * Draws a center aligned oriented sprite with a rectangular boundary.
+     *
+     * @param texture Texture of the sprite
+     * @param cx      X coordinate of the center
+     * @param cy      Y coordinate of the center
+     * @param angle   Angle across Z axis
+     * @param width   Width of the sprite
+     * @param height  Height of the sprite
+     * @param z       Z index
+     * @param opacity Opacity of the sprite
+     */
+    public void drawSprite(Texture texture, float cx, float cy, float angle, float width, float height, float z, float opacity) {
+        setupSpriteProjectionMatrix(graphicsEngine.getProjectionMatrix(), graphicsEngine.getViewportWidth(), graphicsEngine.getViewportHeight());
+        setupSpriteViewMatrix(graphicsEngine.getViewMatrix());
+
+        float[] modelMatrix = graphicsEngine.getModelMatrix();
+        Matrix.setIdentityM(modelMatrix, 0);
+        Matrix.translateM(modelMatrix, 0, cx, cy, -z);
+        Matrix.rotateM(modelMatrix, 0, angle, 0, 0, 1);
+        Matrix.scaleM(modelMatrix, 0, width, -height, 1);
+
+
+        drawQuad(texture, opacity);
+    }
+
+    /**
+     * Draw a unit sized square
+     *
+     * @param texture Draws a texture using the current transformation of the graphics engine
+     * @param opacity Opacity
+     */
+    void drawQuad(Texture texture, float opacity) {
+        boolean preserveDepthSetting = graphicsEngine.isDepthEnabled();
+        graphicsEngine.setDepthEnabled(false);
+        graphicsEngine.drawGeometry(squareGeometry, texture, opacity);
+        graphicsEngine.setDepthEnabled(preserveDepthSetting);
+    }
+
+    /**
+     * Create a sprite canvas with a specified viewport size, which gets scaled to fit the output canvas.
+     *
+     * @param width  Viewport width
+     * @param height Viewport height
+     * @return ScaledSpriteCanvas
+     */
+    public ScaledSpriteCanvas createSpriteCanvas(float width, float height) {
+        return new ScaledSpriteCanvas(width, height);
+    }
+
+    /**
      * A sprite engine which maps a specified width and height to the size of the canvas.
      */
-    public class ScaledSpriteCanvas{
+    public class ScaledSpriteCanvas {
         private final float canvasWidth;
         private final float canvasHeight;
-        ScaledSpriteCanvas(float width, float height){
+
+        ScaledSpriteCanvas(float width, float height) {
             this.canvasWidth = width;
             this.canvasHeight = height;
         }
@@ -146,30 +152,31 @@ public class SpriteEngine extends AbstractEngineModule {
          * @param cz      Z-index
          * @param opacity Opacity of the sprite
          */
-        public void drawSprite(Texture texture, float cx, float cy, float angle, float width, float height, float cz, float opacity){
-            setupSpriteProjectionMatrix(graphicsEngine.getProjectionMatrix(),  canvasWidth, canvasHeight);
+        public void drawSprite(Texture texture, float cx, float cy, float angle, float width, float height, float cz, float opacity) {
+            setupSpriteProjectionMatrix(graphicsEngine.getProjectionMatrix(), canvasWidth, canvasHeight);
             setupSpriteViewMatrix(graphicsEngine.getViewMatrix());
 
             float[] modelMatrix = graphicsEngine.getModelMatrix();
             Matrix.setIdentityM(modelMatrix, 0);
             Matrix.translateM(modelMatrix, 0, cx, cy, -cz);
-            Matrix.rotateM(modelMatrix, 0,  angle,0, 0, 1);
+            Matrix.rotateM(modelMatrix, 0, angle, 0, 0, 1);
             Matrix.scaleM(modelMatrix, 0, width, -height, 1);
             drawQuad(texture, opacity);
         }
 
         /**
          * Draw an axis aligned sprite with a rectangle boundary
+         *
          * @param texture Texture of the sprite
-         * @param x X coordinate of the top left corner
-         * @param y Y coordinate of the top left corner
-         * @param width Width of the sprite
-         * @param height Height of the sprite
-         * @param z Z index
+         * @param x       X coordinate of the top left corner
+         * @param y       Y coordinate of the top left corner
+         * @param width   Width of the sprite
+         * @param height  Height of the sprite
+         * @param z       Z index
          * @param opacity Opacity of the sprite
          */
-        public void drawSpriteAA(Texture texture, float x, float y, float width, float height, float z, float opacity){
-            setupSpriteProjectionMatrix(graphicsEngine.getProjectionMatrix(),  canvasWidth, canvasHeight);
+        public void drawSpriteAA(Texture texture, float x, float y, float width, float height, float z, float opacity) {
+            setupSpriteProjectionMatrix(graphicsEngine.getProjectionMatrix(), canvasWidth, canvasHeight);
             setupSpriteViewMatrix(graphicsEngine.getViewMatrix());
 
             float[] modelMatrix = graphicsEngine.getModelMatrix();
@@ -181,7 +188,6 @@ public class SpriteEngine extends AbstractEngineModule {
 
             drawQuad(texture, opacity);
         }
-
 
 
     }

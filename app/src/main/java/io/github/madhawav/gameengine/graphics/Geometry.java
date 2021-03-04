@@ -10,11 +10,6 @@ import io.github.madhawav.gameengine.MathUtil;
  * A 3D Mesh.
  */
 public class Geometry {
-    private final FloatBuffer positions;
-    private final FloatBuffer normals;
-    private final FloatBuffer textureCoordinates;
-    private final int vertexCount;
-
     /**
      * Size of the position data in elements.
      */
@@ -23,13 +18,15 @@ public class Geometry {
      * Size of the normal data in elements.
      */
     public static final int NORMAL_SEEK = 3;
-
     /**
      * Size of the texture coordinate data in elements.
      */
     public static final int TEXTURE_DATA_SEEK = 2;
-
     private static final int BYTES_PER_FLOAT = 4;
+    private final FloatBuffer positions;
+    private final FloatBuffer normals;
+    private final FloatBuffer textureCoordinates;
+    private final int vertexCount;
 
     public Geometry(FloatBuffer positions, FloatBuffer normals, FloatBuffer textureCoordinates, int vertexCount) {
         this.positions = positions;
@@ -38,20 +35,9 @@ public class Geometry {
         this.vertexCount = vertexCount;
     }
 
-    public FloatBuffer getNormals() {
-        return normals;
-    }
-
-    public FloatBuffer getPositions() {
-        return positions;
-    }
-
-    public FloatBuffer getTextureCoordinates() {
-        return textureCoordinates;
-    }
-
     /**
      * Generates a mesh of a square centered at origin, in the XY plane. Each side has a unit length.
+     *
      * @return Geometry object
      */
     public static Geometry generateSquareGeometry() {
@@ -103,12 +89,11 @@ public class Geometry {
         return new Geometry(squarePositions, squareNormals, squareTextureCoordinates, 6);
     }
 
-
     /**
      * Generates geometry of a sphere.
      *
-     * @param radius Radius of sphere
-     * @param yawSegCount Number of segments about vertical axis
+     * @param radius        Radius of sphere
+     * @param yawSegCount   Number of segments about vertical axis
      * @param pitchSegCount Number of segments across poles
      * @return Geometry object
      */
@@ -235,6 +220,18 @@ public class Geometry {
         mSphereTextureCoordinates.put(sphereTextureCoordinates).position(0);
 
         return new Geometry(mSpherePositions, mSphereNormals, mSphereTextureCoordinates, sphereVertexCount);
+    }
+
+    public FloatBuffer getNormals() {
+        return normals;
+    }
+
+    public FloatBuffer getPositions() {
+        return positions;
+    }
+
+    public FloatBuffer getTextureCoordinates() {
+        return textureCoordinates;
     }
 
     /**

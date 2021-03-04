@@ -11,10 +11,10 @@ public abstract class AbstractScene extends AbstractEngineModule {
     private AbstractMultiSceneGame game;
     private boolean finished = false;
 
-    void start(AbstractMultiSceneGame game){
-        if(this.game != null)
+    void start(AbstractMultiSceneGame game) {
+        if (this.game != null)
             throw new IllegalStateException("Scene already bound before.");
-        if(this.finished)
+        if (this.finished)
             throw new IllegalStateException("Scene has finished");
         this.game = game;
         this.onStart();
@@ -22,10 +22,11 @@ public abstract class AbstractScene extends AbstractEngineModule {
 
     /**
      * Access to Game object which hold the scene.
+     *
      * @return Game
      */
     public AbstractMultiSceneGame getGame() {
-        if(this.game == null)
+        if (this.game == null)
             throw new UnsupportedOperationException("Scene not bound to a game");
         return game;
     }

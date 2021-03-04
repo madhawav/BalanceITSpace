@@ -13,10 +13,10 @@ public abstract class UIElementScene extends AbstractScene {
 
     private float[] backgroundColor;
 
-    public UIElementScene(){
+    public UIElementScene() {
         started = false;
         uiElement = null;
-        backgroundColor = new float[] {1.0f, 1.0f, 1.0f, 1.0f};
+        backgroundColor = new float[]{1.0f, 1.0f, 1.0f, 1.0f};
     }
 
     public float[] getBackgroundColor() {
@@ -27,7 +27,7 @@ public abstract class UIElementScene extends AbstractScene {
         this.backgroundColor = backgroundColor;
     }
 
-    public boolean isRunning(){
+    public boolean isRunning() {
         return started && (!isFinished());
     }
 
@@ -35,9 +35,9 @@ public abstract class UIElementScene extends AbstractScene {
 
     @Override
     public void onStart() {
-        if(isFinished())
+        if (isFinished())
             throw new IllegalStateException("Already finished");
-        if(isRunning())
+        if (isRunning())
             throw new IllegalStateException("Already started");
 
         this.uiElement = getUIElement();
@@ -49,37 +49,37 @@ public abstract class UIElementScene extends AbstractScene {
 
     @Override
     protected void onUpdate(double elapsedSec) {
-        if(!isRunning())
+        if (!isRunning())
             throw new IllegalStateException("Not running");
         this.uiElement.onUpdate(elapsedSec);
     }
 
     @Override
     protected void onRender(GL10 gl10) {
-        if(!isRunning())
+        if (!isRunning())
             throw new IllegalStateException("Not running");
-        if(backgroundColor != null)
+        if (backgroundColor != null)
             uiElement.getGraphicsContext().getGraphicsEngine().clear(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
         this.uiElement.onRender(gl10);
     }
 
     @Override
     protected boolean onTouchDown(float x, float y) {
-        if(!isRunning())
+        if (!isRunning())
             throw new IllegalStateException("Not running");
         return this.uiElement.onTouchDown(x, y);
     }
 
     @Override
     protected boolean onTouchMove(float x, float y) {
-        if(!isRunning())
+        if (!isRunning())
             throw new IllegalStateException("Not running");
         return this.uiElement.onTouchMove(x, y);
     }
 
     @Override
     protected boolean onTouchReleased(float x, float y) {
-        if(!isRunning())
+        if (!isRunning())
             throw new IllegalStateException("Not running");
         return this.uiElement.onTouchReleased(x, y);
     }

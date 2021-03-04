@@ -8,11 +8,10 @@ import io.github.madhawav.gameengine.MathUtil;
  * Logic that implements the warm-up mode at the start of a game.
  */
 public class WarmUpModeLogic extends AbstractLogic {
+    private static final float TANGENT_BREAK_RATIO = 0.2f;
     private final GameState gameState;
     private final GameParameters gameParameters;
     private final Callback callback;
-
-    private static final float TANGENT_BREAK_RATIO = 0.2f;
 
     public WarmUpModeLogic(GameState gameState, GameParameters gameParameters, Callback callback) {
         this.gameState = gameState;

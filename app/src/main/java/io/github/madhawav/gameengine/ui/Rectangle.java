@@ -28,12 +28,13 @@ public class Rectangle extends AbstractUIElement {
 
     /**
      * Creates a Rectangle UI element
+     *
      * @param graphicsContext Graphics context to bind
-     * @param x X coordinate of top left corner
-     * @param y Y coordinate of top left corner
-     * @param width Width of element
-     * @param height Height of element
-     * @param color Fill color of the rectangle
+     * @param x               X coordinate of top left corner
+     * @param y               Y coordinate of top left corner
+     * @param width           Width of element
+     * @param height          Height of element
+     * @param color           Fill color of the rectangle
      */
     public Rectangle(GraphicsContext graphicsContext, float x, float y, float width, float height, MathUtil.Vector4 color) {
         super(graphicsContext);
@@ -53,18 +54,17 @@ public class Rectangle extends AbstractUIElement {
     /**
      * Refresh the appearance (color).
      */
-    public void invalidate(){
-        if(sourceBitmap == null)
-        {
+    public void invalidate() {
+        if (sourceBitmap == null) {
             // first time
-            sourceBitmap = Bitmap.createBitmap(32 ,32, Bitmap.Config.ARGB_8888);
+            sourceBitmap = Bitmap.createBitmap(32, 32, Bitmap.Config.ARGB_8888);
             texture = BitmapTexture.create(sourceBitmap, this);
         }
 
         // Update color
         Canvas canvas = new Canvas(sourceBitmap);
         Paint paint = new Paint();
-        paint.setARGB((int)(color.getW() * 255), (int)(color.getX() * 255), (int)(color.getY() * 255), (int)(color.getZ() * 255));
+        paint.setARGB((int) (color.getW() * 255), (int) (color.getX() * 255), (int) (color.getY() * 255), (int) (color.getZ() * 255));
         canvas.drawPaint(paint);
 
         texture.invalidate(); // Inform texture to update itself
@@ -72,13 +72,13 @@ public class Rectangle extends AbstractUIElement {
         dirty = false;
     }
 
+    public MathUtil.Vector4 getColor() {
+        return color;
+    }
+
     public void setColor(MathUtil.Vector4 color) {
         this.color = color;
         dirty = true;
-    }
-
-    public MathUtil.Vector4 getColor() {
-        return color;
     }
 
     @Override
@@ -93,9 +93,9 @@ public class Rectangle extends AbstractUIElement {
 
     @Override
     public void onRender(GL10 gl10) {
-        if(!isVisible()) return;
+        if (!isVisible()) return;
 
-        if(dirty)
+        if (dirty)
             invalidate();
 
         this.getGraphicsContext().getSpriteEngine().drawSpriteAA(

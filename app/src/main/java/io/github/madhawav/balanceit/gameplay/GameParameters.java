@@ -3,7 +3,7 @@ package io.github.madhawav.balanceit.gameplay;
 /**
  * Parameters of the game. Adjust these to change difficulty. Inherit this class to support multiple difficulty levels.
  */
-public class GameParameters{
+public class GameParameters {
     public final float BOARD_SIZE = 1000.0f;
     // Simulation
     public final float TIME_SCALE = 100.0f;
@@ -21,10 +21,10 @@ public class GameParameters{
 
     // Wind
     public final float WIND_UPDATE_INTERVAL = 3.0f;
-    public final float WIND_SPEED_BASE_FRACTION = 7.0f/8.0f;
+    public final float WIND_SPEED_BASE_FRACTION = 7.0f / 8.0f;
     public final float INITIAL_WIND_STRENGTH = 0.2f;
     public final float INITIAL_MAX_WIND_STRENGTH = 0.2f;
-    public final float INITIAL_WIND_ANGLE = (float) (Math.PI/2.0f);
+    public final float INITIAL_WIND_ANGLE = (float) (Math.PI / 2.0f);
     public final float INITIAL_WIND_MAX_ANGULAR_VELOCITY = 0.02f;
     public final float INITIAL_WIND_MAX_ACCELERATION = 0.005f;
 

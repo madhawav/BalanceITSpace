@@ -27,13 +27,13 @@ public abstract class AbstractMultiSceneGame extends AbstractGame {
     @Override
     public void onStart() {
         AbstractScene initialScene = getInitialScene();
-        if(initialScene == null)
+        if (initialScene == null)
             throw new IllegalStateException("Must return a valid scene");
         beginScene(initialScene);
         started = true;
     }
 
-    private void beginScene(AbstractScene scene){
+    private void beginScene(AbstractScene scene) {
         scene.start(this);
         this.currentScene = scene;
         this.registerModule(scene);
@@ -41,12 +41,13 @@ public abstract class AbstractMultiSceneGame extends AbstractGame {
 
     /**
      * Swap the current scene to the provided new scene.
+     *
      * @param newScene New scene to swap
      */
-    public void swapScene(AbstractScene newScene){
-        if(!started)
+    public void swapScene(AbstractScene newScene) {
+        if (!started)
             throw new UnsupportedOperationException("Game not started");
-        if(isFinished())
+        if (isFinished())
             throw new UnsupportedOperationException("Called swap scene on finished game.");
         this.nextScene = newScene;
     }
@@ -68,7 +69,7 @@ public abstract class AbstractMultiSceneGame extends AbstractGame {
 
     @Override
     protected void onRender(GL10 gl10) {
-        if(this.nextScene == null){ // Terminate rendering if new scene is scheduled
+        if (this.nextScene == null) { // Terminate rendering if new scene is scheduled
             this.currentScene.onRender(gl10);
         }
     }
@@ -80,7 +81,7 @@ public abstract class AbstractMultiSceneGame extends AbstractGame {
         // TODO: Post-scene update event
 
         // Changeover check
-        if(this.nextScene != null){
+        if (this.nextScene != null) {
             this.currentScene.finish(); // Informs current scene to revoke its resources.
             this.unregisterModule(this.currentScene);
 

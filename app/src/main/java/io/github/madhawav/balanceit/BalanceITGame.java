@@ -5,10 +5,6 @@ import android.content.Context;
 import io.github.madhawav.balanceit.gameplay.GameParameters;
 import io.github.madhawav.balanceit.opengleslearn.R;
 import io.github.madhawav.balanceit.scenes.GamePlayScene;
-
-import io.github.madhawav.gameengine.graphics.TextureAssetManager;
-import io.github.madhawav.gameengine.multiscene.AbstractMultiSceneGame;
-import io.github.madhawav.gameengine.multiscene.AbstractScene;
 import io.github.madhawav.gameengine.ResourceUtil;
 import io.github.madhawav.gameengine.coreengine.GameDescription;
 import io.github.madhawav.gameengine.graphics.AbstractShader;
@@ -16,6 +12,9 @@ import io.github.madhawav.gameengine.graphics.BasicShader;
 import io.github.madhawav.gameengine.graphics.GraphicsEngine;
 import io.github.madhawav.gameengine.graphics.GraphicsEngineDescription;
 import io.github.madhawav.gameengine.graphics.SpriteEngine;
+import io.github.madhawav.gameengine.graphics.TextureAssetManager;
+import io.github.madhawav.gameengine.multiscene.AbstractMultiSceneGame;
+import io.github.madhawav.gameengine.multiscene.AbstractScene;
 
 /**
  * The entry point of the game. This is a multi-scene game. (E.g. Game-play scene, GameOver scene)
@@ -50,6 +49,7 @@ public class BalanceITGame extends AbstractMultiSceneGame {
 
     /**
      * Return the initial scene.
+     *
      * @return initial scene of the game
      */
     @Override

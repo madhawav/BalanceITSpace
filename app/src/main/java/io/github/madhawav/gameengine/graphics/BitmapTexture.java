@@ -14,24 +14,46 @@ import io.github.madhawav.gameengine.coreengine.AbstractEngineModule;
  */
 public class BitmapTexture extends Texture {
     private Bitmap bitmap;
+
     BitmapTexture(int textureHandle) {
         super(textureHandle);
         this.bitmap = null;
     }
 
-    public Bitmap getBitmap(){
+    /**
+     * Creates a bitmap texture linked to the life-time of given owner
+     *
+     * @param bitmap Source bitmap
+     * @param owner  Owner to link life-time.
+     * @return Newly created texture.
+     */
+    public static BitmapTexture create(Bitmap bitmap, AbstractEngineModule owner) {
+        final int[] textureHandle = new int[1];
+        GLES20.glGenTextures(1, textureHandle, 0);
+
+        if (textureHandle[0] == 0) {
+            throw new RuntimeException("Error creating texture.");
+        }
+
+        BitmapTexture texture = new BitmapTexture(textureHandle[0]);
+        texture.setBitmap(bitmap);
+        owner.registerModule(texture);
+        return texture;
+    }
+
+    public Bitmap getBitmap() {
         return bitmap;
     }
 
-    public void setBitmap(Bitmap bitmap){
-        if(bitmap == null)
-            throw  new IllegalArgumentException("Null bitmap provided");
+    public void setBitmap(Bitmap bitmap) {
+        if (bitmap == null)
+            throw new IllegalArgumentException("Null bitmap provided");
         this.bitmap = bitmap;
         this.invalidate();
     }
 
-    public void invalidate(){
-        if(bitmap == null)
+    public void invalidate() {
+        if (bitmap == null)
             throw new IllegalStateException("No bitmap provided");
 
         // Bind to the texture in OpenGL
@@ -50,38 +72,16 @@ public class BitmapTexture extends Texture {
         // Free existing handle
         GLES20.glDeleteTextures(1, new int[]{getHandle()}, 0);
 
-       // We no longer destroy the texture. We re-create it.
+        // We no longer destroy the texture. We re-create it.
         final int[] textureHandle = new int[1];
         GLES20.glGenTextures(1, textureHandle, 0);
 
-        if (textureHandle[0] == 0)
-        {
+        if (textureHandle[0] == 0) {
             throw new RuntimeException("Error creating texture.");
         }
 
         setHandle(textureHandle[0]);
 
         invalidate();
-    }
-
-    /**
-     * Creates a bitmap texture linked to the life-time of given owner
-     * @param bitmap Source bitmap
-     * @param owner Owner to link life-time.
-     * @return Newly created texture.
-     */
-    public static BitmapTexture create(Bitmap bitmap, AbstractEngineModule owner){
-        final int[] textureHandle = new int[1];
-        GLES20.glGenTextures(1, textureHandle, 0);
-
-        if (textureHandle[0] == 0)
-        {
-            throw new RuntimeException("Error creating texture.");
-        }
-
-        BitmapTexture texture = new BitmapTexture(textureHandle[0]);
-        texture.setBitmap(bitmap);
-        owner.registerModule(texture);
-        return texture;
     }
 }
