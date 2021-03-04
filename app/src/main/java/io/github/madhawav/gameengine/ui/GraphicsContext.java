@@ -46,16 +46,16 @@ public final class GraphicsContext {
     }
 
     /**
-     * Retrieve opacity multiplier
-     * @return
+     * Retrieve opacity multiplier. Opacity multiplier is used to compound opacity of ancestors to a child element.
+     * @return opacity multiplier
      */
     public float getOpacity() {
         return opacity;
     }
 
     /**
-     * Set opacity multiplier
-     * @param opacity
+     * Set opacity multiplier. Opacity multiplier is used to compound opacity of ancestors to a child element.
+     * @param opacity opacity multiplier
      */
     public void setOpacity(float opacity) {
         this.opacity = opacity;

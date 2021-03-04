@@ -39,19 +39,20 @@ public class Label extends AbstractUIElement {
 
     /**
      * Creates a text label
+     *
      * @param graphicsContext Graphics context to bind with
-     * @param text Text of the label
-     * @param canvasSize Size of Android Canvas on which the texture is rendered internally. Should be either 32, 64, 128, 256 or 512
-     * @param x X coordinate of the top left corner
-     * @param y Y coordinate of the top left corner
-     * @param width Width of the label
-     * @param height Height of the label
-     * @param color Text color
-     * @param fontSize Font size
+     * @param text            Text of the label
+     * @param canvasSize      Size of Android Canvas on which the texture is rendered internally. Should be either 32, 64, 128, 256 or 512
+     * @param x               X coordinate of the top left corner
+     * @param y               Y coordinate of the top left corner
+     * @param width           Width of the label
+     * @param height          Height of the label
+     * @param color           Text color
+     * @param fontSize        Font size
      */
     public Label(GraphicsContext graphicsContext, String text, int canvasSize, float x, float y, float width, float height, MathUtil.Vector4 color, int fontSize) {
         super(graphicsContext);
-        if(!(canvasSize == 512 || canvasSize == 256 || canvasSize == 128 || canvasSize == 64 || canvasSize == 32)){
+        if (!(canvasSize == 512 || canvasSize == 256 || canvasSize == 128 || canvasSize == 64 || canvasSize == 32)) {
             throw new IllegalArgumentException("Unsupported canvas size");
         }
         this.canvasSize = canvasSize;
@@ -67,13 +68,14 @@ public class Label extends AbstractUIElement {
         this.sourceBitmap = null;
         this.texture = null;
         this.textAlign = Paint.Align.LEFT;
-        this.typeface =Typeface.DEFAULT;
+        this.typeface = Typeface.DEFAULT;
 
         this.dirty = true;
     }
 
     /**
      * Return typeface of font
+     *
      * @return Typeface
      */
     public Typeface getTypeface() {
@@ -87,6 +89,7 @@ public class Label extends AbstractUIElement {
 
     /**
      * Return text alignment
+     *
      * @return text alignment
      */
     public Paint.Align getTextAlign() {
@@ -101,24 +104,23 @@ public class Label extends AbstractUIElement {
     /**
      * Re-generates the bitmap and the texture
      */
-    public void invalidate(){
-        if(sourceBitmap == null)
-        {
+    public void invalidate() {
+        if (sourceBitmap == null) {
             // First time call
-            sourceBitmap = Bitmap.createBitmap(canvasSize ,canvasSize, Bitmap.Config.ARGB_8888);
+            sourceBitmap = Bitmap.createBitmap(canvasSize, canvasSize, Bitmap.Config.ARGB_8888);
             texture = BitmapTexture.create(sourceBitmap, this);
         }
 
         // Clear existing content
         Canvas canvas = new Canvas(sourceBitmap);
         Paint paint = new Paint();
-        paint.setXfermode(new PorterDuffXfermode( PorterDuff.Mode.SRC_OUT));
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
         paint.setAlpha(0);
         canvas.drawPaint(paint);
 
         // Draw text
         paint = new Paint();
-        paint.setARGB((int)(color.getW() * 255), (int)(color.getX() * 255), (int)(color.getY() * 255), (int)(color.getZ() * 255));
+        paint.setARGB((int) (color.getW() * 255), (int) (color.getX() * 255), (int) (color.getY() * 255), (int) (color.getZ() * 255));
         paint.setTextSize(fontSize);
         paint.setFlags(Paint.ANTI_ALIAS_FLAG);
         paint.setTextAlign(textAlign);
@@ -127,14 +129,12 @@ public class Label extends AbstractUIElement {
         Rect textBound = new Rect();
         paint.getTextBounds(text, 0, text.length(), textBound);
 
-        if(textAlign== Paint.Align.LEFT){
+        if (textAlign == Paint.Align.LEFT) {
             canvas.drawText(text, -textBound.left, -textBound.top, paint);
-        }
-        else if (textAlign== Paint.Align.RIGHT){
-            canvas.drawText(text, canvasSize-textBound.left, -textBound.top, paint);
-        }
-        else{
-            canvas.drawText(text, (int)(canvasSize/2), -textBound.top, paint);
+        } else if (textAlign == Paint.Align.RIGHT) {
+            canvas.drawText(text, canvasSize - textBound.left, -textBound.top, paint);
+        } else {
+            canvas.drawText(text, (float) canvasSize / 2, -textBound.top, paint);
         }
 
         texture.invalidate(); // Inform the BitmapTexture to update.
@@ -142,9 +142,9 @@ public class Label extends AbstractUIElement {
     }
 
     public void setText(String text) {
-        if(text == null)
+        if (text == null)
             throw new IllegalArgumentException("Null string");
-        if(this.text.equals(text))
+        if (this.text.equals(text))
             return;
         this.text = text;
         dirty = true;
@@ -155,7 +155,7 @@ public class Label extends AbstractUIElement {
     }
 
     public void setFontSize(int fontSize) {
-        if(this.fontSize == fontSize)
+        if (this.fontSize == fontSize)
             return;
         this.fontSize = fontSize;
         dirty = true;
@@ -170,7 +170,7 @@ public class Label extends AbstractUIElement {
         return color;
     }
 
-    public String getText(){
+    public String getText() {
         return text;
     }
 
@@ -186,9 +186,9 @@ public class Label extends AbstractUIElement {
 
     @Override
     public void onRender(GL10 gl10) {
-        if(!isVisible()) return;
+        if (!isVisible()) return;
 
-        if(dirty) // If dirty, regenerate texture.
+        if (dirty) // If dirty, regenerate texture.
             invalidate();
 
         this.getGraphicsContext().getSpriteEngine().drawSpriteAA(
@@ -197,8 +197,8 @@ public class Label extends AbstractUIElement {
     }
 
     @Override
-    protected void onSurfaceChanged(GL10 gl10, int screenWidth, int screenHeight, MathUtil.Rect2I viewport) {
-        super.onSurfaceChanged(gl10, screenWidth, screenHeight, viewport);
+    protected void onSurfaceChanged(GL10 gl10, int canvasWidth, int canvasHeight, MathUtil.Rect2I viewport) {
+        super.onSurfaceChanged(gl10, canvasWidth, canvasHeight, viewport);
 
     }
 

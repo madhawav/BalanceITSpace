@@ -28,7 +28,7 @@ public abstract class AbstractUIElement extends AbstractEngineModule {
 
     /**
      * Retrieve GraphicsContext associated with the UI element
-     * @return
+     * @return Graphics context
      */
     public GraphicsContext getGraphicsContext(){
         return graphicsContext;

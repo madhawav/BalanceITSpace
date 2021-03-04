@@ -24,13 +24,7 @@ public class GameLogic extends AbstractLogic{
         registerLogic(new BallLogic(gameState, gameParameters));
         registerLogic(new LevelLogic(gameState, gameParameters, GameLogic.this::levelUp));
         registerLogic(scoreLogic);
-        registerLogic(new WarmUpModeLogic(gameState, gameParameters, new WarmUpModeLogic.Callback() {
-            @Override
-            public void onBoundaryBounce() {
-                scoreLogic.onBorderBounce();
-
-            }
-        }));
+        registerLogic(new WarmUpModeLogic(gameState, gameParameters, scoreLogic::onBorderBounce));
     }
 
     public void onUpdate(double elapsedSec, MathUtil.Vector3 gravity){

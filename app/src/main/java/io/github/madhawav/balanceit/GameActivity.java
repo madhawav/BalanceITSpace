@@ -1,7 +1,6 @@
 package io.github.madhawav.balanceit;
 
 import android.app.Activity;
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.WindowManager;

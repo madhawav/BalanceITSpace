@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
-import android.opengl.Matrix;
 
 /**
  * Utility methods for 3D graphics rendering
@@ -40,7 +39,6 @@ public class GraphicsUtil {
             // If the compilation failed, delete the shader.
             if (compileStatus[0] == 0)
             {
-                //		Log.e(TAG, "Error compiling shader: " + GLES20.glGetShaderInfoLog(shaderHandle));
                 GLES20.glDeleteShader(shaderHandle);
                 shaderHandle = 0;
             }
@@ -94,7 +92,6 @@ public class GraphicsUtil {
             // If the link failed, delete the program.
             if (linkStatus[0] == 0)
             {
-                //Log.e(TAG, "Error compiling program: " + GLES20.glGetProgramInfoLog(programHandle));
                 GLES20.glDeleteProgram(programHandle);
                 programHandle = 0;
             }
@@ -110,9 +107,9 @@ public class GraphicsUtil {
 
     /**
      * Helper function to load a texture from a Android resource
-     * @param context
-     * @param resourceId
-     * @return
+     * @param context Android context
+     * @param resourceId Android resource id
+     * @return OpenGL Texture handle
      */
     static int loadTexture(final Context context, final int resourceId)
     {

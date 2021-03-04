@@ -22,7 +22,7 @@ public class WarmUpModeLogic extends AbstractLogic {
 
     private void checkWarmUpBounds() {
         if (gameState.getBallPosition().getLength() > gameParameters.BOARD_SIZE / 2) { // Ball leaves the deck
-            MathUtil.Vector3 ballOffDir = gameState.getBallPosition().clone();
+            MathUtil.Vector3 ballOffDir = gameState.getBallPosition().copy();
             ballOffDir.multiply(1.0f / gameState.getBallPosition().getLength());
             float radial = MathUtil.dotProduct(ballOffDir, gameState.getBallVelocity());
 
@@ -35,7 +35,7 @@ public class WarmUpModeLogic extends AbstractLogic {
                 gameState.getBallVelocity().add(tangent);
 
                 // Compute radial impulse (bounce)
-                MathUtil.Vector3 radialForce = ballOffDir.clone();
+                MathUtil.Vector3 radialForce = ballOffDir.copy();
                 radialForce.multiply(-radial * 1.5f);
                 gameState.getBallVelocity().add(radialForce);
 

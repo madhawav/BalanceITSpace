@@ -6,6 +6,7 @@ import android.content.Context;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -37,15 +38,15 @@ public class TextureAssetManager extends AbstractAssetManager {
 
     /**
      * Retrievers a texture given an android resource. Records ownership claim for the texture.
-     * @param resourceId
-     * @param owner
-     * @return
+     * @param resourceId Resource id of source image
+     * @param owner Engine module claiming ownership. Texture is linked to the lifetime of this module.
+     * @return Texture
      */
     public Texture getTextureFromResource(int resourceId, AbstractEngineModule owner){
         if(this.isFinished())
             throw new IllegalStateException("Method call on finished resource");
 
-        if((!resourceTextureMap.containsKey(resourceId)) || (!resourceTextureMap.get(resourceId).isAvailable()))
+        if((!resourceTextureMap.containsKey(resourceId)) || (!Objects.requireNonNull(resourceTextureMap.get(resourceId)).isAvailable()))
         {
             Set<AbstractEngineModule> owners = new HashSet<>();
             if(resourceTextureMap.containsKey(resourceId)){
@@ -65,20 +66,20 @@ public class TextureAssetManager extends AbstractAssetManager {
         if(!this.ownerTexturesMap.containsKey(owner)){
             this.ownerTexturesMap.put(owner, new HashSet<>());
         }
-        this.ownerTexturesMap.get(owner).add(texture);
+        Objects.requireNonNull(this.ownerTexturesMap.get(owner)).add(texture);
 
         // Increment reference count
-        this.textureOwnerMap.get(texture).add(owner);
+        Objects.requireNonNull(this.textureOwnerMap.get(texture)).add(owner);
         return texture;
     }
 
     /**
      * Disposes the texture. Remove all of its ownership claims.
-     * @param texture
+     * @param texture Texture to dispose
      */
     private void disposeTexture(Texture texture){
         if(textureOwnerMap.containsKey(texture)){
-            textureOwnerMap.get(texture).forEach((owner)->ownerTexturesMap.get(owner).remove(texture));
+            Objects.requireNonNull(textureOwnerMap.get(texture)).forEach((owner)-> Objects.requireNonNull(ownerTexturesMap.get(owner)).remove(texture));
         }
         textureOwnerMap.remove(texture);
         unregisterModule(texture);
@@ -87,12 +88,12 @@ public class TextureAssetManager extends AbstractAssetManager {
 
     /**
      * Revoke ownership claim for a texture. Texture gets disposed if nobody requires it.
-     * @param texture
-     * @param owner
+     * @param texture Texture to revoke ownership
+     * @param owner Revoker
      */
     public void revokeTexture(Texture texture, AbstractEngineModule owner){
-        this.textureOwnerMap.get(texture).remove(owner);
-        if(this.textureOwnerMap.get(texture).isEmpty()){ // Dispose if no more owners
+        Objects.requireNonNull(this.textureOwnerMap.get(texture)).remove(owner);
+        if(Objects.requireNonNull(this.textureOwnerMap.get(texture)).isEmpty()){ // Dispose if no more owners
             // Dispose
             disposeTexture(texture);
         }
@@ -100,8 +101,6 @@ public class TextureAssetManager extends AbstractAssetManager {
 
     /**
      * Clear information about any textures held since all textures get automatically freed when a surface is re-created.
-     * @param gl10
-     * @param config
      */
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig config){
@@ -123,8 +122,8 @@ public class TextureAssetManager extends AbstractAssetManager {
     }
 
     /**
-     * Revoke ownerships by the owner. Dispose if nobody holds.
-     * @param owner
+     * Revoke ownerships by the owner.
+     * @param owner Revoker
      */
     @Override
     public void revokeResources(AbstractEngineModule owner) {
@@ -133,7 +132,7 @@ public class TextureAssetManager extends AbstractAssetManager {
         if(!this.ownerTexturesMap.containsKey(owner))
             return; // Doesn't hold any textures
 
-        this.ownerTexturesMap.get(owner).forEach(texture -> { // Iterate over textures and remove ownership
+        Objects.requireNonNull(this.ownerTexturesMap.get(owner)).forEach(texture -> { // Iterate over textures and remove ownership
             revokeTexture(texture, owner);
         });
         this.ownerTexturesMap.remove(owner);

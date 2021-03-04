@@ -18,13 +18,13 @@ public class SpriteEngine extends AbstractEngineModule {
 
     /**
      * Draw an axis aligned sprite with a rectangle boundary
-     * @param texture
-     * @param x
-     * @param y
-     * @param width
-     * @param height
-     * @param z
-     * @param opacity
+     * @param texture Texture of the sprite
+     * @param x X coordinate of the top left corner
+     * @param y Y coordinate of the top left corner
+     * @param width Width of the sprite
+     * @param height Height of the sprite
+     * @param z Z index
+     * @param opacity Opacity of the sprite
      */
     public void drawSpriteAA(Texture texture, float x, float y, float width, float height, float z, float opacity){
         setupSpriteProjectionMatrix(graphicsEngine.getProjectionMatrix(),  graphicsEngine.getViewportWidth(), graphicsEngine.getViewportHeight());
@@ -41,14 +41,14 @@ public class SpriteEngine extends AbstractEngineModule {
 
     /**
      * Draws a center aligned oriented sprite with a rectangular boundary.
-     * @param texture
-     * @param cx
-     * @param cy
-     * @param angle
-     * @param width
-     * @param height
-     * @param z
-     * @param opacity
+     * @param texture Texture of the sprite
+     * @param cx X coordinate of the center
+     * @param cy Y coordinate of the center
+     * @param angle Angle across Z axis
+     * @param width Width of the sprite
+     * @param height Height of the sprite
+     * @param z Z index
+     * @param opacity Opacity of the sprite
      */
     public void drawSprite(Texture texture, float cx, float cy, float angle, float width, float height, float z, float opacity){
         setupSpriteProjectionMatrix(graphicsEngine.getProjectionMatrix(),  graphicsEngine.getViewportWidth(), graphicsEngine.getViewportHeight());
@@ -66,8 +66,8 @@ public class SpriteEngine extends AbstractEngineModule {
 
     /**
      * Draw a unit sized square
-     * @param texture
-     * @param opacity
+     * @param texture Draws a texture using the current transformation of the graphics engine
+     * @param opacity Opacity
      */
     void drawQuad(Texture texture,  float opacity){
         boolean preserveDepthSetting = graphicsEngine.isDepthEnabled();
@@ -78,9 +78,9 @@ public class SpriteEngine extends AbstractEngineModule {
 
     /**
      * Create a sprite canvas with a specified viewport size, which gets scaled to fit the output canvas.
-     * @param width
-     * @param height
-     * @return
+     * @param width Viewport width
+     * @param height Viewport height
+     * @return ScaledSpriteCanvas
      */
     public ScaledSpriteCanvas createSpriteCanvas(float width, float height){
         return new ScaledSpriteCanvas(width, height);
@@ -88,18 +88,18 @@ public class SpriteEngine extends AbstractEngineModule {
 
     /**
      * Setup provided projection matrix for sprite rendering
-     * @param matrix
-     * @param screenWidth
-     * @param screenHeight
+     * @param matrix Matrix to be modified
+     * @param ViewportWidth Width of the viewport
+     * @param ViewportHeight Height of the viewport
      */
-    static void setupSpriteProjectionMatrix(float[] matrix, float screenWidth, float screenHeight){
-        Matrix.orthoM(matrix, 0, 0, screenWidth, screenHeight, 0, PROJECTION_CULL_NEAR, PROJECTION_CULL_FAR);
+    static void setupSpriteProjectionMatrix(float[] matrix, float ViewportWidth, float ViewportHeight){
+        Matrix.orthoM(matrix, 0, 0, ViewportWidth, ViewportHeight, 0, PROJECTION_CULL_NEAR, PROJECTION_CULL_FAR);
     }
 
 
     /**
      * Setup provided view matrix for sprite rendering
-     * @param matrix
+     * @param matrix Matrix to be modified
      */
     static void setupSpriteViewMatrix(float[] matrix){
         // Position the eye in front of the origin.
@@ -135,15 +135,16 @@ public class SpriteEngine extends AbstractEngineModule {
         }
 
         /**
-         * Draw a sprite,
-         * @param texture
-         * @param cx
-         * @param cy
-         * @param angle
-         * @param width
-         * @param height
-         * @param cz
-         * @param opacity
+         * Draws a center aligned oriented sprite with a rectangular boundary.
+         *
+         * @param texture Texture of the sprite
+         * @param cx      X coordinate of the center
+         * @param cy      Y coordinate of the center
+         * @param angle   Angle across Z axis
+         * @param width   Width of the sprite
+         * @param height  Height of the sprite
+         * @param cz      Z-index
+         * @param opacity Opacity of the sprite
          */
         public void drawSprite(Texture texture, float cx, float cy, float angle, float width, float height, float cz, float opacity){
             setupSpriteProjectionMatrix(graphicsEngine.getProjectionMatrix(),  canvasWidth, canvasHeight);
@@ -158,14 +159,14 @@ public class SpriteEngine extends AbstractEngineModule {
         }
 
         /**
-         * Draw an axis aligned sprite
-         * @param texture
-         * @param x
-         * @param y
-         * @param width
-         * @param height
-         * @param z
-         * @param opacity
+         * Draw an axis aligned sprite with a rectangle boundary
+         * @param texture Texture of the sprite
+         * @param x X coordinate of the top left corner
+         * @param y Y coordinate of the top left corner
+         * @param width Width of the sprite
+         * @param height Height of the sprite
+         * @param z Z index
+         * @param opacity Opacity of the sprite
          */
         public void drawSpriteAA(Texture texture, float x, float y, float width, float height, float z, float opacity){
             setupSpriteProjectionMatrix(graphicsEngine.getProjectionMatrix(),  canvasWidth, canvasHeight);

@@ -22,7 +22,7 @@ public abstract class AbstractScene extends AbstractEngineModule {
 
     /**
      * Access to Game object which hold the scene.
-     * @return
+     * @return Game
      */
     public AbstractMultiSceneGame getGame() {
         if(this.game == null)

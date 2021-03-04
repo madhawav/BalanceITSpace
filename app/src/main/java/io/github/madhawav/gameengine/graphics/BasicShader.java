@@ -46,7 +46,7 @@ public class BasicShader extends AbstractShader {
 
     /**
      * Bind geometry information to shader
-     * @param geometry
+     * @param geometry Geometry to be bound.
      */
     public void bindGeometry(Geometry geometry){
         // Pass in position information

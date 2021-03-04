@@ -13,13 +13,13 @@ public class ImageButton extends AbstractUIElement {
 
     /**
      * Creates an ImageButton
-     * @param graphicsContext
-     * @param imageResourceId
-     * @param x
-     * @param y
-     * @param width
-     * @param height
-     * @param clickListener
+     * @param graphicsContext Graphics context to bound
+     * @param imageResourceId Android resource of image
+     * @param x X coordinate of top left corner
+     * @param y Y coordinate of top left corner
+     * @param width Width of element
+     * @param height height of element
+     * @param clickListener Callback to receive click events
      */
     public ImageButton(GraphicsContext graphicsContext, int imageResourceId, float x, float y, float width, float height, ClickListener clickListener){
         super(graphicsContext);

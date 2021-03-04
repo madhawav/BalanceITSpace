@@ -29,7 +29,7 @@ public class GameState{
     private double levelRemainTime;
     private double levelMarksMultiplier;
 
-    private float tNeta;
+    private float frictionCoefficient;
 
     private float score;
     private float positionScoreMultiplier;
@@ -62,7 +62,7 @@ public class GameState{
         level = 1;
         levelTotalTime = gameParameters.INITIAL_LEVEL_DURATION;
         levelRemainTime = gameParameters.INITIAL_LEVEL_DURATION;
-        tNeta = gameParameters.INITIAL_AIR_RESISTANCE;
+        frictionCoefficient = gameParameters.INITIAL_AIR_RESISTANCE;
 
         levelMarksMultiplier = gameParameters.INITIAL_SCORE_MULTIPLIER;
         positionScoreMultiplier = 0;
@@ -123,12 +123,12 @@ public class GameState{
         this.levelMarksMultiplier = levelMarksMultiplier;
     }
 
-    public float getTNeta() {
-        return tNeta;
+    public float getFrictionCoefficient() {
+        return frictionCoefficient;
     }
 
-    public void setTNeta(float tNeta) {
-        this.tNeta = tNeta;
+    public void setFrictionCoefficient(float frictionCoefficient) {
+        this.frictionCoefficient = frictionCoefficient;
     }
 
     public int getLevel() {

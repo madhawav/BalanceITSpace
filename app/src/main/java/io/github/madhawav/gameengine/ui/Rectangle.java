@@ -27,13 +27,13 @@ public class Rectangle extends AbstractUIElement {
     private boolean dirty; // Re-create the internal bitmap and texture in the next render cycle.
 
     /**
-     * Creates a Rectangle
-     * @param graphicsContext
-     * @param x
-     * @param y
-     * @param width
-     * @param height
-     * @param color
+     * Creates a Rectangle UI element
+     * @param graphicsContext Graphics context to bind
+     * @param x X coordinate of top left corner
+     * @param y Y coordinate of top left corner
+     * @param width Width of element
+     * @param height Height of element
+     * @param color Fill color of the rectangle
      */
     public Rectangle(GraphicsContext graphicsContext, float x, float y, float width, float height, MathUtil.Vector4 color) {
         super(graphicsContext);
@@ -104,8 +104,8 @@ public class Rectangle extends AbstractUIElement {
     }
 
     @Override
-    protected void onSurfaceChanged(GL10 gl10, int screenWidth, int screenHeight, MathUtil.Rect2I viewport) {
-        super.onSurfaceChanged(gl10, screenWidth, screenHeight, viewport);
+    protected void onSurfaceChanged(GL10 gl10, int canvasWidth, int canvasHeight, MathUtil.Rect2I viewport) {
+        super.onSurfaceChanged(gl10, canvasWidth, canvasHeight, viewport);
 
     }
 

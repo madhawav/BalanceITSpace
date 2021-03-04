@@ -50,8 +50,7 @@ public class BalanceITGame extends AbstractMultiSceneGame {
 
     /**
      * Return the initial scene.
-     *
-     * @return
+     * @return initial scene of the game
      */
     @Override
     public AbstractScene getInitialScene() {

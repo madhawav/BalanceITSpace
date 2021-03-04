@@ -34,10 +34,10 @@ public class BalanceAssistanceLayer extends LayeredUI {
     @Override
     public void onUpdate(double elapsedSec) {
         super.onUpdate(elapsedSec);
-        MathUtil.Vector3 gravity = gravitySensor.getGravity().clone();
+        MathUtil.Vector3 gravity = gravitySensor.getGravity().copy();
         gravity.multiply(1.0f/gravity.getLength());
-        crossHairMarker.setX((float) camOffset.getX() - gravity.getX() * getGraphicsContext().getGraphicsEngine().getViewportWidth() - 50);
-        crossHairMarker.setY((float) camOffset.getY() + gravity.getY() * getGraphicsContext().getGraphicsEngine().getViewportHeight() - 50);
+        crossHairMarker.setX(camOffset.getX() - gravity.getX() * getGraphicsContext().getGraphicsEngine().getViewportWidth() - 50);
+        crossHairMarker.setY(camOffset.getY() + gravity.getY() * getGraphicsContext().getGraphicsEngine().getViewportHeight() - 50);
     }
 
     public void setCamOffset(MathUtil.Vector3 camOffset) {

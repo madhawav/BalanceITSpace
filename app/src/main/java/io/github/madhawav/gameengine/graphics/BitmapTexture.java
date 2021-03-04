@@ -66,9 +66,9 @@ public class BitmapTexture extends Texture {
 
     /**
      * Creates a bitmap texture linked to the life-time of given owner
-     * @param bitmap
-     * @param owner
-     * @return
+     * @param bitmap Source bitmap
+     * @param owner Owner to link life-time.
+     * @return Newly created texture.
      */
     public static BitmapTexture create(Bitmap bitmap, AbstractEngineModule owner){
         final int[] textureHandle = new int[1];

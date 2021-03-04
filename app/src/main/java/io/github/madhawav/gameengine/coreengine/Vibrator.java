@@ -15,7 +15,7 @@ public class Vibrator {
 
     /**
      * Returns true if the vibrator is supported
-     * @return
+     * @return True if the vibrator is supported. Otherwise false.
      */
     public boolean isSupported(){
         return vibrator != null;
@@ -23,7 +23,7 @@ public class Vibrator {
 
     /**
      * Vibrate the phone for a specified duration in seconds
-     * @param secs
+     * @param secs Duration in seconds to vibrate
      */
     public void vibrate(float secs){
         if(vibrator == null)

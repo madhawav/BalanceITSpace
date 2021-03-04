@@ -29,7 +29,7 @@ public abstract class AbstractEngineModule {
 
     /**
      * Registers an Engine Module so that it receives lifecycle events
-     * @param module
+     * @param module Module to register
      */
     public void registerModule(AbstractEngineModule module){
         if(isFinished())
@@ -39,7 +39,7 @@ public abstract class AbstractEngineModule {
 
     /**
      * Unregisters an Engine Module
-     * @param module
+     * @param module Module to unregister
      */
     public void unregisterModule(AbstractEngineModule module) {
         if(isFinished())
@@ -49,20 +49,15 @@ public abstract class AbstractEngineModule {
 
     /**
      * GL Surface Changed event
-     * @param gl10
-     * @param screenWidth
-     * @param screenHeight
-     * @param viewport
+     * @param viewport Rectangle specifying currently used OpenGL Viewport
      */
-    protected void onSurfaceChanged(GL10 gl10, int screenWidth, int screenHeight, MathUtil.Rect2I viewport)
+    protected void onSurfaceChanged(GL10 gl10, int canvasWidth, int canvasHeight, MathUtil.Rect2I viewport)
     {
-        this.registeredModules.forEach((module)->module.onSurfaceChanged(gl10, screenWidth, screenHeight, viewport));
+        this.registeredModules.forEach((module)->module.onSurfaceChanged(gl10, canvasWidth, canvasHeight, viewport));
     }
 
     /**
      * GL Surface Created event
-     * @param gl10
-     * @param config
      */
     protected void onSurfaceCreated(GL10 gl10, EGLConfig config){
         this.registeredModules.forEach((module)->module.onSurfaceCreated(gl10, config));

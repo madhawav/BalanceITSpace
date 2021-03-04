@@ -52,8 +52,7 @@ public class Geometry {
 
     /**
      * Generates a mesh of a square centered at origin, in the XY plane. Each side has a unit length.
-     *
-     * @return
+     * @return Geometry object
      */
     public static Geometry generateSquareGeometry() {
 
@@ -108,15 +107,15 @@ public class Geometry {
     /**
      * Generates geometry of a sphere.
      *
-     * @param radi
-     * @param yawSegCount
-     * @param pitchSegCount
-     * @return
+     * @param radius Radius of sphere
+     * @param yawSegCount Number of segments about vertical axis
+     * @param pitchSegCount Number of segments across poles
+     * @return Geometry object
      */
-    public static Geometry generateSphereGeometry(float radi, int yawSegCount, int pitchSegCount) {
+    public static Geometry generateSphereGeometry(float radius, int yawSegCount, int pitchSegCount) {
 
         float[] spherePositions = new float[(yawSegCount * pitchSegCount * 3 * 6)];
-        float[] sphereTextureCordinates = new float[yawSegCount * pitchSegCount * 2 * 6];
+        float[] sphereTextureCoordinates = new float[yawSegCount * pitchSegCount * 2 * 6];
         float[] sphereNormals = new float[yawSegCount * pitchSegCount * 3 * 6];
 
         float deltaYaw = (float) 360 / yawSegCount;
@@ -131,87 +130,87 @@ public class Geometry {
         for (float x = 0; x < 360; x += deltaYaw) {
             for (float y = -(float) 90; y < (float) 90; y += deltaPitch) {
                 //first point (up left)
-                float[] p = MathUtil.pitchYawnToVector(radi, x, y);
+                float[] p = MathUtil.pitchYawnToVector(radius, x, y);
                 spherePositions[positionOffset] = p[0];
                 spherePositions[positionOffset + 1] = p[1];
                 spherePositions[positionOffset + 2] = p[2];
                 sphereNormals[normalOffset] = -p[0];
                 sphereNormals[normalOffset + 1] = -p[1];
                 sphereNormals[normalOffset + 2] = -p[2];
-                sphereTextureCordinates[textureCoordinateOffset] = x / (float) (360);
-                sphereTextureCordinates[textureCoordinateOffset + 1] = y / (float) (180) + 0.5f;
+                sphereTextureCoordinates[textureCoordinateOffset] = x / (float) (360);
+                sphereTextureCoordinates[textureCoordinateOffset + 1] = y / (float) (180) + 0.5f;
                 positionOffset += 3;
                 normalOffset += 3;
                 textureCoordinateOffset += 2;
 
 
                 //second point (up right)
-                p = MathUtil.pitchYawnToVector(radi, x + deltaYaw, y);
+                p = MathUtil.pitchYawnToVector(radius, x + deltaYaw, y);
                 spherePositions[positionOffset] = p[0];
                 spherePositions[positionOffset + 1] = p[1];
                 spherePositions[positionOffset + 2] = p[2];
                 sphereNormals[normalOffset] = -p[0];
                 sphereNormals[normalOffset + 1] = -p[1];
                 sphereNormals[normalOffset + 2] = -p[2];
-                sphereTextureCordinates[textureCoordinateOffset] = (x + deltaYaw) / (float) (360);
-                sphereTextureCordinates[textureCoordinateOffset + 1] = y / (float) (180) + 0.5f;
+                sphereTextureCoordinates[textureCoordinateOffset] = (x + deltaYaw) / (float) (360);
+                sphereTextureCoordinates[textureCoordinateOffset + 1] = y / (float) (180) + 0.5f;
                 positionOffset += 3;
                 normalOffset += 3;
                 textureCoordinateOffset += 2;
 
                 //third point (down left)
-                p = MathUtil.pitchYawnToVector(radi, x, y + deltaPitch);
+                p = MathUtil.pitchYawnToVector(radius, x, y + deltaPitch);
                 spherePositions[positionOffset] = p[0];
                 spherePositions[positionOffset + 1] = p[1];
                 spherePositions[positionOffset + 2] = p[2];
                 sphereNormals[normalOffset] = -p[0];
                 sphereNormals[normalOffset + 1] = -p[1];
                 sphereNormals[normalOffset + 2] = -p[2];
-                sphereTextureCordinates[textureCoordinateOffset] = (x) / (float) (360);
-                sphereTextureCordinates[textureCoordinateOffset + 1] = (y + deltaPitch) / (float) (180) + 0.5f;
+                sphereTextureCoordinates[textureCoordinateOffset] = (x) / (float) (360);
+                sphereTextureCoordinates[textureCoordinateOffset + 1] = (y + deltaPitch) / (float) (180) + 0.5f;
                 positionOffset += 3;
                 normalOffset += 3;
                 textureCoordinateOffset += 2;
 
                 //third point (down left)
-                p = MathUtil.pitchYawnToVector(radi, x, y + deltaPitch);
+                p = MathUtil.pitchYawnToVector(radius, x, y + deltaPitch);
                 spherePositions[positionOffset] = p[0];
                 spherePositions[positionOffset + 1] = p[1];
                 spherePositions[positionOffset + 2] = p[2];
                 sphereNormals[normalOffset] = -p[0];
                 sphereNormals[normalOffset + 1] = -p[1];
                 sphereNormals[normalOffset + 2] = -p[2];
-                sphereTextureCordinates[textureCoordinateOffset] = (x) / (float) (360);
-                sphereTextureCordinates[textureCoordinateOffset + 1] = (y + deltaPitch) / (float) (180) + 0.5f;
+                sphereTextureCoordinates[textureCoordinateOffset] = (x) / (float) (360);
+                sphereTextureCoordinates[textureCoordinateOffset + 1] = (y + deltaPitch) / (float) (180) + 0.5f;
                 positionOffset += 3;
                 normalOffset += 3; /*colorOffset+=4*/
 
                 textureCoordinateOffset += 2;
 
                 //fourth point (down right)
-                p = MathUtil.pitchYawnToVector(radi, x + deltaYaw, y + deltaPitch);
+                p = MathUtil.pitchYawnToVector(radius, x + deltaYaw, y + deltaPitch);
                 spherePositions[positionOffset] = p[0];
                 spherePositions[positionOffset + 1] = p[1];
                 spherePositions[positionOffset + 2] = p[2];
                 sphereNormals[normalOffset] = -p[0];
                 sphereNormals[normalOffset + 1] = -p[1];
                 sphereNormals[normalOffset + 2] = -p[2];
-                sphereTextureCordinates[textureCoordinateOffset] = (x + deltaYaw) / (float) (360);
-                sphereTextureCordinates[textureCoordinateOffset + 1] = (y + deltaPitch) / (float) (180) + 0.5f;
+                sphereTextureCoordinates[textureCoordinateOffset] = (x + deltaYaw) / (float) (360);
+                sphereTextureCoordinates[textureCoordinateOffset + 1] = (y + deltaPitch) / (float) (180) + 0.5f;
                 positionOffset += 3;
                 normalOffset += 3;
                 textureCoordinateOffset += 2;
 
                 //second point (up right)
-                p = MathUtil.pitchYawnToVector(radi, x + deltaYaw, y);
+                p = MathUtil.pitchYawnToVector(radius, x + deltaYaw, y);
                 spherePositions[positionOffset] = p[0];
                 spherePositions[positionOffset + 1] = p[1];
                 spherePositions[positionOffset + 2] = p[2];
                 sphereNormals[normalOffset] = -p[0];
                 sphereNormals[normalOffset + 1] = -p[1];
                 sphereNormals[normalOffset + 2] = -p[2];
-                sphereTextureCordinates[textureCoordinateOffset] = (x + deltaYaw) / (float) (360);
-                sphereTextureCordinates[textureCoordinateOffset + 1] = y / (float) (180) + 0.5f;
+                sphereTextureCoordinates[textureCoordinateOffset] = (x + deltaYaw) / (float) (360);
+                sphereTextureCoordinates[textureCoordinateOffset + 1] = y / (float) (180) + 0.5f;
                 positionOffset += 3;
                 normalOffset += 3;
 
@@ -231,9 +230,9 @@ public class Geometry {
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
         mSphereNormals.put(sphereNormals).position(0);
 
-        FloatBuffer mSphereTextureCoordinates = ByteBuffer.allocateDirect(sphereTextureCordinates.length * BYTES_PER_FLOAT)
+        FloatBuffer mSphereTextureCoordinates = ByteBuffer.allocateDirect(sphereTextureCoordinates.length * BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
-        mSphereTextureCoordinates.put(sphereTextureCordinates).position(0);
+        mSphereTextureCoordinates.put(sphereTextureCoordinates).position(0);
 
         return new Geometry(mSpherePositions, mSphereNormals, mSphereTextureCoordinates, sphereVertexCount);
     }
@@ -241,7 +240,7 @@ public class Geometry {
     /**
      * Return number of vertices
      *
-     * @return
+     * @return Vertex count
      */
     public int getVertexCount() {
         return vertexCount;

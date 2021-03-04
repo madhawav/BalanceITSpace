@@ -15,7 +15,7 @@ public class LayeredUI extends AbstractUIElement {
 
     /**
      * Creates a LayeredUI container.
-     * @param graphicsContext
+     * @param graphicsContext Graphics context to bind
      */
     public LayeredUI(GraphicsContext graphicsContext){
         super(graphicsContext);
@@ -25,7 +25,7 @@ public class LayeredUI extends AbstractUIElement {
 
     /**
      * Adds an element as a new layer at the top.
-     * @param element
+     * @param element UI element added
      */
     public void addElement(AbstractUIElement element){
         if(this.isFinished())
@@ -39,7 +39,7 @@ public class LayeredUI extends AbstractUIElement {
 
     /**
      * Removes and disposes an element.
-     * @param element
+     * @param element UI element removed and disposed
      */
     public void finishElement(AbstractUIElement element){
         if(this.isFinished())
@@ -54,8 +54,8 @@ public class LayeredUI extends AbstractUIElement {
 
     /**
      * Get element at index
-     * @param index
-     * @return
+     * @param index index of element
+     * @return Element at index
      */
     public AbstractUIElement get(int index){
         return this.elements.get(index);
@@ -74,7 +74,6 @@ public class LayeredUI extends AbstractUIElement {
 
     /**
      * Draw elements from first to last.
-     * @param gl10
      */
     @Override
     public void onRender(GL10 gl10) {

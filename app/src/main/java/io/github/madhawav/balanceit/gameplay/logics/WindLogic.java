@@ -77,7 +77,7 @@ public class WindLogic extends AbstractLogic {
 
         for(ParticleState particle: gameState.getParticles()){
             if(particle.isEnabled()){
-                MathUtil.Vector3 scaledVelocity = particle.getVelocity().clone();
+                MathUtil.Vector3 scaledVelocity = particle.getVelocity().copy();
                 scaledVelocity.multiply((float) (elapsedSec * gameParameters.TIME_SCALE));
                 particle.getPosition().add(scaledVelocity);
                 if(particle.getPosition().getLength2() > gameParameters.PARTICLE_RANGE_SQ){
@@ -92,7 +92,7 @@ public class WindLogic extends AbstractLogic {
                     float angle=ran.nextFloat()*2-1;
                     angle+=gameState.getWindAngle();
                     particle.setEnabled(true);
-                    particle.getVelocity().set(wind.clone());
+                    particle.getVelocity().set(wind.copy());
                     particle.getPosition().set(-gameParameters.PARTICLE_RANGE * (float)Math.cos(angle), -gameParameters.PARTICLE_RANGE*(float)Math.sin(angle), 0);
                     gameState.changeActiveParticleCount(1);
                 }

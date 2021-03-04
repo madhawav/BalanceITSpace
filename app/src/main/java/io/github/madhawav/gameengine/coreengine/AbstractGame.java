@@ -48,8 +48,8 @@ public abstract class AbstractGame extends AbstractEngineModule {
 
     /**
      * Constructor of a Game.
-     * @param context
-     * @param gameDescription
+     * @param context Android context
+     * @param gameDescription Game description
      */
     protected AbstractGame(Context context, GameDescription gameDescription){
         this.context = context;
@@ -119,7 +119,6 @@ public abstract class AbstractGame extends AbstractEngineModule {
 
     /**
      * Return Vibrator
-     * @return
      */
     public Vibrator getVibrator() {
         if(vibrator == null)
@@ -133,7 +132,6 @@ public abstract class AbstractGame extends AbstractEngineModule {
 
     /**
      * Return asset manager used by the game
-     * @return
      */
     public AbstractAssetManager getAssetManager() {
         return assetManager;
@@ -151,9 +149,6 @@ public abstract class AbstractGame extends AbstractEngineModule {
 
     /**
      * Notify touch down
-     * @param x
-     * @param y
-     * @return
      */
     boolean touchDown(float x, float y){
         if(awaitOnStartUntilGLContextReady)
@@ -163,9 +158,6 @@ public abstract class AbstractGame extends AbstractEngineModule {
 
     /**
      * Notify touch move
-     * @param x
-     * @param y
-     * @return
      */
     boolean touchMove(float x, float y){
         if(awaitOnStartUntilGLContextReady)
@@ -175,9 +167,6 @@ public abstract class AbstractGame extends AbstractEngineModule {
 
     /**
      * Notify touch release
-     * @param x
-     * @param y
-     * @return
      */
     boolean touchReleased(float x, float y){
         if(awaitOnStartUntilGLContextReady)
@@ -187,31 +176,30 @@ public abstract class AbstractGame extends AbstractEngineModule {
 
     /**
      * User has initiated a touch operation
-     * @param x Touch Position x
-     * @param y Touch Position y
+     * @param x Touch Position x relative to the viewport
+     * @param y Touch Position y relative to the viewport
      * @return True if event is handled
      */
     public abstract boolean onTouchDown(float x, float y);
 
     /**
      * User has moved touch position
-     * @param x Touch Position x
-     * @param y Touch Position y
+     * @param x Touch Position x relative to the viewport
+     * @param y Touch Position y relative to the viewport
      * @return True if event is handled
      */
     public abstract boolean onTouchMove(float x,float y);
 
     /**
      * User has finished the touch operation
-     * @param x Touch Position x
-     * @param y Touch Position y
+     * @param x Touch Position x relative to the viewport
+     * @param y Touch Position y relative to the viewport
      * @return True if event is handled
      */
     public abstract boolean onTouchReleased(float x, float y);
 
     /**
      * Callback to render graphics
-     * @param gl10 GL 10
      */
     protected abstract void onRender(GL10  gl10);
 
@@ -222,8 +210,8 @@ public abstract class AbstractGame extends AbstractEngineModule {
     }
 
     /**
-     * Returns runtime of game in sec
-     * @return Game time in seconds
+     * Returns runtime of game engine
+     * @return runtime in seconds
      */
     public double getGameTime() {
         return gameTime;
@@ -265,7 +253,6 @@ public abstract class AbstractGame extends AbstractEngineModule {
      * Finish the game.
      */
     public void finish(){
-//        textureAssetManager.revokeTextures(this);
         this.gameEngineState = GameEngineState.FINISHED;
         super.finish();
     }
@@ -313,7 +300,6 @@ public abstract class AbstractGame extends AbstractEngineModule {
 
     /**
      * Returns the gravity sensor
-     * @return
      */
     public GravitySensor getGravitySensor(){
         if(!this.sensors.containsKey(SensorType.GRAVITY_SENSOR))
@@ -323,8 +309,6 @@ public abstract class AbstractGame extends AbstractEngineModule {
 
     /**
      * GL callback onSurfaceCreated
-     * @param gl10
-     * @param config
      */
     public void onSurfaceCreated(GL10 gl10, EGLConfig config){
         synchronized (this){
@@ -334,16 +318,12 @@ public abstract class AbstractGame extends AbstractEngineModule {
 
     /**
      * GL callback onSurfaceChanged
-     * @param gl10
-     * @param width
-     * @param height
-     * @param viewport
      */
-    public void onSurfaceChanged(GL10 gl10, int width, int height, MathUtil.Rect2I viewport){
+    public void onSurfaceChanged(GL10 gl10, int canvasWidth, int canvasHeight, MathUtil.Rect2I viewport){
         synchronized (this) {
             glContextReady = true;
             this.viewport = viewport;
-            super.onSurfaceChanged(gl10, width, height, viewport); // Propagates to registered modules
+            super.onSurfaceChanged(gl10, canvasWidth, canvasHeight, viewport); // Propagates to registered modules
             if(awaitOnStartUntilGLContextReady) {
                 awaitOnStartUntilGLContextReady = false;
                 onStart();

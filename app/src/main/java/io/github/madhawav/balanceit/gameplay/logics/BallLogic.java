@@ -18,7 +18,7 @@ public class BallLogic extends AbstractLogic {
 
     @Override
     public void onLevelUp() {
-        gameState.setTNeta(gameState.getTNeta() * gameParameters.AIR_RESISTANCE_MULTIPLIER);
+        gameState.setFrictionCoefficient(gameState.getFrictionCoefficient() * gameParameters.AIR_RESISTANCE_MULTIPLIER);
     }
 
     @Override
@@ -28,14 +28,14 @@ public class BallLogic extends AbstractLogic {
         gameState.getBallVelocity().add(wind);
 
         // Terminal Velocity
-        gameState.getBallVelocity().multiply(1.0f - gameState.getTNeta());
+        gameState.getBallVelocity().multiply(1.0f - gameState.getFrictionCoefficient());
 
-        MathUtil.Vector3 scaledVelocity = gameState.getBallVelocity().clone();
+        MathUtil.Vector3 scaledVelocity = gameState.getBallVelocity().copy();
         scaledVelocity.multiply((float)elapsedSec * gameParameters.TIME_SCALE);
         gameState.getBallPosition().add(scaledVelocity);
         gameState.getBallPosition().setZ(0);
 
-        MathUtil.Vector3 relativeGravity = gravity.clone();
+        MathUtil.Vector3 relativeGravity = gravity.copy();
         relativeGravity.setX(-relativeGravity.getX());
         relativeGravity.multiply(0.5f);
 

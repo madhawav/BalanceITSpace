@@ -7,23 +7,23 @@ import android.opengl.Matrix;
  */
 public class MathUtil {
     public static float vectorToAngle(float x, float y){
-        double radi= Math.sqrt(x*x+y*y);
-        double ang= Math.acos(x/radi);
+        double radius= Math.sqrt(x*x+y*y);
+        double ang= Math.acos(x/radius);
         ang = (ang/Math.PI *180);
         if(y<0) ang*=-1;
         return (float) ang;
     }
-    public static float[] pitchYawnToVector(float radi, float yawm, float pitch)
+    public static float[] pitchYawnToVector(float radius, float yawn, float pitch)
     {
         float[] mYawn=new float[16];
         Matrix.setIdentityM(mYawn,0);
-        Matrix.setRotateM(mYawn, 0, yawm, 0, 1, 0);
+        Matrix.setRotateM(mYawn, 0, yawn, 0, 1, 0);
 
         float[] mPitch=new float[16];
         Matrix.setIdentityM(mPitch,0);
         Matrix.setRotateM(mPitch, 0, pitch, 1, 0, 0);
 
-        float[] vReference=new float[] {0,0,radi,1};
+        float[] vReference=new float[] {0,0,radius,1};
 
         float[] vOutput=new float[4];
         Matrix.multiplyMV(vOutput, 0, mPitch, 0, vReference,0);
@@ -239,7 +239,7 @@ public class MathUtil {
             vector3 = new float[] {x, y, z};
         }
 
-        public Vector3 clone(){
+        public Vector3 copy(){
             return new Vector3(vector3);
         }
 

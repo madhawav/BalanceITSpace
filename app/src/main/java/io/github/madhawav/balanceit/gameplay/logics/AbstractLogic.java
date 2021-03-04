@@ -15,7 +15,7 @@ public abstract class AbstractLogic {
 
     /**
      * Register a sub-logic. onUpdate and onLevelUp events are propagated to registered sub-logics.
-     * @param logic
+     * @param logic Sublogic to register
      */
     public void registerLogic(AbstractLogic logic){
         this.registeredLogics.add(logic);
@@ -23,13 +23,13 @@ public abstract class AbstractLogic {
 
     /**
      * Notify an update to self and any sub-logics registered.
-     * @param elapsedTime
-     * @param gravity
+     * @param elapsedSec Elapsed time in seconds
+     * @param gravity Gravity sensor vector
      */
-    public void update(double elapsedTime, MathUtil.Vector3 gravity){
-        logicTime += elapsedTime;
-        onUpdate(elapsedTime, gravity);
-        registeredLogics.forEach(logic->logic.update(elapsedTime, gravity));
+    public void update(double elapsedSec, MathUtil.Vector3 gravity){
+        logicTime += elapsedSec;
+        onUpdate(elapsedSec, gravity);
+        registeredLogics.forEach(logic->logic.update(elapsedSec, gravity));
     }
 
     /**
@@ -42,7 +42,7 @@ public abstract class AbstractLogic {
 
     /**
      * Returns time in seconds since start of logic.
-     * @return
+     * @return time in seconds since start of logic
      */
     public double getLogicTime() {
         return logicTime;

@@ -62,7 +62,7 @@ public class GamePlayScene extends UIElementScene {
 
         gamePlayLayer = new GamePlayLayer(gameState, gameParameters.BOARD_SIZE, graphicsContext);
 
-        warningLayer = new Rectangle(graphicsContext, 0, 0, graphicsContext.getGraphicsEngine().getScreenWidth(), graphicsContext.getGraphicsEngine().getViewportHeight(),
+        warningLayer = new Rectangle(graphicsContext, 0, 0, graphicsContext.getGraphicsEngine().getViewportWidth(), graphicsContext.getGraphicsEngine().getViewportHeight(),
                 new MathUtil.Vector4(1.0f, 0.0f, 0.0f,1.0f));
         warningLayer.setOpacity(0);
 

@@ -41,7 +41,7 @@ public abstract class AbstractMultiSceneGame extends AbstractGame {
 
     /**
      * Swap the current scene to the provided new scene.
-     * @param newScene
+     * @param newScene New scene to swap
      */
     public void swapScene(AbstractScene newScene){
         if(!started)

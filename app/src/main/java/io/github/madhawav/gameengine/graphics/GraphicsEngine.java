@@ -1,6 +1,5 @@
 package io.github.madhawav.gameengine.graphics;
 
-import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
@@ -22,8 +21,8 @@ public class GraphicsEngine extends AbstractEngineModule {
     private final float[] projectionMatrix = new float[16];
     private final float[] MVPMatrix = new float[16];
 
-    private int screenWidth = 0;
-    private int screenHeight = 0;
+    private int canvasWidth = 0;
+    private int canvasHeight = 0;
 
     private boolean depthEnabled = false; // Is depth testing enabled?
     private boolean cullBackFace = false; // Should back faces be omitted?
@@ -45,10 +44,10 @@ public class GraphicsEngine extends AbstractEngineModule {
 
     /**
      * Clears RGB buffer using specified RGB. Also clears depth buffer.
-     * @param r
-     * @param g
-     * @param b
-     * @param a
+     * @param r red component
+     * @param g green component
+     * @param b blue component
+     * @param a alpha component
      */
     public void clear(float r, float g, float b, float a){
         GLES20.glClearColor(r,g,b,a);
@@ -57,8 +56,6 @@ public class GraphicsEngine extends AbstractEngineModule {
 
     /**
      * Notify GL surface created
-     * @param gl10
-     * @param config
      */
     public void onSurfaceCreated(GL10 gl10, EGLConfig config) {
         super.onSurfaceCreated(gl10, config);
@@ -66,9 +63,9 @@ public class GraphicsEngine extends AbstractEngineModule {
 
     /**
      * Draw a geometry on surface. Uses transformation matrices set in the graphics engine.
-     * @param geometry
-     * @param texture
-     * @param opacity
+     * @param geometry Geometry to be drawn
+     * @param texture Texture to use for shading
+     * @param opacity Opacity of the mesh
      */
     public void drawGeometry(Geometry geometry, Texture texture, float opacity){
         this.shader.bindShaderProgram();
@@ -135,19 +132,19 @@ public class GraphicsEngine extends AbstractEngineModule {
     }
 
     public int getViewportWidth(){
-        return (int) this.viewport.getWidth();
+        return this.viewport.getWidth();
     }
 
     public int getViewportHeight(){
-        return (int) this.viewport.getHeight();
+        return this.viewport.getHeight();
     }
 
-    public int getScreenWidth() {
-        return screenWidth;
+    public int getCanvasWidth() {
+        return canvasWidth;
     }
 
-    public int getScreenHeight() {
-        return screenHeight;
+    public int getCanvasHeight() {
+        return canvasHeight;
     }
 
     public float[] getProjectionMatrix() {
@@ -164,16 +161,15 @@ public class GraphicsEngine extends AbstractEngineModule {
 
     /**
      * Notify GL canvas size has changed.
-     * @param gl10
-     * @param screenWidth
-     * @param screenHeight
-     * @param viewport
+     * @param canvasWidth GL canvas width
+     * @param canvasHeight GL canvas height
+     * @param viewport Viewport dimensions
      */
-    public void onSurfaceChanged(GL10 gl10, int screenWidth, int screenHeight, MathUtil.Rect2I viewport) {
-        super.onSurfaceChanged(gl10, screenWidth, screenHeight, viewport);
+    public void onSurfaceChanged(GL10 gl10, int canvasWidth, int canvasHeight, MathUtil.Rect2I viewport) {
+        super.onSurfaceChanged(gl10, canvasWidth, canvasHeight, viewport);
         this.viewport = viewport;
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
+        this.canvasWidth = canvasWidth;
+        this.canvasHeight = canvasHeight;
 
         // Enable alpha blending
         GLES20.glEnable(GLES20.GL_ALPHA);

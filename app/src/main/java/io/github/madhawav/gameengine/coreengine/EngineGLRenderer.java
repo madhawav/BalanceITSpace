@@ -43,7 +43,6 @@ class EngineGLRenderer implements GLSurfaceView.Renderer {
         float midX = (float)width / 2;
         float midY = (float)height / 2;
 
-        //TODO: Consider reducing cast count
         MathUtil.Rect2I viewport = new MathUtil.Rect2I((int) (midX - targetWidth/2), (int)(midY - targetHeight/2), (int)(targetWidth), (int)(targetHeight));
         GLES20.glViewport(viewport.getX(), viewport.getY(), viewport.getWidth(), viewport.getHeight());
         return viewport;
