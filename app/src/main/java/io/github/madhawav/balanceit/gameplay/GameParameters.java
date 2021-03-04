@@ -4,56 +4,40 @@ package io.github.madhawav.balanceit.gameplay;
  * Parameters of the game. Adjust these to change difficulty. Inherit this class to support multiple difficulty levels.
  */
 public class GameParameters{
-    public float getBoardSize() {
-        return 1000.0f;
-    }
+    public final float BOARD_SIZE = 1000.0f;
     // Simulation
-    public float getTimeScale(){
-        return 100;
-    }
+    public final float TIME_SCALE = 100.0f;
 
-    public float getInitialAirResistance() { return  0.1f; }
-    public float getAirResistanceMultiplier(){
-        return 0.8f;
-    }
+    // Friction on ball
+    public final float INITIAL_AIR_RESISTANCE = 0.1f;
+    public final float AIR_RESISTANCE_MULTIPLIER = 0.8f;
 
     // Particles
-    public int getMaxParticleCount(){
-        return 100;
-    }
-    public float getParticleRange(){
-        return 1200;
-    }
-    public float getParticleRange2(){
-        return getParticleRange() * getParticleRange();
-    }
-    public float getParticleSpeedMultiplier(){
-        return 30;
-    }
-    public int getPreferredParticleDensity(){
-        return 50;
-    }
+    public final int MAX_PARTICLE_COUNT = 100;
+    public final float PARTICLE_RANGE = 1200;
+    public final float PARTICLE_RANGE_SQ = PARTICLE_RANGE * PARTICLE_RANGE;
+    public final float PARTICLE_SPEED_MULTIPLIER = 30;
+    public final int PREFERRED_PARTICLE_DENSITY = 50;
 
     // Wind
-    public float getWindUpdateInterval(){ return 3.0f; }
-    public float getWindSpeedBaseFraction(){
-        return 7.0f/8.0f;
-    }
-    public float getInitialWindStrength(){ return 0.2f; }
-    public float getInitialMaxWindStrength() { return  0.2f; }
-    public float getInitialWindAngle() { return (float) (Math.PI/2.0f); }
-    public float getInitialWindMaxAngularVelocity() { return 0.02f; }
-    public float getInitialWindMaxAcceleration() { return 0.005f; }
+    public final float WIND_UPDATE_INTERVAL = 3.0f;
+    public final float WIND_SPEED_BASE_FRACTION = 7.0f/8.0f;
+    public final float INITIAL_WIND_STRENGTH = 0.2f;
+    public final float INITIAL_MAX_WIND_STRENGTH = 0.2f;
+    public final float INITIAL_WIND_ANGLE = (float) (Math.PI/2.0f);
+    public final float INITIAL_WIND_MAX_ANGULAR_VELOCITY = 0.02f;
+    public final float INITIAL_WIND_MAX_ACCELERATION = 0.005f;
 
     // Level related
-    public double getInitialLevelDuration() {return 50;}
-    public double getLevelDurationDelta(){return 20;}
-    public float getLevelMaxWindStrengthMultiplier(){return 1.1f;}
-    public float getWindRotateSpeedMultiplier(){return 1.0f;}
-    public float getWindAccelerationMultiplier(){return 1.0f;}
-    public float getInitialScoreMultiplier(){ return 1.0f; }
-    public float getScoreMultiplierCoefficient(){return 0.1f;}
-    public float getMLevelScoreMultiplierDelta() {return 1.0f;}
+    public final double INITIAL_LEVEL_DURATION = 50;
+    public final double LEVEL_DURATION_DELTA = 20;
+    public final float LEVEL_MAX_WIND_STRENGTH_MULTIPLIER = 1.1f;
+    public final float WIND_ROTATE_SPEED_MULTIPLIER = 1.0f;
+    public final float WIND_ACCELERATION_MULTIPLIER = 1.0f;
+    public final float INITIAL_SCORE_MULTIPLIER = 1.0f;
+    public final float SCORE_MULTIPLIER_COEFFICIENT = 0.1f;
+    public final float LEVEL_SCORE_MULTIPLIER_DELTA = 1.0f;
 
-    public float getWarmUpSec() {return 15.0f;}
+    // Warm-up mode
+    public final float WARM_UP_SEC = 15.0f;
 }

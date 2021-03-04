@@ -21,17 +21,17 @@ import io.github.madhawav.gameengine.graphics.SpriteEngine;
  * The entry point of the game. This is a multi-scene game. (E.g. Game-play scene, GameOver scene)
  */
 public class BalanceITGame extends AbstractMultiSceneGame {
-    private GraphicsEngine graphicsEngine;
-    private SpriteEngine spriteEngine;
+    private final GraphicsEngine graphicsEngine;
+    private final SpriteEngine spriteEngine;
 
     public BalanceITGame(Context context) {
-        super(context, new GameDescription(30, true,  720.0f/1280.0f, true, new TextureAssetManager(context)));
+        super(context, new GameDescription(30, true, 720.0f / 1280.0f, true, new TextureAssetManager(context)));
 
         AbstractShader shader = new BasicShader(
                 ResourceUtil.readTextFileFromRawResource(context, R.raw.shader_vs),
                 ResourceUtil.readTextFileFromRawResource(context, R.raw.shader_fs));
 
-        this.graphicsEngine = new GraphicsEngine(context, new GraphicsEngineDescription(shader));
+        this.graphicsEngine = new GraphicsEngine(new GraphicsEngineDescription(shader));
         this.spriteEngine = new SpriteEngine(this.graphicsEngine);
 
         // Register to receive lifecycle events
@@ -50,6 +50,7 @@ public class BalanceITGame extends AbstractMultiSceneGame {
 
     /**
      * Return the initial scene.
+     *
      * @return
      */
     @Override

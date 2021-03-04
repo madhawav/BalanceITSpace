@@ -18,7 +18,7 @@ import io.github.madhawav.gameengine.MathUtil;
  */
 public abstract class AbstractEngineModule {
     private boolean finished = false;
-    private List<AbstractEngineModule> registeredModules;
+    private final List<AbstractEngineModule> registeredModules;
     public AbstractEngineModule(){
         this.registeredModules = new ArrayList<>();
     }

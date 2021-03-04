@@ -22,10 +22,10 @@ public class GamePlayLayer extends AbstractUIElement {
     private static final float BALL_SIZE = 100.0f;
     private static final float PARTICLE_SIZE = 200.0f;
 
-    private float boardSize;
+    private final float boardSize;
 
-    private MathUtil.Vector3 camOffset;
-    private GameState gameState;
+    private final MathUtil.Vector3 camOffset;
+    private final GameState gameState;
 
     private SpriteEngine.ScaledSpriteCanvas spriteCanvas;
 

@@ -16,8 +16,8 @@ import io.github.madhawav.gameengine.ui.GraphicsContext;
  * Background layer with space and the earth.
  */
 public class SpaceBackgroundLayer extends AbstractUIElement {
-    private BalanceITGame game;
-    private Geometry sphereGeometry;
+    private final BalanceITGame game;
+    private final Geometry sphereGeometry;
     public SpaceBackgroundLayer(GraphicsContext graphicsContext) {
         super(graphicsContext);
         this.game = (BalanceITGame) graphicsContext.getUserData();

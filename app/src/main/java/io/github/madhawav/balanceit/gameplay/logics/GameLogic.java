@@ -8,9 +8,9 @@ import io.github.madhawav.gameengine.MathUtil;
  * Main logic of the game incorporating the BallLogic, LevelLogic, ScoreLogic, WarmUpModeLogic, WindLogic etc.
  */
 public class GameLogic extends AbstractLogic{
-    private GameState gameState;
-    private GameParameters gameParameters;
-    private Callback callback;
+    private final GameState gameState;
+    private final GameParameters gameParameters;
+    private final Callback callback;
 
 
     public GameLogic(GameState gameState, GameParameters gameParameters, Callback callback){
@@ -34,7 +34,7 @@ public class GameLogic extends AbstractLogic{
     }
 
     public void onUpdate(double elapsedSec, MathUtil.Vector3 gravity){
-        if (gameState.getBallPosition().getLength() > gameParameters.getBoardSize() / 2){ // Ball leaves the deck
+        if (gameState.getBallPosition().getLength() > gameParameters.BOARD_SIZE / 2){ // Ball leaves the deck
             if(!gameState.isWarmUpMode())
             {
                 callback.onGameOver();

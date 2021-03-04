@@ -8,8 +8,8 @@ import io.github.madhawav.gameengine.MathUtil;
  * Logic that updates score stored in game state.
  */
 public class ScoreLogic extends AbstractLogic {
-    private GameState gameState;
-    private GameParameters gameParameters;
+    private final GameState gameState;
+    private final GameParameters gameParameters;
 
     public ScoreLogic(GameState gameState, GameParameters gameParameters) {
         this.gameState = gameState;
@@ -18,16 +18,16 @@ public class ScoreLogic extends AbstractLogic {
 
     @Override
     protected void onUpdate(double elapsedTime, MathUtil.Vector3 gravity) {
-        gameState.addScore((float) ((gameParameters.getBoardSize() - gameState.getBallPosition().getLength())
-                / gameParameters.getBoardSize() * gameParameters.getScoreMultiplierCoefficient()
-                * gameState.getLevelMarksMultiplier() * gameParameters.getTimeScale() * elapsedTime));
-        gameState.setPositionScoreMultiplier((gameParameters.getBoardSize() - gameState.getBallPosition().getLength())
-                / gameParameters.getBoardSize());
+        gameState.addScore((float) ((gameParameters.BOARD_SIZE - gameState.getBallPosition().getLength())
+                / gameParameters.BOARD_SIZE * gameParameters.SCORE_MULTIPLIER_COEFFICIENT
+                * gameState.getLevelMarksMultiplier() * gameParameters.TIME_SCALE * elapsedTime));
+        gameState.setPositionScoreMultiplier((gameParameters.BOARD_SIZE - gameState.getBallPosition().getLength())
+                / gameParameters.BOARD_SIZE);
     }
 
     @Override
     protected void onLevelUp() {
-        gameState.setLevelMarksMultiplier(gameState.getLevelMarksMultiplier() + gameParameters.getMLevelScoreMultiplierDelta());
+        gameState.setLevelMarksMultiplier(gameState.getLevelMarksMultiplier() + gameParameters.LEVEL_SCORE_MULTIPLIER_DELTA);
     }
 
     public void onBorderBounce(){

@@ -11,7 +11,7 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class LayeredUI extends AbstractUIElement {
     private boolean started;
-    private List<AbstractUIElement> elements;
+    private final List<AbstractUIElement> elements;
 
     /**
      * Creates a LayeredUI container.

@@ -8,21 +8,22 @@ import io.github.madhawav.gameengine.MathUtil;
  * Logic that implements the warm-up mode at the start of a game.
  */
 public class WarmUpModeLogic extends AbstractLogic {
-    private GameState gameState;
-    private GameParameters gameParameters;
-    private Callback callback;
+    private final GameState gameState;
+    private final GameParameters gameParameters;
+    private final Callback callback;
 
-    private final float TANGENT_BREAK_RATIO = 0.2f;
+    private static final float TANGENT_BREAK_RATIO = 0.2f;
 
-    public WarmUpModeLogic(GameState gameState, GameParameters gameParameters, Callback callback){
+    public WarmUpModeLogic(GameState gameState, GameParameters gameParameters, Callback callback) {
         this.gameState = gameState;
         this.gameParameters = gameParameters;
         this.callback = callback;
     }
-    private void checkWarmUpBounds(){
-        if (gameState.getBallPosition().getLength() > gameParameters.getBoardSize() / 2){ // Ball leaves the deck
+
+    private void checkWarmUpBounds() {
+        if (gameState.getBallPosition().getLength() > gameParameters.BOARD_SIZE / 2) { // Ball leaves the deck
             MathUtil.Vector3 ballOffDir = gameState.getBallPosition().clone();
-            ballOffDir.multiply(1.0f/gameState.getBallPosition().getLength());
+            ballOffDir.multiply(1.0f / gameState.getBallPosition().getLength());
             float radial = MathUtil.dotProduct(ballOffDir, gameState.getBallVelocity());
 
             MathUtil.Vector3 tangent = MathUtil.rotateVector(ballOffDir, new MathUtil.Vector3(0, 0, 1), 90);
@@ -42,22 +43,23 @@ public class WarmUpModeLogic extends AbstractLogic {
             }
 
             // Snap to border
-            gameState.getBallPosition().setX(gameState.getBallPosition().getX()/gameState.getBallPosition().getLength() * (gameParameters.getBoardSize()/2));
-            gameState.getBallPosition().setY(gameState.getBallPosition().getY()/gameState.getBallPosition().getLength() * (gameParameters.getBoardSize()/2));
+            gameState.getBallPosition().setX(gameState.getBallPosition().getX() / gameState.getBallPosition().getLength() * (gameParameters.BOARD_SIZE / 2));
+            gameState.getBallPosition().setY(gameState.getBallPosition().getY() / gameState.getBallPosition().getLength() * (gameParameters.BOARD_SIZE / 2));
         }
     }
+
     @Override
     protected void onUpdate(double elapsedSec, MathUtil.Vector3 gravity) {
-        if(gameState.isWarmUpMode()){
+        if (gameState.isWarmUpMode()) {
             gameState.reduceWarmUpTime(elapsedSec);
-            if(gameState.getWarmUpTimeLeft() <= 0){
+            if (gameState.getWarmUpTimeLeft() <= 0) {
                 gameState.setWarmUpMode(false);
             }
             checkWarmUpBounds();
         }
     }
 
-    public interface Callback{
+    public interface Callback {
         void onBoundaryBounce();
     }
 }

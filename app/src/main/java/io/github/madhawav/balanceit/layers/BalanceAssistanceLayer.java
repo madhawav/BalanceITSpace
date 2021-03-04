@@ -12,8 +12,8 @@ import io.github.madhawav.gameengine.ui.LayeredUI;
  * This layer has the balance device to start game label and the balance indicator cross-hair.
  */
 public class BalanceAssistanceLayer extends LayeredUI {
-    private Image crossHairMarker;
-    private GravitySensor gravitySensor;
+    private final Image crossHairMarker;
+    private final GravitySensor gravitySensor;
     private MathUtil.Vector3 camOffset;
 
     public BalanceAssistanceLayer(GraphicsContext graphicsContext, GravitySensor gravitySensor) {

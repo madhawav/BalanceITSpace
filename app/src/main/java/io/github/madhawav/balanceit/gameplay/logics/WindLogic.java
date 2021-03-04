@@ -11,9 +11,9 @@ import io.github.madhawav.gameengine.MathUtil;
  * Logic implementing the effect of wind and particles (meteors).
  */
 public class WindLogic extends AbstractLogic {
-    private Random ran;
-    private GameState gameState;
-    private GameParameters gameParameters;
+    private final Random ran;
+    private final GameState gameState;
+    private final GameParameters gameParameters;
 
     public WindLogic(GameState gameState, GameParameters gameParameters){
         this.gameState = gameState;
@@ -22,7 +22,7 @@ public class WindLogic extends AbstractLogic {
     }
 
     private void updateWindSpeed(double elapsedSec){
-        float maxChange = (float)(gameState.getWindAcceleration() * gameParameters.getTimeScale() * elapsedSec);
+        float maxChange = (float)(gameState.getWindAcceleration() * gameParameters.TIME_SCALE * elapsedSec);
 
         float delta=gameState.getTargetWindStrength()-gameState.getWindStrength();
         delta = (float) (Math.min(Math.abs(delta), maxChange) * Math.sin(delta));
@@ -30,7 +30,7 @@ public class WindLogic extends AbstractLogic {
     }
 
     private void updateWindDirection(double elapsedSec){
-        float rotateAmount = (float) (gameState.getMaxWindAngularVelocity() * gameParameters.getTimeScale() * elapsedSec);
+        float rotateAmount = (float) (gameState.getMaxWindAngularVelocity() * gameParameters.TIME_SCALE * elapsedSec);
         float windAngle = gameState.getWindAngle();
         if(windAngle < 0) windAngle += (float)Math.PI * 2.0;
         windAngle = windAngle % ((float) Math.PI * 2);
@@ -57,10 +57,11 @@ public class WindLogic extends AbstractLogic {
     }
     private void updateWind(double elapsedSec, double gameTime){
 
-        if(gameTime - gameState.getLastTargetWindUpdateTime() > gameParameters.getWindUpdateInterval()){
+        if(gameTime - gameState.getLastTargetWindUpdateTime() > gameParameters.WIND_UPDATE_INTERVAL){
             // Change target wind direction and speed
-            gameState.setTargetWindStrength((float) (gameState.getLevelMaxWindStrength() * gameParameters.getWindSpeedBaseFraction() + gameState.getLevelMaxWindStrength()  * (1.0 - gameParameters.getWindSpeedBaseFraction()) * ran.nextFloat()));
+            gameState.setTargetWindStrength((float) (gameState.getLevelMaxWindStrength() * gameParameters.WIND_SPEED_BASE_FRACTION + gameState.getLevelMaxWindStrength()  * (1.0 - gameParameters.WIND_SPEED_BASE_FRACTION) * ran.nextFloat()));
             gameState.setTargetWindAngle(ran.nextFloat() * 2 * (float)Math.PI);
+            gameState.setLastTargetWindUpdateTime(gameTime);
         }
 
         updateWindDirection(elapsedSec);
@@ -72,27 +73,27 @@ public class WindLogic extends AbstractLogic {
         int newParticleCount=0;
 
         MathUtil.Vector3 wind = gameState.getWindVector();
-        wind.multiply(gameParameters.getParticleSpeedMultiplier());
+        wind.multiply(gameParameters.PARTICLE_SPEED_MULTIPLIER);
 
         for(ParticleState particle: gameState.getParticles()){
             if(particle.isEnabled()){
                 MathUtil.Vector3 scaledVelocity = particle.getVelocity().clone();
-                scaledVelocity.multiply((float) (elapsedSec * gameParameters.getTimeScale()));
+                scaledVelocity.multiply((float) (elapsedSec * gameParameters.TIME_SCALE));
                 particle.getPosition().add(scaledVelocity);
-                if(particle.getPosition().getLength2() > gameParameters.getParticleRange2()){
+                if(particle.getPosition().getLength2() > gameParameters.PARTICLE_RANGE_SQ){
                     particle.setEnabled(false);
                     gameState.changeActiveParticleCount(-1);
                 }
             }
             else{
-                if(gameState.getActiveParticleCount()<gameParameters.getPreferredParticleDensity() && newParticleCount<1)
+                if(gameState.getActiveParticleCount()<gameParameters.PREFERRED_PARTICLE_DENSITY && newParticleCount<1)
                 {
                     newParticleCount++;
                     float angle=ran.nextFloat()*2-1;
                     angle+=gameState.getWindAngle();
                     particle.setEnabled(true);
                     particle.getVelocity().set(wind.clone());
-                    particle.getPosition().set(-gameParameters.getParticleRange() * (float)Math.cos(angle), -gameParameters.getParticleRange()*(float)Math.sin(angle), 0);
+                    particle.getPosition().set(-gameParameters.PARTICLE_RANGE * (float)Math.cos(angle), -gameParameters.PARTICLE_RANGE*(float)Math.sin(angle), 0);
                     gameState.changeActiveParticleCount(1);
                 }
             }
@@ -102,9 +103,9 @@ public class WindLogic extends AbstractLogic {
 
     @Override
     public void onLevelUp() {
-        gameState.setLevelMaxWindStrength(gameState.getLevelMaxWindStrength() * gameParameters.getLevelMaxWindStrengthMultiplier());
-        gameState.setMaxWindAngularVelocity(gameState.getMaxWindAngularVelocity() * gameParameters.getWindRotateSpeedMultiplier());
-        gameState.setWindAcceleration(gameState.getWindAcceleration() * gameParameters.getWindAccelerationMultiplier());
+        gameState.setLevelMaxWindStrength(gameState.getLevelMaxWindStrength() * gameParameters.LEVEL_MAX_WIND_STRENGTH_MULTIPLIER);
+        gameState.setMaxWindAngularVelocity(gameState.getMaxWindAngularVelocity() * gameParameters.WIND_ROTATE_SPEED_MULTIPLIER);
+        gameState.setWindAcceleration(gameState.getWindAcceleration() * gameParameters.WIND_ACCELERATION_MULTIPLIER);
     }
 
     @Override

@@ -22,10 +22,9 @@ import io.github.madhawav.gameengine.ui.UIElementScene;
  * It also shows the UI layers.
  */
 public class GamePlayScene extends UIElementScene {
-    private GraphicsContext graphicsContext;
-    private GameState gameState;
-    private GameLogic gameLogic;
-    private GameParameters gameParameters;
+    private final GameState gameState;
+    private final GameLogic gameLogic;
+    private final GameParameters gameParameters;
     private Rectangle warningLayer;
     private HUDLayer hudLayer;
 
@@ -59,9 +58,9 @@ public class GamePlayScene extends UIElementScene {
     @Override
     protected AbstractUIElement getUIElement() {
         BalanceITGame game = (BalanceITGame)getGame();
-        graphicsContext = new GraphicsContext( game.getGraphicsEngine(), game.getSpriteEngine(), (TextureAssetManager) game.getAssetManager(), game);
+        GraphicsContext graphicsContext = new GraphicsContext( game.getGraphicsEngine(), game.getSpriteEngine(), (TextureAssetManager) game.getAssetManager(), game);
 
-        gamePlayLayer = new GamePlayLayer(gameState, gameParameters.getBoardSize(), graphicsContext);
+        gamePlayLayer = new GamePlayLayer(gameState, gameParameters.BOARD_SIZE, graphicsContext);
 
         warningLayer = new Rectangle(graphicsContext, 0, 0, graphicsContext.getGraphicsEngine().getScreenWidth(), graphicsContext.getGraphicsEngine().getViewportHeight(),
                 new MathUtil.Vector4(1.0f, 0.0f, 0.0f,1.0f));
@@ -96,11 +95,6 @@ public class GamePlayScene extends UIElementScene {
         return layeredUI;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
     /**
      * Check whether the user has balanced the phone, so the game can be started.
      */
@@ -125,11 +119,11 @@ public class GamePlayScene extends UIElementScene {
      * Updates opacity of the red background that warn about edges of the deck
      */
     private void updateWarningLayer(){
-        final float boardWarningSize = gameParameters.getBoardSize() * BOARD_WARNING_SIZE_FRACTION;
-        if (gameState.getBallPosition().getLength() >= gameParameters.getBoardSize() / 2) {
+        final float boardWarningSize = gameParameters.BOARD_SIZE * BOARD_WARNING_SIZE_FRACTION;
+        if (gameState.getBallPosition().getLength() >= gameParameters.BOARD_SIZE / 2) {
             warningLayer.setOpacity(200.0f/255.0f);
         } else if (gameState.getBallPosition().getLength() > boardWarningSize / 2) {
-            warningLayer.setOpacity(((gameState.getBallPosition().getLength() - boardWarningSize / 2) / (gameParameters.getBoardSize()/ 2 - boardWarningSize / 2) * 200.0f/255.0f));
+            warningLayer.setOpacity(((gameState.getBallPosition().getLength() - boardWarningSize / 2) / (gameParameters.BOARD_SIZE/ 2 - boardWarningSize / 2) * 200.0f/255.0f));
         } else {
             warningLayer.setOpacity(0);
         }
@@ -146,7 +140,7 @@ public class GamePlayScene extends UIElementScene {
             this.gameLogic.update(elapsedSec * pauseAnimationTimeScale, game.getGravitySensor().getGravity());
         }
         if(gameState.isPaused()){
-            pauseAnimationTimeScale -= PAUSE_ANIMATION_TIME_SCALE_DECREMENT * gameParameters.getTimeScale();
+            pauseAnimationTimeScale -= PAUSE_ANIMATION_TIME_SCALE_DECREMENT * gameParameters.TIME_SCALE;
             pauseAnimationTimeScale = Math.max(0, pauseAnimationTimeScale);
         }
 
@@ -155,6 +149,6 @@ public class GamePlayScene extends UIElementScene {
 
     @Override
     protected void onFinish() {
-
+        // TODO: Save game statistics here
     }
 }

@@ -3,6 +3,8 @@ package io.github.madhawav.balanceit.layers;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 
+import java.util.Locale;
+
 import io.github.madhawav.balanceit.opengleslearn.R;
 import io.github.madhawav.balanceit.gameplay.GameState;
 
@@ -17,18 +19,18 @@ import io.github.madhawav.gameengine.ui.Rectangle;
  * This layer renders indicators such as current level, level completion progressbar, score, score multiplier and pause indicator.
  */
 public class HUDLayer extends LayeredUI {
-    private Callback callback;
-    private Label levelLabel;
-    private Label scoreLabel;
-    private Label multiplierLabel;
-    private Image progressBarProgressImg;
+    private final Callback callback;
+    private final Label levelLabel;
+    private final Label scoreLabel;
+    private final Label multiplierLabel;
+    private final Image progressBarProgressImg;
 
-    private GameState gameState;
+    private final GameState gameState;
 
-    private Rectangle pausedLayer;
+    private final Rectangle pausedLayer;
 
-    private Image warmUpImg;
-    private Label warmUpLeftLabel;
+    private final Image warmUpImg;
+    private final Label warmUpLeftLabel;
     private boolean started = false;
 
     public HUDLayer(GraphicsContext graphicsContext, GameState gameState,  Callback callback) {
@@ -115,13 +117,13 @@ public class HUDLayer extends LayeredUI {
     @Override
     public void onUpdate(double elapsedSec) {
         super.onUpdate(elapsedSec);
-        levelLabel.setText(String.format("Level %d" , gameState.getLevel()));
-        scoreLabel.setText(String.format("%d" ,(int) gameState.getScore()));
-        multiplierLabel.setText(String.format("x%d.%d", (int)(gameState.getLevelMarksMultiplier()),(int)(gameState.getPositionScoreMultiplier()*10)));
+        levelLabel.setText(String.format(Locale.US,"Level %d" , gameState.getLevel()));
+        scoreLabel.setText(String.format(Locale.US, "%d" ,(int) gameState.getScore()));
+        multiplierLabel.setText(String.format(Locale.US, "x%d.%d", (int)(gameState.getLevelMarksMultiplier()),(int)(gameState.getPositionScoreMultiplier()*10)));
 
         if(started && gameState.isWarmUpMode()){
             warmUpLeftLabel.setVisible(true);
-            warmUpLeftLabel.setText(String.format("%d seconds left", (int) gameState.getWarmUpTimeLeft()));
+            warmUpLeftLabel.setText(String.format(Locale.US, "%d seconds left", (int) gameState.getWarmUpTimeLeft()));
             warmUpImg.setVisible(true);
         }
         else{

@@ -18,13 +18,13 @@ public class Image extends AbstractUIElement {
     private boolean dirty;
 
     /**
-     * Creates an Image UI Element
-     * @param graphicsContext
-     * @param imageResourceId
-     * @param x
-     * @param y
-     * @param width
-     * @param height
+     * Creates an Image UI Element.
+     * @param graphicsContext Graphics content to bind to
+     * @param imageResourceId Android resource containing the image
+     * @param x X coordinate of top left corner
+     * @param y Y coordinate of top left corner
+     * @param width Width of image
+     * @param height Height of image
      */
     public Image(GraphicsContext graphicsContext, int imageResourceId, float x, float y, float width, float height) {
         super(graphicsContext);
@@ -126,5 +126,13 @@ public class Image extends AbstractUIElement {
 
     public float getY() {
         return y;
+    }
+
+    public float getZ() {
+        return z;
+    }
+
+    public void setZ(float z) {
+        this.z = z;
     }
 }

@@ -14,7 +14,6 @@ import io.github.madhawav.gameengine.coreengine.AbstractEngineModule;
  * Graphics engine implementation with support to rendering 3D geometry
  */
 public class GraphicsEngine extends AbstractEngineModule {
-    private final Context context;
     private final AbstractShader shader;
 
     // Transformation matrices
@@ -36,11 +35,9 @@ public class GraphicsEngine extends AbstractEngineModule {
 
     /**
      * Creates a new Graphics Engine.
-     * @param context
-     * @param description
+     * @param description Specification to initialize the graphics engine
      */
-    public GraphicsEngine(Context context, GraphicsEngineDescription description){
-        this.context = context;
+    public GraphicsEngine(GraphicsEngineDescription description){
         this.shader = description.getShader();
         this.viewport = null;
         this.viewport = null;

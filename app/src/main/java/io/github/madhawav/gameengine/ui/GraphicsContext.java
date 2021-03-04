@@ -8,10 +8,10 @@ import io.github.madhawav.gameengine.graphics.TextureAssetManager;
  * Graphics context includes tools used by UI elements for rendering. This includes GraphicsEngine, SpriteEngine and TextureAssetManager.
  */
 public final class GraphicsContext {
-    private GraphicsEngine graphicsEngine;
-    private SpriteEngine spriteEngine;
-    private TextureAssetManager textureAssetManager;
-    private Object userData;
+    private final GraphicsEngine graphicsEngine;
+    private final SpriteEngine spriteEngine;
+    private final TextureAssetManager textureAssetManager;
+    private final Object userData;
     private float opacity; // Opacity multiplier. Use this to implement fade effects that affect multiple UI elements.
 
     /**

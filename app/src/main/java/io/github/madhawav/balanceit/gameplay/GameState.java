@@ -45,32 +45,32 @@ public class GameState{
     public void loadFromGameParameters(GameParameters gameParameters){
         ballPosition = new MathUtil.Vector3();
         ballVelocity = new MathUtil.Vector3();
-        particles = new ParticleState[gameParameters.getMaxParticleCount()];
+        particles = new ParticleState[gameParameters.MAX_PARTICLE_COUNT];
         for(int i = 0; i < particles.length; i++)
             particles[i] = new ParticleState();
 
         activeParticleCount = 0;
-        windStrength = gameParameters.getInitialWindStrength();
-        targetWindStrength = gameParameters.getInitialWindStrength();
-        levelMaxWindStrength = gameParameters.getInitialMaxWindStrength();
+        windStrength = gameParameters.INITIAL_WIND_STRENGTH;
+        targetWindStrength = gameParameters.INITIAL_WIND_STRENGTH;
+        levelMaxWindStrength = gameParameters.INITIAL_MAX_WIND_STRENGTH;
 
-        targetWindAngle = gameParameters.getInitialWindAngle();
-        windAngle = gameParameters.getInitialWindAngle();
-        maxWindAngularVelocity = gameParameters.getInitialWindMaxAngularVelocity();
-        windAcceleration = gameParameters.getInitialWindMaxAcceleration();
+        targetWindAngle = gameParameters.INITIAL_WIND_ANGLE;
+        windAngle = gameParameters.INITIAL_WIND_ANGLE;
+        maxWindAngularVelocity = gameParameters.INITIAL_WIND_MAX_ANGULAR_VELOCITY;
+        windAcceleration = gameParameters.INITIAL_WIND_MAX_ACCELERATION;
 
         level = 1;
-        levelTotalTime = gameParameters.getInitialLevelDuration();
-        levelRemainTime = gameParameters.getInitialLevelDuration();
-        tNeta = gameParameters.getInitialAirResistance();
+        levelTotalTime = gameParameters.INITIAL_LEVEL_DURATION;
+        levelRemainTime = gameParameters.INITIAL_LEVEL_DURATION;
+        tNeta = gameParameters.INITIAL_AIR_RESISTANCE;
 
-        levelMarksMultiplier = gameParameters.getInitialScoreMultiplier();
+        levelMarksMultiplier = gameParameters.INITIAL_SCORE_MULTIPLIER;
         positionScoreMultiplier = 0;
         score = 0.0f;
 
         paused = false;
         warmUpMode = true;
-        warmUpTimeLeft = gameParameters.getWarmUpSec();
+        warmUpTimeLeft = gameParameters.WARM_UP_SEC;
     }
 
     public void reduceWarmUpTime(double dTime){

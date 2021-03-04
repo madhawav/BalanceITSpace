@@ -6,7 +6,7 @@ import java.util.List;
 import io.github.madhawav.gameengine.MathUtil;
 
 public abstract class AbstractLogic {
-    private List<AbstractLogic> registeredLogics;
+    private final List<AbstractLogic> registeredLogics;
     private double logicTime;
     public AbstractLogic(){
         this.registeredLogics = new ArrayList<>();

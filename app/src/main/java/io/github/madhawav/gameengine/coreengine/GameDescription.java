@@ -6,9 +6,9 @@ package io.github.madhawav.gameengine.coreengine;
 public final class GameDescription {
     private int updateRateMillis;
     private boolean useGravitySensor;
-    private float aspectRatio;
-    private boolean useVibrator;
-    private AbstractAssetManager assetManager;
+    private final float aspectRatio;
+    private final boolean useVibrator;
+    private final AbstractAssetManager assetManager;
 
     /**
      * Required by the constructor of AbstractGame.

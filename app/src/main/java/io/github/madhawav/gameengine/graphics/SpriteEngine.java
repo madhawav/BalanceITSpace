@@ -5,11 +5,11 @@ import android.opengl.Matrix;
 import io.github.madhawav.gameengine.coreengine.AbstractEngineModule;
 
 public class SpriteEngine extends AbstractEngineModule {
-    private static float PROJECTION_CULL_FAR = 4000.0f;
-    private static float PROJECTION_CULL_NEAR = 0.01f;
+    private static final float PROJECTION_CULL_FAR = 4000.0f;
+    private static final float PROJECTION_CULL_NEAR = 0.01f;
 
-    private Geometry squareGeometry;
-    private GraphicsEngine graphicsEngine;
+    private final Geometry squareGeometry;
+    private final GraphicsEngine graphicsEngine;
 
     public SpriteEngine(GraphicsEngine graphicsEngine){
         squareGeometry = Geometry.generateSquareGeometry();

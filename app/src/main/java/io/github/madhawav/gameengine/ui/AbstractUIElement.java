@@ -8,7 +8,7 @@ import io.github.madhawav.gameengine.coreengine.AbstractEngineModule;
  * Extend this class to implement a UI Element (E.g. buttons, labels..)
  */
 public abstract class AbstractUIElement extends AbstractEngineModule {
-    private GraphicsContext graphicsContext; // Graphics context holding the graphics engine, sprite engine and the texture asset manager.
+    private final GraphicsContext graphicsContext; // Graphics context holding the graphics engine, sprite engine and the texture asset manager.
     private boolean visible;
 
     private float opacity;

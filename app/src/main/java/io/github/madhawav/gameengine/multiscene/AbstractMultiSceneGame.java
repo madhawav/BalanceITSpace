@@ -44,6 +44,10 @@ public abstract class AbstractMultiSceneGame extends AbstractGame {
      * @param newScene
      */
     public void swapScene(AbstractScene newScene){
+        if(!started)
+            throw new UnsupportedOperationException("Game not started");
+        if(isFinished())
+            throw new UnsupportedOperationException("Called swap scene on finished game.");
         this.nextScene = newScene;
     }
 

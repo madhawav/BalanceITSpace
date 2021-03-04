@@ -9,7 +9,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.OpenGLESLearn">
+        android:theme="@style/Theme.BalanceITSpace">
 
         <activity android:name="io.github.madhawav.balanceit.GameActivity" android:label="@string/app_name">
             <intent-filter>

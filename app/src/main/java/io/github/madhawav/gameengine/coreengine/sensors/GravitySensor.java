@@ -9,11 +9,11 @@ import android.hardware.SensorManager;
 import io.github.madhawav.gameengine.MathUtil;
 
 public class GravitySensor extends AbstractSensor {
-    private Sensor gravitySensor;
-    private SensorManager sensorManager;
-    private SensorEventListener sensorEventListener;
+    private final Sensor gravitySensor;
+    private final SensorManager sensorManager;
+    private final SensorEventListener sensorEventListener;
 
-    private MathUtil.Vector3 gravity;
+    private final MathUtil.Vector3 gravity;
     private long timestamp;
 
     public GravitySensor(Context context){
@@ -60,7 +60,7 @@ public class GravitySensor extends AbstractSensor {
 
     /**
      * Returns gravity vector. Null if gravity data not available.
-     * @return
+     * @return Gravity vector or null.
      */
     public MathUtil.Vector3 getGravity() {
         if(!isSupported())
@@ -68,5 +68,13 @@ public class GravitySensor extends AbstractSensor {
         if(!isAvailable())
             throw new IllegalStateException("Gravity reading not available");
         return gravity;
+    }
+
+    /**
+     * Return timestamp at which sensor readings were retrieved
+     * @return timestamp in nano-seconds
+     */
+    public long getTimestamp() {
+        return timestamp;
     }
 }

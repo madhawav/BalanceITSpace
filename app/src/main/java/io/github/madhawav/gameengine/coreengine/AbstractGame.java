@@ -24,20 +24,18 @@ public abstract class AbstractGame extends AbstractEngineModule {
 
     private final Context context;
     private final EngineSurfaceView surfaceView; // Used to capture touch events
-    private final EngineGLRenderer renderer; // OpenGL Renderer
 
     private long lastUpdateTime; // nanoTime of most recent update event
 
     // Timer for update events
-    private TimerTask updateTask;
     private Timer updateTimer;
-    private long updateRateMillis; // interval for onUpdate calls
+    private final long updateRateMillis; // interval for onUpdate calls
 
     // Sensors
-    private Map<SensorType, AbstractSensor> sensors;
+    private final Map<SensorType, AbstractSensor> sensors;
 
     // An asset manager manages resources held by a game. (E.g Textures)
-    private AbstractAssetManager assetManager;
+    private final AbstractAssetManager assetManager;
 
     private GameEngineState gameEngineState; // Indicates whether the game engine is paused, running, ...
     private MathUtil.Rect2I viewport; // Viewport for GL rendering
@@ -84,7 +82,7 @@ public abstract class AbstractGame extends AbstractEngineModule {
                 }
             }
         });
-        this.renderer = new EngineGLRenderer( gameDescription.getAspectRatio(), new EngineGLRenderer.Callback() {
+        EngineGLRenderer renderer = new EngineGLRenderer( gameDescription.getAspectRatio(), new EngineGLRenderer.Callback() {
             @Override
             public void onSurfaceChanged(GL10 gl10, int width, int height, MathUtil.Rect2I viewport) {
                 AbstractGame.this.onSurfaceChanged(gl10, width, height, viewport);
@@ -106,7 +104,7 @@ public abstract class AbstractGame extends AbstractEngineModule {
             }
         });
 
-        this.surfaceView.setRenderer(this.renderer);
+        this.surfaceView.setRenderer(renderer);
         this.surfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
         this.gameTime = 0;
@@ -296,7 +294,7 @@ public abstract class AbstractGame extends AbstractEngineModule {
         this.lastUpdateTime = System.nanoTime();
 
         this.updateTimer = new Timer();
-        this.updateTask = new TimerTask() {
+        TimerTask updateTask = new TimerTask() {
             @Override
             public void run() {
                 synchronized (AbstractGame.this){
@@ -310,7 +308,7 @@ public abstract class AbstractGame extends AbstractEngineModule {
                 }
             }
         };
-        this.updateTimer.schedule(this.updateTask, 0, this.updateRateMillis);
+        this.updateTimer.schedule(updateTask, 0, this.updateRateMillis);
     }
 
     /**

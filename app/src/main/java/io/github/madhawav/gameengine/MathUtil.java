@@ -56,10 +56,10 @@ public class MathUtil {
         private int height;
 
         public Rect2I(int x, int y, int width, int height){
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
+            this.setX(x);
+            this.setY(y);
+            this.setWidth(width);
+            this.setHeight(height);
         }
 
         public int getX() {
@@ -77,6 +77,22 @@ public class MathUtil {
         public int getHeight() {
             return height;
         }
+
+        public void setX(int x) {
+            this.x = x;
+        }
+
+        public void setY(int y) {
+            this.y = y;
+        }
+
+        public void setWidth(int width) {
+            this.width = width;
+        }
+
+        public void setHeight(int height) {
+            this.height = height;
+        }
     }
 
     public static class Rect2{
@@ -86,10 +102,10 @@ public class MathUtil {
         private float height;
 
         public Rect2(float x, float y, float width, float height){
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
+            this.setX(x);
+            this.setY(y);
+            this.setWidth(width);
+            this.setHeight(height);
         }
 
         public float getX() {
@@ -107,11 +123,26 @@ public class MathUtil {
         public float getHeight() {
             return height;
         }
+
+        public void setX(float x) {
+            this.x = x;
+        }
+
+        public void setY(float y) {
+            this.y = y;
+        }
+
+        public void setWidth(float width) {
+            this.width = width;
+        }
+
+        public void setHeight(float height) {
+            this.height = height;
+        }
     }
 
     public static class Vector4 {
-
-        private float[] vector4;
+        private final float[] vector4;
         public Vector4(){
             vector4 = new float[] {0.0f, 0.0f, 0.0f, 1.0f};
         }
@@ -192,6 +223,22 @@ public class MathUtil {
     }
 
     public static class Vector3 {
+        private final float[] vector3;
+        public Vector3(){
+            vector3 = new float[] {0.0f, 0.0f, 0.0f };
+        }
+        public Vector3(float[] data) {
+            if (data.length == 3) {
+                vector3 = new float[]{data[0], data[1], data[2]};
+            }
+            else{
+                throw new IllegalArgumentException();
+            }
+        }
+        public Vector3(float x, float y, float z){
+            vector3 = new float[] {x, y, z};
+        }
+
         public Vector3 clone(){
             return new Vector3(vector3);
         }
@@ -218,22 +265,6 @@ public class MathUtil {
             vector3[0] = other.getX();
             vector3[1] = other.getY();
             vector3[2] = other.getZ();
-        }
-
-        private float[] vector3;
-        public Vector3(){
-            vector3 = new float[] {0.0f, 0.0f, 0.0f };
-        }
-        public Vector3(float[] data) {
-            if (data.length == 3) {
-                vector3 = new float[]{data[0], data[1], data[2]};
-            }
-            else{
-                throw new IllegalArgumentException();
-            }
-        }
-        public Vector3(float x, float y, float z){
-            vector3 = new float[] {x, y, z};
         }
 
         public float[] asFloatArray() {

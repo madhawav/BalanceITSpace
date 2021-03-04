@@ -9,9 +9,9 @@ import io.github.madhawav.gameengine.MathUtil;
  * Logic related to automatic level with time progression.
  */
 public class LevelLogic extends AbstractLogic {
-    private GameState gameState;
-    private GameParameters gameParameters;
-    private Callback callback;
+    private final GameState gameState;
+    private final GameParameters gameParameters;
+    private final Callback callback;
 
     public LevelLogic(GameState gameState, GameParameters gameParameters, Callback callback){
         this.gameParameters = gameParameters;
@@ -23,7 +23,7 @@ public class LevelLogic extends AbstractLogic {
     protected void onLevelUp() {
         super.onLevelUp();
         gameState.setLevel(gameState.getLevel() + 1);
-        gameState.setLevelTotalTime(gameState.getLevelTotalTime() + gameParameters.getLevelDurationDelta());
+        gameState.setLevelTotalTime(gameState.getLevelTotalTime() + gameParameters.LEVEL_DURATION_DELTA);
         gameState.setLevelRemainTime(gameState.getLevelTotalTime());
     }
 
@@ -35,7 +35,7 @@ public class LevelLogic extends AbstractLogic {
         }
     }
 
-    public static interface Callback{
+    public interface Callback{
         void onLevelUp();
     }
 }

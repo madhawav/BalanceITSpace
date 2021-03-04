@@ -9,8 +9,8 @@ import javax.microedition.khronos.opengles.GL10;
  * A basic shader implementation with texture support. No lighting.
  */
 public class BasicShader extends AbstractShader {
-    private String vertexShaderSource;
-    private String fragmentShaderSource;
+    private final String vertexShaderSource;
+    private final String fragmentShaderSource;
 
     private int hShaderProgram;
     private int hOpacity;

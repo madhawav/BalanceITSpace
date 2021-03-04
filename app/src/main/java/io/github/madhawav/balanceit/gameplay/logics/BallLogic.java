@@ -8,9 +8,8 @@ import io.github.madhawav.gameengine.MathUtil;
  * Logic on movement of ball on the deck.
  */
 public class BallLogic extends AbstractLogic {
-    private GameState gameState;
-    private GameParameters gameParameters;
-
+    private final GameState gameState;
+    private final GameParameters gameParameters;
 
     public BallLogic(GameState gameState, GameParameters gameParameters){
         this.gameState = gameState;
@@ -19,7 +18,7 @@ public class BallLogic extends AbstractLogic {
 
     @Override
     public void onLevelUp() {
-        gameState.setTNeta(gameState.getTNeta() * gameParameters.getAirResistanceMultiplier());
+        gameState.setTNeta(gameState.getTNeta() * gameParameters.AIR_RESISTANCE_MULTIPLIER);
     }
 
     @Override
@@ -32,7 +31,7 @@ public class BallLogic extends AbstractLogic {
         gameState.getBallVelocity().multiply(1.0f - gameState.getTNeta());
 
         MathUtil.Vector3 scaledVelocity = gameState.getBallVelocity().clone();
-        scaledVelocity.multiply((float)elapsedSec * gameParameters.getTimeScale());
+        scaledVelocity.multiply((float)elapsedSec * gameParameters.TIME_SCALE);
         gameState.getBallPosition().add(scaledVelocity);
         gameState.getBallPosition().setZ(0);
 

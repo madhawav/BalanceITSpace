@@ -38,11 +38,11 @@ public class Rectangle extends AbstractUIElement {
     public Rectangle(GraphicsContext graphicsContext, float x, float y, float width, float height, MathUtil.Vector4 color) {
         super(graphicsContext);
         this.color = color;
-        this.x = x;
-        this.y = y;
-        this.z = 1.0f;
-        this.width = width;
-        this.height = height;
+        this.setX(x);
+        this.setY(y);
+        this.setZ(1.0f);
+        this.setWidth(width);
+        this.setHeight(height);
 
         this.sourceBitmap = null;
         this.texture = null;
@@ -99,7 +99,7 @@ public class Rectangle extends AbstractUIElement {
             invalidate();
 
         this.getGraphicsContext().getSpriteEngine().drawSpriteAA(
-                texture,x,y,width, height, z, this.getOpacity() * this.getGraphicsContext().getOpacity()
+                texture, getX(), getY(), getWidth(), getHeight(), getZ(), this.getOpacity() * this.getGraphicsContext().getOpacity()
         );
     }
 
@@ -122,5 +122,45 @@ public class Rectangle extends AbstractUIElement {
     @Override
     public boolean onTouchReleased(float x, float y) {
         return false;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
+    }
+
+    public float getZ() {
+        return z;
+    }
+
+    public void setZ(float z) {
+        this.z = z;
     }
 }

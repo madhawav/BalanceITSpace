@@ -22,7 +22,7 @@ public class Label extends AbstractUIElement {
 
     private String text;
 
-    private int canvasSize;
+    private final int canvasSize;
     private float x;
     private float y;
     private float width;
@@ -39,15 +39,15 @@ public class Label extends AbstractUIElement {
 
     /**
      * Creates a text label
-     * @param graphicsContext
-     * @param text
+     * @param graphicsContext Graphics context to bind with
+     * @param text Text of the label
      * @param canvasSize Size of Android Canvas on which the texture is rendered internally. Should be either 32, 64, 128, 256 or 512
-     * @param x
-     * @param y
-     * @param width
-     * @param height
-     * @param color
-     * @param fontSize
+     * @param x X coordinate of the top left corner
+     * @param y Y coordinate of the top left corner
+     * @param width Width of the label
+     * @param height Height of the label
+     * @param color Text color
+     * @param fontSize Font size
      */
     public Label(GraphicsContext graphicsContext, String text, int canvasSize, float x, float y, float width, float height, MathUtil.Vector4 color, int fontSize) {
         super(graphicsContext);
@@ -58,11 +58,11 @@ public class Label extends AbstractUIElement {
         this.color = color;
         this.fontSize = fontSize;
         this.text = text;
-        this.x = x;
-        this.y = y;
-        this.z = 1.0f;
-        this.width = width;
-        this.height = height;
+        this.setX(x);
+        this.setY(y);
+        this.setZ(1.0f);
+        this.setWidth(width);
+        this.setHeight(height);
 
         this.sourceBitmap = null;
         this.texture = null;
@@ -74,7 +74,7 @@ public class Label extends AbstractUIElement {
 
     /**
      * Return typeface of font
-     * @return
+     * @return Typeface
      */
     public Typeface getTypeface() {
         return typeface;
@@ -87,7 +87,7 @@ public class Label extends AbstractUIElement {
 
     /**
      * Return text alignment
-     * @return
+     * @return text alignment
      */
     public Paint.Align getTextAlign() {
         return textAlign;
@@ -150,6 +150,17 @@ public class Label extends AbstractUIElement {
         dirty = true;
     }
 
+    public int getFontSize() {
+        return fontSize;
+    }
+
+    public void setFontSize(int fontSize) {
+        if(this.fontSize == fontSize)
+            return;
+        this.fontSize = fontSize;
+        dirty = true;
+    }
+
     public void setColor(MathUtil.Vector4 color) {
         this.color = color;
         dirty = true;
@@ -181,7 +192,7 @@ public class Label extends AbstractUIElement {
             invalidate();
 
         this.getGraphicsContext().getSpriteEngine().drawSpriteAA(
-                texture,x,y,width, height, z, this.getOpacity() * this.getGraphicsContext().getOpacity()
+                texture, getX(), getY(), getWidth(), getHeight(), getZ(), this.getOpacity() * this.getGraphicsContext().getOpacity()
         );
     }
 
@@ -204,5 +215,45 @@ public class Label extends AbstractUIElement {
     @Override
     public boolean onTouchReleased(float x, float y) {
         return false;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
+    }
+
+    public float getZ() {
+        return z;
+    }
+
+    public void setZ(float z) {
+        this.z = z;
     }
 }

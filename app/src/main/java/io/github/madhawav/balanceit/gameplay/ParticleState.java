@@ -7,8 +7,8 @@ import io.github.madhawav.gameengine.MathUtil;
  */
 public class ParticleState {
     private boolean enabled;
-    private MathUtil.Vector3 position;
-    private MathUtil.Vector3 velocity;
+    private final MathUtil.Vector3 position;
+    private final MathUtil.Vector3 velocity;
 
     public ParticleState(){
         this.enabled = false;

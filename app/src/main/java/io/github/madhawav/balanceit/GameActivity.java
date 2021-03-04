@@ -5,6 +5,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -21,6 +22,10 @@ public class GameActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         this.game = new BalanceITGame(this);
+        if(!this.game.getGravitySensor().isSupported()){
+            Toast.makeText(this, "Error: Gravity sensor not available!", Toast.LENGTH_LONG).show();
+            finish();
+        }
         setContentView(this.game.getSurfaceView());
 
         this.game.start(); // Puts the game engine to paused state
