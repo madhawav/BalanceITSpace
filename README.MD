@@ -1,17 +1,18 @@
 # Balance IT - Space
 
 This project is a refactored code release of my Android game Balance IT - Space. 
-I made this game back in 2012-2013, and that version is still [available in the Google Play Store](https://play.google.com/store/apps/details?id=com.renovelabz.balanceit&hl=en_CA).
-It is an Android accelerometer sensor based game which works well even in modern phones. 
-Having looked at my decade old original code written before my undergraduate studies, I've decided that a public release requires a major code refactor. 
+I made this game back in 2012, and that version is still [available in the Google Play Store](https://play.google.com/store/apps/details?id=com.renovelabz.balanceit&hl=en_CA).
+It is an Android accelerometer sensor-based game that works well even on modern phones. The following video showcases this game.
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/hqSM7fWyW5M/0.jpg)](https://www.youtube.com/watch?v=hqSM7fWyW5M)
 
+Having looked at my decade-old code written before my bachelor's, I decided that a public release requires a major code refactoring.
 This code repository is a re-implementation of that same game using a better-designed code base. 
-So far, I have completed the implementation of game-play stage.
+So far, I have completed the implementation of the game-play stage and the game-over screen.
 The development of menus is future work. 
 As before, everything is developed directly on top of the OpenGL ES library available with Android SDK using Java.
-I have developed a new game engine layer which implements low-level features while isolating the game code from the platform.
+I have developed a new game engine layer that implements low-level features, isolating the game code from the Android platform.
 
-The following are screenshots from the newly developed version.
+The following screenshots are from the newly developed version.
 
 <img src="docs/preview_start.jpg" height="350"> <span></span> <img src="docs/preview_gameplay.jpg" height="350"> <span></span> <img src="docs/preview_personal_best.jpg" height="350">  <span></span> <img src="docs/preview_game_over.jpg" height="350">
 
