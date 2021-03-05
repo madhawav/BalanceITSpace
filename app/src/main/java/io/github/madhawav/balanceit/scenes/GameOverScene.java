@@ -11,8 +11,10 @@ import io.github.madhawav.balanceit.opengleslearn.R;
 import io.github.madhawav.gameengine.graphics.Color;
 import io.github.madhawav.gameengine.graphics.TextureAssetManager;
 import io.github.madhawav.gameengine.ui.AbstractUIElement;
+import io.github.madhawav.gameengine.ui.ClickListener;
 import io.github.madhawav.gameengine.ui.GraphicsContext;
 import io.github.madhawav.gameengine.ui.Image;
+import io.github.madhawav.gameengine.ui.ImageButton;
 import io.github.madhawav.gameengine.ui.Label;
 import io.github.madhawav.gameengine.ui.LayeredUI;
 import io.github.madhawav.gameengine.ui.Rectangle;
@@ -34,6 +36,9 @@ public class GameOverScene extends UIElementScene {
     private static final int YOUR_SCORE_FONT_SIZE = 108;
     private static final int SCORE_FONT_SIZE = 120;
     private static final int LEVEL_FONT_SIZE = 80;
+    private static final float SHARE_BUTTON_WIDTH = 250.0f;
+    private static final float SHARE_BUTTON_HEIGHT = 100.0f;
+    private static final float SHARE_BUTTON_BOTTOM_MARGIN = 180.0f;
     
     
     private final GameResults gameResults;
@@ -83,6 +88,15 @@ public class GameOverScene extends UIElementScene {
         levelLabel.setTextAlign(Paint.Align.CENTER);
         layeredUI.addElement(levelLabel);
 
+        // Share button
+        layeredUI.addElement(new ImageButton(graphicsContext, R.drawable.finish_share_button,
+                (float) graphicsContext.getGraphicsEngine().getViewportWidth() / 2 - SHARE_BUTTON_WIDTH / 2,
+                (float) graphicsContext.getGraphicsEngine().getViewportHeight() - SHARE_BUTTON_BOTTOM_MARGIN - SHARE_BUTTON_HEIGHT,
+                SHARE_BUTTON_WIDTH, SHARE_BUTTON_HEIGHT, (sender, x, y) -> {
+                    getGame().showMessage("Share feature not implemented");
+                    return true;
+                }));
+
 
         // Fade out
         fadeOutRectangle = new Rectangle(graphicsContext, 0, 0,
@@ -104,6 +118,8 @@ public class GameOverScene extends UIElementScene {
 
     @Override
     protected boolean onTouchDown(float x, float y) {
+        if(super.onTouchDown(x,y))
+            return true; // The event is handled by super
         game.swapScene(new GamePlayScene(new GameParameters()));
         return true;
     }

@@ -2,6 +2,7 @@ package io.github.madhawav.gameengine.coreengine;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -329,5 +330,13 @@ public abstract class AbstractGame extends AbstractEngineModule {
                 onStart();
             }
         }
+    }
+
+    /**
+     * Alert the player using a toast
+     * @param message Message of the toast
+     */
+    public void showMessage(String message){
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 }
