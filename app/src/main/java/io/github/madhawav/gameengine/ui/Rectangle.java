@@ -8,6 +8,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import io.github.madhawav.gameengine.MathUtil;
 import io.github.madhawav.gameengine.graphics.BitmapTexture;
+import io.github.madhawav.gameengine.graphics.Color;
 
 /**
  * A solid colored rectangle shape.
@@ -22,7 +23,7 @@ public class Rectangle extends AbstractUIElement {
     private float height;
     private float z;
 
-    private MathUtil.Vector4 color;
+    private Color color;
 
     private boolean dirty; // Re-create the internal bitmap and texture in the next render cycle.
 
@@ -36,7 +37,7 @@ public class Rectangle extends AbstractUIElement {
      * @param height          Height of element
      * @param color           Fill color of the rectangle
      */
-    public Rectangle(GraphicsContext graphicsContext, float x, float y, float width, float height, MathUtil.Vector4 color) {
+    public Rectangle(GraphicsContext graphicsContext, float x, float y, float width, float height, Color color) {
         super(graphicsContext);
         this.color = color;
         this.setX(x);
@@ -64,7 +65,7 @@ public class Rectangle extends AbstractUIElement {
         // Update color
         Canvas canvas = new Canvas(sourceBitmap);
         Paint paint = new Paint();
-        paint.setARGB((int) (color.getW() * 255), (int) (color.getX() * 255), (int) (color.getY() * 255), (int) (color.getZ() * 255));
+        paint.setARGB((int) (color.getA() * 255), (int) (color.getR() * 255), (int) (color.getG() * 255), (int) (color.getB() * 255));
         canvas.drawPaint(paint);
 
         texture.invalidate(); // Inform texture to update itself
@@ -72,11 +73,11 @@ public class Rectangle extends AbstractUIElement {
         dirty = false;
     }
 
-    public MathUtil.Vector4 getColor() {
+    public Color getColor() {
         return color;
     }
 
-    public void setColor(MathUtil.Vector4 color) {
+    public void setColor(Color color) {
         this.color = color;
         dirty = true;
     }

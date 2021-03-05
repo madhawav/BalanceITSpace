@@ -47,13 +47,10 @@ public class GraphicsEngine extends AbstractEngineModule {
     /**
      * Clears RGB buffer using specified RGB. Also clears depth buffer.
      *
-     * @param r red component
-     * @param g green component
-     * @param b blue component
-     * @param a alpha component
+     * @param color Cleared color.
      */
-    public void clear(float r, float g, float b, float a) {
-        GLES20.glClearColor(r, g, b, a);
+    public void clear(Color color) {
+        GLES20.glClearColor(color.getR(), color.getG(), color.getB(), color.getA());
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
     }
 

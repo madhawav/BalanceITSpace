@@ -7,7 +7,7 @@ import java.util.Locale;
 
 import io.github.madhawav.balanceit.gameplay.GameState;
 import io.github.madhawav.balanceit.opengleslearn.R;
-import io.github.madhawav.gameengine.MathUtil;
+import io.github.madhawav.gameengine.graphics.Color;
 import io.github.madhawav.gameengine.ui.GraphicsContext;
 import io.github.madhawav.gameengine.ui.Image;
 import io.github.madhawav.gameengine.ui.Label;
@@ -41,13 +41,13 @@ public class HUDLayer extends LayeredUI {
 
         // Label indicating the level on top left
         levelLabel = new Label(graphicsContext, "Level", 256, 0, 0, 256,
-                256, new MathUtil.Vector4(0, 180.0f / 255.0f, 1, 1), 60);
+                256, new Color(0, 180.0f / 255.0f, 1, 1), 60);
         addElement(levelLabel);
 
         // Label indicating the score on top right
         scoreLabel = new Label(graphicsContext, "Score", 256,
                 getGraphicsContext().getGraphicsEngine().getViewportWidth() - 256, 0,
-                256, 256, new MathUtil.Vector4(0, 180.0f / 255.0f, 1, 1), 96);
+                256, 256, new Color(0, 180.0f / 255.0f, 1, 1), 96);
         scoreLabel.setTextAlign(Paint.Align.RIGHT);
         scoreLabel.setTypeface(Typeface.DEFAULT_BOLD);
         addElement(scoreLabel);
@@ -55,7 +55,7 @@ public class HUDLayer extends LayeredUI {
         // Label indicating the score multiplier in top right
         multiplierLabel = new Label(graphicsContext, "Multiplier", 256,
                 getGraphicsContext().getGraphicsEngine().getViewportWidth() - 256, 95,
-                256, 256, new MathUtil.Vector4(0, 180.0f / 255.0f, 1, 1), 60);
+                256, 256, new Color(0, 180.0f / 255.0f, 1, 1), 60);
         multiplierLabel.setTextAlign(Paint.Align.RIGHT);
         multiplierLabel.setTypeface(Typeface.DEFAULT_BOLD);
         addElement(multiplierLabel);
@@ -74,7 +74,7 @@ public class HUDLayer extends LayeredUI {
         pausedLayer = new Rectangle(graphicsContext, 0, 0,
                 getGraphicsContext().getGraphicsEngine().getViewportWidth(),
                 getGraphicsContext().getGraphicsEngine().getViewportHeight(),
-                new MathUtil.Vector4(0, 0, 0, 0.5f));
+                new Color(0, 0, 0, 0.5f));
         pausedLayer.setOpacity(0);
         addElement(pausedLayer);
 
@@ -82,7 +82,7 @@ public class HUDLayer extends LayeredUI {
         warmUpLeftLabel = new Label(graphicsContext, "WarmUpLeft", 256,
                 (float) graphicsContext.getGraphicsEngine().getViewportWidth() / 2 - 150,
                 graphicsContext.getGraphicsEngine().getViewportHeight() - 150, 300, 300,
-                new MathUtil.Vector4(1, 0, 0, 1), 36);
+                Color.RED, 36);
 
         warmUpLeftLabel.setTextAlign(Paint.Align.CENTER);
 

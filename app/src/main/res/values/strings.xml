@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BalanceITSpace</string>
+    <string name="game_over_scene_your_score">Your Score</string>
+    <string name="game_over_scene_level">Level %d</string>
 </resources>

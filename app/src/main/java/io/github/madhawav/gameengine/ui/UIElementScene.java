@@ -2,6 +2,7 @@ package io.github.madhawav.gameengine.ui;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import io.github.madhawav.gameengine.graphics.Color;
 import io.github.madhawav.gameengine.multiscene.AbstractScene;
 
 /**
@@ -11,19 +12,19 @@ public abstract class UIElementScene extends AbstractScene {
     private AbstractUIElement uiElement;
     private boolean started;
 
-    private float[] backgroundColor;
+    private Color backgroundColor;
 
     public UIElementScene() {
         started = false;
         uiElement = null;
-        backgroundColor = new float[]{1.0f, 1.0f, 1.0f, 1.0f};
+        backgroundColor = Color.BLACK;
     }
 
-    public float[] getBackgroundColor() {
+    public Color getBackgroundColor() {
         return backgroundColor;
     }
 
-    public void setBackgroundColor(float[] backgroundColor) {
+    public void setBackgroundColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
 
@@ -59,7 +60,7 @@ public abstract class UIElementScene extends AbstractScene {
         if (!isRunning())
             throw new IllegalStateException("Not running");
         if (backgroundColor != null)
-            uiElement.getGraphicsContext().getGraphicsEngine().clear(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
+            uiElement.getGraphicsContext().getGraphicsEngine().clear(backgroundColor);
         this.uiElement.onRender(gl10);
     }
 

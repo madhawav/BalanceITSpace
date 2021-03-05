@@ -7,6 +7,7 @@ import javax.microedition.khronos.opengles.GL10;
 import io.github.madhawav.balanceit.BalanceITGame;
 import io.github.madhawav.balanceit.opengleslearn.R;
 import io.github.madhawav.gameengine.MathUtil;
+import io.github.madhawav.gameengine.graphics.Color;
 import io.github.madhawav.gameengine.graphics.Geometry;
 import io.github.madhawav.gameengine.ui.AbstractUIElement;
 import io.github.madhawav.gameengine.ui.GraphicsContext;
@@ -77,7 +78,7 @@ public class SpaceBackgroundLayer extends AbstractUIElement {
 
     @Override
     public void onRender(GL10 gl10) {
-        getGraphicsContext().getGraphicsEngine().clear(0, 0, 0, 0);
+        getGraphicsContext().getGraphicsEngine().clear(Color.BLACK);
         getGraphicsContext().getGraphicsEngine().setDepthEnabled(false);
         getGraphicsContext().getGraphicsEngine().setCullBackFace(false);
 

@@ -12,6 +12,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import io.github.madhawav.gameengine.MathUtil;
 import io.github.madhawav.gameengine.graphics.BitmapTexture;
+import io.github.madhawav.gameengine.graphics.Color;
 
 /**
  * A text label UI element.
@@ -31,7 +32,7 @@ public class Label extends AbstractUIElement {
     private Paint.Align textAlign;
     private Typeface typeface;
 
-    private MathUtil.Vector4 color;
+    private Color color;
 
     private boolean dirty; // Mark dirty to recreate the sourceBitmap and texture during next render call.
 
@@ -48,7 +49,7 @@ public class Label extends AbstractUIElement {
      * @param color           Text color
      * @param fontSize        Font size
      */
-    public Label(GraphicsContext graphicsContext, String text, int canvasSize, float x, float y, float width, float height, MathUtil.Vector4 color, int fontSize) {
+    public Label(GraphicsContext graphicsContext, String text, int canvasSize, float x, float y, float width, float height, Color color, int fontSize) {
         super(graphicsContext);
         if (!(canvasSize == 512 || canvasSize == 256 || canvasSize == 128 || canvasSize == 64 || canvasSize == 32)) {
             throw new IllegalArgumentException("Unsupported canvas size");
@@ -118,7 +119,7 @@ public class Label extends AbstractUIElement {
 
         // Draw text
         paint = new Paint();
-        paint.setARGB((int) (color.getW() * 255), (int) (color.getX() * 255), (int) (color.getY() * 255), (int) (color.getZ() * 255));
+        paint.setARGB((int) (color.getA() * 255), (int) (color.getR() * 255), (int) (color.getG() * 255), (int) (color.getB() * 255));
         paint.setTextSize(fontSize);
         paint.setFlags(Paint.ANTI_ALIAS_FLAG);
         paint.setTextAlign(textAlign);
@@ -150,11 +151,11 @@ public class Label extends AbstractUIElement {
         dirty = true;
     }
 
-    public MathUtil.Vector4 getColor() {
+    public Color getColor() {
         return color;
     }
 
-    public void setColor(MathUtil.Vector4 color) {
+    public void setColor(Color color) {
         this.color = color;
         dirty = true;
     }

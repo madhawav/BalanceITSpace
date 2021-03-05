@@ -2,6 +2,7 @@ package io.github.madhawav.balanceit.scenes;
 
 import io.github.madhawav.balanceit.BalanceITGame;
 import io.github.madhawav.balanceit.gameplay.GameParameters;
+import io.github.madhawav.balanceit.gameplay.GameResults;
 import io.github.madhawav.balanceit.gameplay.GameState;
 import io.github.madhawav.balanceit.gameplay.logics.GameLogic;
 import io.github.madhawav.balanceit.layers.BalanceAssistanceLayer;
@@ -9,6 +10,7 @@ import io.github.madhawav.balanceit.layers.GamePlayLayer;
 import io.github.madhawav.balanceit.layers.HUDLayer;
 import io.github.madhawav.balanceit.layers.SpaceBackgroundLayer;
 import io.github.madhawav.gameengine.MathUtil;
+import io.github.madhawav.gameengine.graphics.Color;
 import io.github.madhawav.gameengine.graphics.TextureAssetManager;
 import io.github.madhawav.gameengine.ui.AbstractUIElement;
 import io.github.madhawav.gameengine.ui.GraphicsContext;
@@ -41,7 +43,7 @@ public class GamePlayScene extends UIElementScene {
         gameLogic = new GameLogic(gameState, gameParameters, new GameLogic.Callback() {
             @Override
             public void onGameOver() {
-                getGame().swapScene(new GameOverScene());
+                getGame().swapScene(new GameOverScene(new GameResults((int) gameState.getScore(),gameState.getLevel())));
             }
 
             @Override
@@ -59,8 +61,9 @@ public class GamePlayScene extends UIElementScene {
 
         gamePlayLayer = new GamePlayLayer(gameState, gameParameters.BOARD_SIZE, graphicsContext);
 
-        warningLayer = new Rectangle(graphicsContext, 0, 0, graphicsContext.getGraphicsEngine().getViewportWidth(), graphicsContext.getGraphicsEngine().getViewportHeight(),
-                new MathUtil.Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+        warningLayer = new Rectangle(graphicsContext, 0, 0,
+                graphicsContext.getGraphicsEngine().getViewportWidth(),
+                graphicsContext.getGraphicsEngine().getViewportHeight(), Color.RED);
         warningLayer.setOpacity(0);
 
         hudLayer = new HUDLayer(graphicsContext, gameState, new HUDLayer.Callback() {
@@ -77,7 +80,7 @@ public class GamePlayScene extends UIElementScene {
 
             @Override
             public void onExit() {
-                game.swapScene(new GameOverScene());
+                game.swapScene(new GameOverScene(new GameResults((int) gameState.getScore(), gameState.getLevel())));
             }
         });
 

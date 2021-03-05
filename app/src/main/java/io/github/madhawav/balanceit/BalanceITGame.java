@@ -2,9 +2,9 @@ package io.github.madhawav.balanceit;
 
 import android.content.Context;
 
-import io.github.madhawav.balanceit.gameplay.GameParameters;
+import io.github.madhawav.balanceit.gameplay.GameResults;
 import io.github.madhawav.balanceit.opengleslearn.R;
-import io.github.madhawav.balanceit.scenes.GamePlayScene;
+import io.github.madhawav.balanceit.scenes.GameOverScene;
 import io.github.madhawav.gameengine.ResourceUtil;
 import io.github.madhawav.gameengine.coreengine.GameDescription;
 import io.github.madhawav.gameengine.graphics.AbstractShader;
@@ -54,7 +54,8 @@ public class BalanceITGame extends AbstractMultiSceneGame {
      */
     @Override
     public AbstractScene getInitialScene() {
-        return new GamePlayScene(new GameParameters());
+        return new GameOverScene(new GameResults(100, 5));
+//        return new GamePlayScene(new GameParameters());
     }
 }
 
