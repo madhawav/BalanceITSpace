@@ -13,7 +13,7 @@ I have developed a new game engine layer which implements low-level features whi
 
 The following are screenshots from the newly developed version.
 
-<img src="docs/preview.jpg" height="350"> <span></span>   <img src="docs/preview2.jpg" height="350">
+<img src="docs/preview_start.jpg" height="350"> <span></span> <img src="docs/preview_gameplay.jpg" height="350"> <span></span> <img src="docs/preview_personal_best.jpg" height="350">  <span></span> <img src="docs/preview_game_over.jpg" height="350">
 
 The codebase consists of two sections:
  1) [The Game](app/src/main/java/io/github/madhawav/balanceit): Implements the gameplay scene, game over scene and the gameplay logic.
