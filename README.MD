@@ -3,6 +3,7 @@
 This project is a refactored code release of my Android game Balance IT - Space. 
 I made this game back in 2012, and that version is still [available in the Google Play Store](https://play.google.com/store/apps/details?id=com.renovelabz.balanceit&hl=en_CA).
 It is an Android accelerometer sensor-based game that works well even on modern phones. The following video showcases this game.
+
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/hqSM7fWyW5M/0.jpg)](https://www.youtube.com/watch?v=hqSM7fWyW5M)
 
 Having looked at my decade-old code written before my bachelor's, I decided that a public release requires a major code refactoring.
