@@ -3,7 +3,6 @@ package io.github.madhawav.balanceit;
 import android.content.Context;
 
 import io.github.madhawav.balanceit.gameplay.GameParameters;
-import io.github.madhawav.balanceit.gameplay.GameResults;
 import io.github.madhawav.balanceit.opengleslearn.R;
 import io.github.madhawav.balanceit.scenes.GamePlayScene;
 import io.github.madhawav.gameengine.ResourceUtil;
@@ -55,9 +54,6 @@ public class BalanceITGame extends AbstractMultiSceneGame {
      */
     @Override
     public AbstractScene getInitialScene() {
-        GameResults gameResults = new GameResults(100, 5);
-//        gameResults.setPersonalBest(true);
-//        return new GameOverScene(gameResults);
         return new GamePlayScene(new GameParameters());
     }
 }

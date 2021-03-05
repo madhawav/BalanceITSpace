@@ -43,8 +43,8 @@ public class GameOverScene extends UIElementScene {
     private static final float SHARE_BUTTON_WIDTH = 250.0f;
     private static final float SHARE_BUTTON_HEIGHT = 100.0f;
     private static final float SHARE_BUTTON_BOTTOM_MARGIN = 180.0f;
-    
-    
+
+
     private final GameResults gameResults;
     private BalanceITGame game;
 
@@ -67,54 +67,52 @@ public class GameOverScene extends UIElementScene {
         layeredUI.addElement(new Image(graphicsContext, R.drawable.finish_background_top, 0, 0,
                 graphicsContext.getGraphicsEngine().getViewportWidth(), graphicsContext.getGraphicsEngine().getViewportWidth() / BACKGROUND_TOP_ASPECT_RATIO));
         layeredUI.addElement(new Image(graphicsContext, R.drawable.finish_touch_to_cont,
-                (float)graphicsContext.getGraphicsEngine().getViewportWidth()/2-TEXTURE_SIZE/2.0f,
-                graphicsContext.getGraphicsEngine().getViewportHeight()-TEXTURE_SIZE - TOUCH_TO_CONT_BOTTOM_MARGIN, TEXTURE_SIZE, TEXTURE_SIZE));
+                (float) graphicsContext.getGraphicsEngine().getViewportWidth() / 2 - TEXTURE_SIZE / 2.0f,
+                graphicsContext.getGraphicsEngine().getViewportHeight() - TEXTURE_SIZE - TOUCH_TO_CONT_BOTTOM_MARGIN, TEXTURE_SIZE, TEXTURE_SIZE));
 
         // Score Labels
         Label yourScoreLabel = new Label(graphicsContext, getGame().getContext().getString(R.string.game_over_scene_your_score), TEXTURE_SIZE,
-                LABEL_YOUR_SCORE_LEFT_FRACTION * graphicsContext.getGraphicsEngine().getViewportWidth() - TEXTURE_SIZE/2.0f,
-                LABEL_YOUR_SCORE_TOP_FRACTION * graphicsContext.getGraphicsEngine().getViewportHeight() - TEXTURE_SIZE/2.0f,
+                LABEL_YOUR_SCORE_LEFT_FRACTION * graphicsContext.getGraphicsEngine().getViewportWidth() - TEXTURE_SIZE / 2.0f,
+                LABEL_YOUR_SCORE_TOP_FRACTION * graphicsContext.getGraphicsEngine().getViewportHeight() - TEXTURE_SIZE / 2.0f,
                 TEXTURE_SIZE, TEXTURE_SIZE, Color.COBALT_BLUE, YOUR_SCORE_FONT_SIZE);
         yourScoreLabel.setTextAlign(Paint.Align.CENTER);
         layeredUI.addElement(yourScoreLabel);
 
-        Label scoreLabel = new Label(graphicsContext,  Integer.toString(gameResults.getScore()), TEXTURE_SIZE,
-                LABEL_YOUR_SCORE_LEFT_FRACTION * graphicsContext.getGraphicsEngine().getViewportWidth() - TEXTURE_SIZE/2.0f,
-                LABEL_YOUR_SCORE_TOP_FRACTION * graphicsContext.getGraphicsEngine().getViewportHeight() - TEXTURE_SIZE/2.0f + YOUR_SCORE_LINE_GAP,
+        Label scoreLabel = new Label(graphicsContext, Integer.toString(gameResults.getScore()), TEXTURE_SIZE,
+                LABEL_YOUR_SCORE_LEFT_FRACTION * graphicsContext.getGraphicsEngine().getViewportWidth() - TEXTURE_SIZE / 2.0f,
+                LABEL_YOUR_SCORE_TOP_FRACTION * graphicsContext.getGraphicsEngine().getViewportHeight() - TEXTURE_SIZE / 2.0f + YOUR_SCORE_LINE_GAP,
                 TEXTURE_SIZE, TEXTURE_SIZE, Color.COBALT_BLUE, SCORE_FONT_SIZE);
         scoreLabel.setTextAlign(Paint.Align.CENTER);
         layeredUI.addElement(scoreLabel);
 
         // Level
-        Label levelLabel = new Label(graphicsContext,  String.format(Locale.US, getGame().getContext().getString(R.string.game_over_scene_level), gameResults.getLevel()), TEXTURE_SIZE,
-                LABEL_YOUR_SCORE_LEFT_FRACTION * graphicsContext.getGraphicsEngine().getViewportWidth() - TEXTURE_SIZE/2.0f,
-                LABEL_YOUR_SCORE_TOP_FRACTION * graphicsContext.getGraphicsEngine().getViewportHeight() - TEXTURE_SIZE/2.0f + YOUR_SCORE_LINE_GAP + SECTION_GAP,
+        Label levelLabel = new Label(graphicsContext, String.format(Locale.US, getGame().getContext().getString(R.string.game_over_scene_level), gameResults.getLevel()), TEXTURE_SIZE,
+                LABEL_YOUR_SCORE_LEFT_FRACTION * graphicsContext.getGraphicsEngine().getViewportWidth() - TEXTURE_SIZE / 2.0f,
+                LABEL_YOUR_SCORE_TOP_FRACTION * graphicsContext.getGraphicsEngine().getViewportHeight() - TEXTURE_SIZE / 2.0f + YOUR_SCORE_LINE_GAP + SECTION_GAP,
                 TEXTURE_SIZE, TEXTURE_SIZE, Color.SKY_BLUE, LEVEL_FONT_SIZE);
         levelLabel.setTextAlign(Paint.Align.CENTER);
         layeredUI.addElement(levelLabel);
 
         // Personal best
-        if(gameResults.isPersonalBest())
-        {
-            Label newPersonalBestLabel = new Label(graphicsContext,  getGame().getContext().getString(R.string.game_over_scene_new_personal_best), TEXTURE_SIZE,
-                    LABEL_YOUR_SCORE_LEFT_FRACTION * graphicsContext.getGraphicsEngine().getViewportWidth() - TEXTURE_SIZE/2.0f,
-                    LABEL_YOUR_SCORE_TOP_FRACTION * graphicsContext.getGraphicsEngine().getViewportHeight() - TEXTURE_SIZE/2.0f + YOUR_SCORE_LINE_GAP  + SECTION_GAP * 2,
+        if (gameResults.isPersonalBest()) {
+            Label newPersonalBestLabel = new Label(graphicsContext, getGame().getContext().getString(R.string.game_over_scene_new_personal_best), TEXTURE_SIZE,
+                    LABEL_YOUR_SCORE_LEFT_FRACTION * graphicsContext.getGraphicsEngine().getViewportWidth() - TEXTURE_SIZE / 2.0f,
+                    LABEL_YOUR_SCORE_TOP_FRACTION * graphicsContext.getGraphicsEngine().getViewportHeight() - TEXTURE_SIZE / 2.0f + YOUR_SCORE_LINE_GAP + SECTION_GAP * 2,
                     TEXTURE_SIZE, TEXTURE_SIZE, Color.GOLD, NEW_PERSONAL_BEST_FONT_SIZE);
             newPersonalBestLabel.setTextAlign(Paint.Align.CENTER);
             layeredUI.addElement(newPersonalBestLabel);
-        }
-        else{
-            Label personalBestLabel = new Label(graphicsContext,  getGame().getContext().getString(R.string.game_over_scene_personal_best), TEXTURE_SIZE,
-                    LABEL_YOUR_SCORE_LEFT_FRACTION * graphicsContext.getGraphicsEngine().getViewportWidth() - TEXTURE_SIZE/2.0f,
-                    LABEL_YOUR_SCORE_TOP_FRACTION * graphicsContext.getGraphicsEngine().getViewportHeight() - TEXTURE_SIZE/2.0f + YOUR_SCORE_LINE_GAP  + SECTION_GAP * 2,
+        } else {
+            Label personalBestLabel = new Label(graphicsContext, getGame().getContext().getString(R.string.game_over_scene_personal_best), TEXTURE_SIZE,
+                    LABEL_YOUR_SCORE_LEFT_FRACTION * graphicsContext.getGraphicsEngine().getViewportWidth() - TEXTURE_SIZE / 2.0f,
+                    LABEL_YOUR_SCORE_TOP_FRACTION * graphicsContext.getGraphicsEngine().getViewportHeight() - TEXTURE_SIZE / 2.0f + YOUR_SCORE_LINE_GAP + SECTION_GAP * 2,
                     TEXTURE_SIZE, TEXTURE_SIZE, Color.WHITE, PERSONAL_BEST_FONT_SIZE);
             personalBestLabel.setTextAlign(Paint.Align.CENTER);
             layeredUI.addElement(personalBestLabel);
 
             HighScoreManager highScoreManager = new HighScoreManager(getGame().getKeyValueStore());
-            Label personalBestScoreLabel = new Label(graphicsContext,  Integer.toString(highScoreManager.getHighScore()), TEXTURE_SIZE,
-                    LABEL_YOUR_SCORE_LEFT_FRACTION * graphicsContext.getGraphicsEngine().getViewportWidth() - TEXTURE_SIZE/2.0f,
-                    LABEL_YOUR_SCORE_TOP_FRACTION * graphicsContext.getGraphicsEngine().getViewportHeight() - TEXTURE_SIZE/2.0f + YOUR_SCORE_LINE_GAP  + SECTION_GAP * 2 + PERSONAL_BEST_LINE_GAP,
+            Label personalBestScoreLabel = new Label(graphicsContext, Integer.toString(highScoreManager.getHighScore()), TEXTURE_SIZE,
+                    LABEL_YOUR_SCORE_LEFT_FRACTION * graphicsContext.getGraphicsEngine().getViewportWidth() - TEXTURE_SIZE / 2.0f,
+                    LABEL_YOUR_SCORE_TOP_FRACTION * graphicsContext.getGraphicsEngine().getViewportHeight() - TEXTURE_SIZE / 2.0f + YOUR_SCORE_LINE_GAP + SECTION_GAP * 2 + PERSONAL_BEST_LINE_GAP,
                     TEXTURE_SIZE, TEXTURE_SIZE, Color.WHITE, PERSONAL_BEST_FONT_SIZE);
             personalBestScoreLabel.setTextAlign(Paint.Align.RIGHT);
             layeredUI.addElement(personalBestScoreLabel);
@@ -126,9 +124,9 @@ public class GameOverScene extends UIElementScene {
                 (float) graphicsContext.getGraphicsEngine().getViewportWidth() / 2 - SHARE_BUTTON_WIDTH / 2,
                 (float) graphicsContext.getGraphicsEngine().getViewportHeight() - SHARE_BUTTON_BOTTOM_MARGIN - SHARE_BUTTON_HEIGHT,
                 SHARE_BUTTON_WIDTH, SHARE_BUTTON_HEIGHT, (sender, x, y) -> {
-                    getGame().showMessage("Share feature not implemented");
-                    return true;
-                }));
+            getGame().showMessage("Share feature not implemented");
+            return true;
+        }));
 
 
         // Fade out
@@ -143,15 +141,15 @@ public class GameOverScene extends UIElementScene {
     @Override
     protected void onUpdate(double elapsedSec) {
         super.onUpdate(elapsedSec);
-        if(this.fadeOutRectangle.getOpacity()>0){
-            this.fadeOutRectangle.setOpacity(Math.max(0, (float) (this.fadeOutRectangle.getOpacity()- elapsedSec / FADEOUT_DURATION)));
+        if (this.fadeOutRectangle.getOpacity() > 0) {
+            this.fadeOutRectangle.setOpacity(Math.max(0, (float) (this.fadeOutRectangle.getOpacity() - elapsedSec / FADEOUT_DURATION)));
         }
 
     }
 
     @Override
     protected boolean onTouchDown(float x, float y) {
-        if(super.onTouchDown(x,y))
+        if (super.onTouchDown(x, y))
             return true; // The event is handled by super
         game.swapScene(new GamePlayScene(new GameParameters()));
         return true;

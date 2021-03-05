@@ -66,9 +66,9 @@ public class GamePlayScene extends UIElementScene {
     /**
      * Switch to game over scene
      */
-    private void finishGame(){
+    private void finishGame() {
         GameResults gameResults = new GameResults((int) gameState.getScore(), gameState.getLevel());
-        if(highScoreManager.getHighScore() < gameResults.getScore()){
+        if (highScoreManager.getHighScore() < gameResults.getScore()) {
             gameResults.setPersonalBest(true);
         }
         getGame().swapScene(new GameOverScene(gameResults));
@@ -171,6 +171,6 @@ public class GamePlayScene extends UIElementScene {
 
     @Override
     protected void onFinish() {
-        this.highScoreManager.recordScore((int)gameState.getScore());
+        this.highScoreManager.recordScore((int) gameState.getScore());
     }
 }

@@ -37,7 +37,7 @@ public class HUDLayer extends LayeredUI {
         this.callback = callback;
         this.gameState = gameState;
 
-        //TODO: Remove hard-corded UI layout information. Read from resources.
+        //TODO: Remove hard-corded UI layout information.
 
         // Label indicating the level on top left
         levelLabel = new Label(graphicsContext, "Level", 256, 0, 0, 256,
