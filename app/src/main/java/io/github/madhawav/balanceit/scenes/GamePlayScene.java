@@ -87,7 +87,7 @@ public class GamePlayScene extends UIElementScene {
                 graphicsContext.getGraphicsEngine().getViewportHeight(), Color.RED);
         warningLayer.setOpacity(0);
 
-        hudLayer = new HUDLayer(graphicsContext, gameState, new HUDLayer.Callback() {
+        hudLayer = new HUDLayer(game.getContext(), graphicsContext, gameState, new HUDLayer.Callback() {
             @Override
             public void onPause() {
                 gameState.setPaused(true);

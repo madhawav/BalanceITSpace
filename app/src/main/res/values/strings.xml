@@ -4,4 +4,6 @@
     <string name="game_over_scene_level">Level %d</string>
     <string name="game_over_scene_new_personal_best">New Personal Best</string>
     <string name="game_over_scene_personal_best">Personal Best</string>
+    <string name="gamplay_scene_hud_level">Level %d</string>
+    <string name="gameplay_scene_hud_warmup_time_left">%d seconds left</string>
 </resources>
