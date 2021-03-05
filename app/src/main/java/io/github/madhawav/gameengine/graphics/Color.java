@@ -24,5 +24,6 @@ public class Color {
     public static final Color SKY_BLUE = new Color(117.0f/255.0f,202.0f/255.0f, 1.0f, 1.0f);
     public static final Color RED = new Color(1.0f, 0.0f, 0.0f, 1.0f);
     public static final Color WHITE = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+    public static final Color GOLD = new Color(1.0f, 238.0f/255.0f, 0.0f, 1.0f);
 
 }

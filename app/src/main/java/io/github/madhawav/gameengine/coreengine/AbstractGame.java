@@ -42,6 +42,8 @@ public abstract class AbstractGame extends AbstractEngineModule {
     private boolean glContextReady = false; // Is GL Context available? I.e. Did onSurfaceChanged event occurred?
     private boolean awaitOnStartUntilGLContextReady = false; // Should onStart be called at next onSurfaceChanged? Used to delay propagation of onStart event until GL context is available.
 
+    private final KeyValueStore keyValueStore; // Manages storage of key-value pair settings
+
     /**
      * Constructor of a Game.
      *
@@ -54,6 +56,9 @@ public abstract class AbstractGame extends AbstractEngineModule {
         this.updateRateMillis = gameDescription.getUpdateRateMillis();
         this.assetManager = gameDescription.getAssetManager();
         registerModule(this.assetManager);
+
+        this.keyValueStore = new KeyValueStore(context, gameDescription.getApplicationId());
+        registerModule(this.keyValueStore);
 
         this.sensors = new HashMap<>();
 
@@ -111,6 +116,10 @@ public abstract class AbstractGame extends AbstractEngineModule {
             vibrator = new Vibrator(context);
 
         this.initializeSensors(gameDescription);
+    }
+
+    public KeyValueStore getKeyValueStore() {
+        return keyValueStore;
     }
 
     /**

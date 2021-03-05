@@ -9,22 +9,29 @@ public final class GameDescription {
     private final AbstractAssetManager assetManager;
     private int updateRateMillis;
     private boolean useGravitySensor;
+    private final String applicationId;
 
     /**
      * Required by the constructor of AbstractGame.
      *
+     * @param applicationId    Application ID from context
      * @param updateRateMillis Interval for updateMessages.
      * @param useGravitySensor Specify true to obtain access to gravity sensor
      * @param aspectRatio      Specify the screen aspect ratio of the game
      * @param useVibrator      Specify true to obtain access to the vibrator
      * @param assetManager     Specify an AssetManager used by the game, such as a TextureAssetManager
      */
-    public GameDescription(int updateRateMillis, boolean useGravitySensor, float aspectRatio, boolean useVibrator, AbstractAssetManager assetManager) {
+    public GameDescription(String applicationId, int updateRateMillis, boolean useGravitySensor, float aspectRatio, boolean useVibrator, AbstractAssetManager assetManager) {
         this.updateRateMillis = updateRateMillis;
+        this.applicationId = applicationId;
         this.useGravitySensor = useGravitySensor;
         this.aspectRatio = aspectRatio;
         this.useVibrator = useVibrator;
         this.assetManager = assetManager;
+    }
+
+    public String getApplicationId() {
+        return applicationId;
     }
 
     public AbstractAssetManager getAssetManager() {

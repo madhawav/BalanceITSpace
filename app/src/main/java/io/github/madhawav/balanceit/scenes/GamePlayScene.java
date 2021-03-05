@@ -1,6 +1,7 @@
 package io.github.madhawav.balanceit.scenes;
 
 import io.github.madhawav.balanceit.BalanceITGame;
+import io.github.madhawav.balanceit.HighScoreManager;
 import io.github.madhawav.balanceit.gameplay.GameParameters;
 import io.github.madhawav.balanceit.gameplay.GameResults;
 import io.github.madhawav.balanceit.gameplay.GameState;
@@ -32,6 +33,8 @@ public class GamePlayScene extends UIElementScene {
     private HUDLayer hudLayer;
     private float pauseAnimationTimeScale = 1.0f;
 
+    private HighScoreManager highScoreManager;
+
     private boolean started = false; // The game starts after user balances the phone.
 
     private BalanceAssistanceLayer balanceAssistanceLayer;
@@ -43,7 +46,7 @@ public class GamePlayScene extends UIElementScene {
         gameLogic = new GameLogic(gameState, gameParameters, new GameLogic.Callback() {
             @Override
             public void onGameOver() {
-                getGame().swapScene(new GameOverScene(new GameResults((int) gameState.getScore(),gameState.getLevel())));
+                finishGame();
             }
 
             @Override
@@ -51,6 +54,24 @@ public class GamePlayScene extends UIElementScene {
                 getGame().getVibrator().vibrate(0.2f);
             }
         });
+        this.highScoreManager = null;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        this.highScoreManager = new HighScoreManager(getGame().getKeyValueStore());
+    }
+
+    /**
+     * Switch to game over scene
+     */
+    private void finishGame(){
+        GameResults gameResults = new GameResults((int) gameState.getScore(), gameState.getLevel());
+        if(highScoreManager.getHighScore() < gameResults.getScore()){
+            gameResults.setPersonalBest(true);
+        }
+        getGame().swapScene(new GameOverScene(gameResults));
     }
 
 
@@ -80,7 +101,7 @@ public class GamePlayScene extends UIElementScene {
 
             @Override
             public void onExit() {
-                game.swapScene(new GameOverScene(new GameResults((int) gameState.getScore(), gameState.getLevel())));
+                finishGame();
             }
         });
 
@@ -150,6 +171,6 @@ public class GamePlayScene extends UIElementScene {
 
     @Override
     protected void onFinish() {
-        // TODO: Save game statistics here
+        this.highScoreManager.recordScore((int)gameState.getScore());
     }
 }

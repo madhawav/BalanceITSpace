@@ -2,9 +2,10 @@ package io.github.madhawav.balanceit;
 
 import android.content.Context;
 
+import io.github.madhawav.balanceit.gameplay.GameParameters;
 import io.github.madhawav.balanceit.gameplay.GameResults;
 import io.github.madhawav.balanceit.opengleslearn.R;
-import io.github.madhawav.balanceit.scenes.GameOverScene;
+import io.github.madhawav.balanceit.scenes.GamePlayScene;
 import io.github.madhawav.gameengine.ResourceUtil;
 import io.github.madhawav.gameengine.coreengine.GameDescription;
 import io.github.madhawav.gameengine.graphics.AbstractShader;
@@ -24,7 +25,7 @@ public class BalanceITGame extends AbstractMultiSceneGame {
     private final SpriteEngine spriteEngine;
 
     public BalanceITGame(Context context) {
-        super(context, new GameDescription(30, true, 720.0f / 1280.0f, true, new TextureAssetManager(context)));
+        super(context, new GameDescription(context.getPackageName(), 30, true, 720.0f / 1280.0f, true, new TextureAssetManager(context)));
 
         AbstractShader shader = new BasicShader(
                 ResourceUtil.readTextFileFromRawResource(context, R.raw.shader_vs),
@@ -54,8 +55,10 @@ public class BalanceITGame extends AbstractMultiSceneGame {
      */
     @Override
     public AbstractScene getInitialScene() {
-        return new GameOverScene(new GameResults(100, 5));
-//        return new GamePlayScene(new GameParameters());
+        GameResults gameResults = new GameResults(100, 5);
+//        gameResults.setPersonalBest(true);
+//        return new GameOverScene(gameResults);
+        return new GamePlayScene(new GameParameters());
     }
 }
 
