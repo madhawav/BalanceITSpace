@@ -16,8 +16,11 @@ import io.github.madhawav.gameengine.ui.GraphicsContext;
  * This layer renders the deck, the spaceship and the ball.
  */
 public class GamePlayLayer extends AbstractUIElement {
+    // The canvas is scaled as if the entire screen is 720x1280.
     private static final float REFERENCE_WIDTH = 720f;
     private static final float REFERENCE_HEIGHT = 1280f;
+
+
     private static final float BALL_SIZE = 100.0f;
     private static final float PARTICLE_SIZE = 200.0f;
 
