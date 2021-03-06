@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <fraction name="game_over_background_top_aspect_ratio">75%</fraction>
+    <fraction name="game_over_your_score_label_vertical_placement_ratio">50.78%</fraction>
+    <fraction name="game_over_your_score_label_horizontal_placement_ratio">66.66%</fraction>
+
+    <dimen name="game_over_section_gap">65dp</dimen>
+    <fraction name="game_over_fade_out_sec">50%</fraction>
+    <dimen name="game_over_touch_to_continue_bottom">22dp</dimen>
+    <dimen name="game_over_touch_to_continue_size">150dp</dimen>
+    <integer name="game_over_label_canvas_sze">512</integer>
+    <dimen name="game_over_label_sze">190dp</dimen>
+
+    <dimen name="game_over_your_score_label_line_gap">45dp</dimen>
+
+    <integer name="game_over_your_score_label_font_size">108</integer>
+    <integer name="game_over_score_label_font_size">120</integer>
+    <integer name="game_over_level_label_font_size">80</integer>
+    <integer name="game_over_personal_best_label_font_size">72</integer>
+    <integer name="game_over_new_personal_best_font_size">56</integer>
+
+    <dimen name="game_over_personal_best_label_line_gap">36dp</dimen>
+
+    <dimen name="game_over_share_button_width">150dp</dimen>
+    <dimen name="game_over_share_button_height">50dp</dimen>
+    <dimen name="game_over_share_button_bottom">90dp</dimen>
+</resources>
