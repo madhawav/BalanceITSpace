@@ -11,7 +11,7 @@ This code repository is a re-implementation of that same game using a better-des
 So far, I have completed the implementation of the game-play stage and the game-over screen.
 The development of menus is future work. 
 As before, everything is developed directly on top of the OpenGL ES library available with Android SDK using Java.
-I have developed a new game engine layer that implements low-level features, isolating the game code from the Android platform.
+I have developed a new game engine layer that implements low-level features, isolating the game code from the Android OpenGL ES platform.
 
 The following screenshots are from the newly developed version.
 

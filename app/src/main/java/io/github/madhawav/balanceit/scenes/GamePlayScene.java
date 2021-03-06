@@ -105,14 +105,15 @@ public class GamePlayScene extends UIElementScene {
             }
         });
 
-        balanceAssistanceLayer = new BalanceAssistanceLayer(graphicsContext, game.getGravitySensor());
+        balanceAssistanceLayer = new BalanceAssistanceLayer(game.getContext(), graphicsContext, game.getGravitySensor());
 
         LayeredUI layeredUI = new LayeredUI(graphicsContext);
         layeredUI.addElement(new SpaceBackgroundLayer(graphicsContext));
         layeredUI.addElement(warningLayer);
         layeredUI.addElement(gamePlayLayer);
-        layeredUI.addElement(hudLayer);
         layeredUI.addElement(balanceAssistanceLayer);
+        layeredUI.addElement(hudLayer);
+
         return layeredUI;
     }
 
@@ -153,15 +154,15 @@ public class GamePlayScene extends UIElementScene {
     @Override
     protected void onUpdate(double elapsedSec) {
         super.onUpdate(elapsedSec);
-        if (!started) {
+        if (!started && !gameState.isPaused()) {
             balanceAssistanceLayer.setCamOffset(gamePlayLayer.getCamOffset());
             checkStartCondition();
         }
-        if (started && pauseAnimationTimeScale > 0) {
+        if (started && pauseAnimationTimeScale > 0) { // Game is running
             BalanceITGame game = (BalanceITGame) getGame();
             this.gameLogic.update(elapsedSec * pauseAnimationTimeScale, game.getGravitySensor().getGravity());
         }
-        if (gameState.isPaused()) {
+        if (gameState.isPaused()) { // Game paused or being paused
             pauseAnimationTimeScale -= PAUSE_ANIMATION_TIME_SCALE_DECREMENT * gameParameters.TIME_SCALE;
             pauseAnimationTimeScale = Math.max(0, pauseAnimationTimeScale);
         }

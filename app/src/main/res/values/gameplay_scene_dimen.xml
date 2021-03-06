@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="gameplay_hud_label_canvas_size">256</integer>
+
+    <dimen name="gameplay_hud_level_label_size">70dp</dimen>
+    <dimen name="gameplay_hud_level_label_margin">5dp</dimen>
+    <integer name="gamplay_hud_level_label_font_size">66</integer>
+
+    <dimen name="gameplay_hud_score_label_size">120dp</dimen>
+    <dimen name="gameplay_hud_score_label_top">3dp</dimen>
+    <dimen name="gameplay_hud_score_label_right">2dp</dimen>
+    <integer name="gamplay_hud_score_label_font_size">96</integer>
+
+    <dimen name="gameplay_hud_multiplier_label_size">120dp</dimen>
+    <dimen name="gameplay_hud_multiplier_label_right">3dp</dimen>
+    <dimen name="gameplay_hud_multiplier_label_top">44dp</dimen>
+    <integer name="gameplay_hud_multiplier_label_font_size">60</integer>
+
+    <dimen name="gameplay_hud_progressbar_left">70dp</dimen>
+    <dimen name="gameplay_hud_progressbar_top">6dp</dimen>
+    <dimen name="gameplay_hud_progressbar_height">12dp</dimen>
+    <dimen name="gameplay_hud_progressbar_width">78dp</dimen>
+
+    <dimen name="gameplay_hud_progressbar_border_width">4dp</dimen>
+    <dimen name="gameplay_hud_progressbar_border_texture_size">96dp</dimen>
+    <dimen name="gameplay_hud_progressbar_border_texture_top">2dp</dimen>
+
+    <dimen name="gameplay_hud_warm_up_label_size">110dp</dimen>
+    <integer name="gameplay_hud_warm_up_label_font_size">36</integer>
+    <dimen name="gameplay_hud_warm_up_texture_size">140dp</dimen>
+    <dimen name="gameplay_hud_warm_up_texture_bottom">20dp</dimen>
+
+    <dimen name="gameplay_balance_cross_hair_size">50dp</dimen>
+    <dimen name="gameplay_balance_notice_size">160dp</dimen>
+    <fraction name="gameplay_balance_notice_vertical_placement_ratio">66%</fraction>
+    <dimen name="gameplay_balance_notice_vertical_placement_offset">-20dp</dimen>
+
+
+</resources>

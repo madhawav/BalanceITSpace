@@ -7,4 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="gameplay_hud_color">#00b4ff</color>
+    <color name="gameplay_hud_warm_up_label_color">#ff0000</color>
+    <color name="gameplay_hud_paused_overlay_color">#cc000000</color>
 </resources>
