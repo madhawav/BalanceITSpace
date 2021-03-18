@@ -7,9 +7,9 @@ import java.util.Locale;
 
 import io.github.madhawav.balanceit.BalanceITGame;
 import io.github.madhawav.balanceit.HighScoreManager;
+import io.github.madhawav.balanceit.R;
 import io.github.madhawav.balanceit.gameplay.GameParameters;
 import io.github.madhawav.balanceit.gameplay.GameResults;
-import io.github.madhawav.balanceit.opengleslearn.R;
 import io.github.madhawav.gameengine.graphics.Color;
 import io.github.madhawav.gameengine.graphics.TextureAssetManager;
 import io.github.madhawav.gameengine.ui.AbstractUIElement;

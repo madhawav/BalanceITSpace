@@ -5,7 +5,7 @@ import android.opengl.Matrix;
 import javax.microedition.khronos.opengles.GL10;
 
 import io.github.madhawav.balanceit.BalanceITGame;
-import io.github.madhawav.balanceit.opengleslearn.R;
+import io.github.madhawav.balanceit.R;
 import io.github.madhawav.gameengine.MathUtil;
 import io.github.madhawav.gameengine.graphics.Color;
 import io.github.madhawav.gameengine.graphics.Geometry;

@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import io.github.madhawav.balanceit.R;
 import io.github.madhawav.balanceit.gameplay.GameState;
-import io.github.madhawav.balanceit.opengleslearn.R;
 import io.github.madhawav.gameengine.MathUtil;
 import io.github.madhawav.gameengine.graphics.SpriteEngine;
 import io.github.madhawav.gameengine.ui.AbstractUIElement;

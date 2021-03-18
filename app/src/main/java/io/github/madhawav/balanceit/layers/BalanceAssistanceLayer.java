@@ -2,7 +2,7 @@ package io.github.madhawav.balanceit.layers;
 
 import android.content.Context;
 
-import io.github.madhawav.balanceit.opengleslearn.R;
+import io.github.madhawav.balanceit.R;
 import io.github.madhawav.gameengine.MathUtil;
 import io.github.madhawav.gameengine.coreengine.sensors.GravitySensor;
 import io.github.madhawav.gameengine.graphics.GraphicsEngine;

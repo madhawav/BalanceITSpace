@@ -6,8 +6,8 @@ import android.graphics.Typeface;
 
 import java.util.Locale;
 
+import io.github.madhawav.balanceit.R;
 import io.github.madhawav.balanceit.gameplay.GameState;
-import io.github.madhawav.balanceit.opengleslearn.R;
 import io.github.madhawav.gameengine.graphics.Color;
 import io.github.madhawav.gameengine.ui.GraphicsContext;
 import io.github.madhawav.gameengine.ui.Image;

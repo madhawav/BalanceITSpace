@@ -3,7 +3,6 @@ package io.github.madhawav.balanceit;
 import android.content.Context;
 
 import io.github.madhawav.balanceit.gameplay.GameParameters;
-import io.github.madhawav.balanceit.opengleslearn.R;
 import io.github.madhawav.balanceit.scenes.GamePlayScene;
 import io.github.madhawav.gameengine.ResourceUtil;
 import io.github.madhawav.gameengine.coreengine.GameDescription;
