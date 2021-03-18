@@ -22,3 +22,13 @@ The following screenshots are from the newly developed version.
 The codebase consists of two sections:
  1) [The Game](app/src/main/java/io/github/madhawav/balanceit): Implements the gameplay scene, game over scene and the gameplay logic.
  2) [The Game Engine](app/src/main/java/io/github/madhawav/gameengine): Consists of core game engine which provides onUpdate and onRender calls. The graphics package wraps OpenGL ES 2.0 library using a 3D graphics engine and a sprite engine. Multi-scene package allow swapping between scenes (E.g. gameplay scene, game over scene). The UI package implements common UI elements such as Label, ImageButton, Image etc. 
+
+
+## How to compile the code?
+1) Setup gradle wrapper 6.5.
+```bash
+gradle wrapper --gradle-version 6.5
+```
+2) Run `./gradlew build`.  The apk file will be generated at `app/build/outputs/apk` directory.
+
+Alternatively, you can open the project directory using Android Studio after completing the step 1.
