@@ -29,6 +29,25 @@ public class WarmUpModeLogicTest {
         gameParameters = new GameParameters();
     }
 
+    /**
+     * Bounce should not occur when the orb is within the boundary.
+     */
+    @Test
+    public void testOnUpdateNoBounce() {
+        GameState gameState = new GameState(gameParameters);
+        WarmUpModeLogic.Callback mockCallback = mock(WarmUpModeLogic.Callback.class);
+        WarmUpModeLogic warmUpModeLogic = new WarmUpModeLogic(gameState, gameParameters, mockCallback);
+
+        // Place ball before the edge of board.
+        gameState.getBallPosition().add(new MathUtil.Vector3(
+                gameParameters.BOARD_SIZE / (2 * (float) Math.sqrt(2)) - EPS,
+                gameParameters.BOARD_SIZE / (2 * (float) Math.sqrt(2)) - EPS, 0));
+        gameState.getBallVelocity().add(new MathUtil.Vector3(-1.0f, -1.0f, 0.0f));
+        warmUpModeLogic.update(DELTA_TIME, DEFAULT_GRAVITY);
+
+        // Test for no callback
+        verify(mockCallback, times(0)).onBoundaryBounce();
+    }
 
     /**
      * Tests whether the space-orb bounces off the xy maximal corner.
@@ -39,8 +58,10 @@ public class WarmUpModeLogicTest {
         WarmUpModeLogic.Callback mockCallback = mock(WarmUpModeLogic.Callback.class);
         WarmUpModeLogic warmUpModeLogic = new WarmUpModeLogic(gameState, gameParameters, mockCallback);
 
-        // Place ball beyond edge of board (Edge is at BOARD_SIZE/2, BOARD_SIZE/2)
-        gameState.getBallPosition().add(new MathUtil.Vector3(gameParameters.BOARD_SIZE, gameParameters.BOARD_SIZE, 0));
+        // Place ball beyond edge of board.
+        gameState.getBallPosition().add(new MathUtil.Vector3(
+                gameParameters.BOARD_SIZE / (2 * (float) Math.sqrt(2)) + 2 * EPS,
+                gameParameters.BOARD_SIZE / (2 * (float) Math.sqrt(2)) + 2 * EPS, 0));
         gameState.getBallVelocity().add(new MathUtil.Vector3(1.0f, 1.0f, 0.0f));
         warmUpModeLogic.update(DELTA_TIME, DEFAULT_GRAVITY);
 
