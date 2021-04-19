@@ -1,0 +1,78 @@
+package io.github.madhawav.balanceit.gameplay.logics;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.LargeTest;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import io.github.madhawav.balanceit.gameplay.GameParameters;
+import io.github.madhawav.balanceit.gameplay.GameState;
+import io.github.madhawav.gameengine.MathUtil;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+@RunWith(AndroidJUnit4.class)
+@LargeTest
+public class WarmUpModeLogicTest {
+    private final float EPS = 0.001f;
+    private final double DELTA_TIME = 1.0;
+    private final MathUtil.Vector3 DEFAULT_GRAVITY = new MathUtil.Vector3(0, 1, 0);
+    private GameParameters gameParameters;
+
+    @Before
+    public void setUp() {
+        gameParameters = new GameParameters();
+    }
+
+
+    /**
+     * Tests whether the space-orb bounces off the xy maximal corner.
+     */
+    @Test
+    public void testOnUpdateBounce() {
+        GameState gameState = new GameState(gameParameters);
+        WarmUpModeLogic.Callback mockCallback = mock(WarmUpModeLogic.Callback.class);
+        WarmUpModeLogic warmUpModeLogic = new WarmUpModeLogic(gameState, gameParameters, mockCallback);
+
+        // Place ball beyond edge of board (Edge is at BOARD_SIZE/2, BOARD_SIZE/2)
+        gameState.getBallPosition().add(new MathUtil.Vector3(gameParameters.BOARD_SIZE, gameParameters.BOARD_SIZE, 0));
+        gameState.getBallVelocity().add(new MathUtil.Vector3(1.0f, 1.0f, 0.0f));
+        warmUpModeLogic.update(DELTA_TIME, DEFAULT_GRAVITY);
+
+        // Test for callback
+        verify(mockCallback, times(1)).onBoundaryBounce();
+
+        // Test for updated position
+        Assert.assertTrue(gameState.getBallPosition().getX() <= gameParameters.BOARD_SIZE / (2 * Math.sqrt(2)) + EPS);
+        Assert.assertTrue(gameState.getBallPosition().getY() <= gameParameters.BOARD_SIZE / (2 * Math.sqrt(2)) + EPS);
+        Assert.assertEquals(0, gameState.getBallPosition().getZ(), EPS);
+
+        // Velocity should be inwards
+        Assert.assertTrue(gameState.getBallVelocity().getX() < 0);
+        Assert.assertTrue(gameState.getBallVelocity().getY() < 0);
+        Assert.assertEquals(0, gameState.getBallPosition().getZ(), EPS);
+    }
+
+    /**
+     * Test whether the warm-up mode ends after the specified time interval
+     */
+    @Test
+    public void testOnUpdateTimeout() {
+        GameState gameState = new GameState(gameParameters);
+        WarmUpModeLogic warmUpModeLogic = new WarmUpModeLogic(gameState, gameParameters,
+                mock(WarmUpModeLogic.Callback.class));
+
+        double timeLeft = gameParameters.WARM_UP_SEC;
+        while (timeLeft > 0) {
+            Assert.assertTrue(gameState.isWarmUpMode());
+            warmUpModeLogic.onUpdate(DELTA_TIME, DEFAULT_GRAVITY);
+            timeLeft -= DELTA_TIME;
+        }
+        Assert.assertFalse(gameState.isWarmUpMode());
+    }
+}

@@ -40,5 +40,6 @@ public class BallLogic extends AbstractLogic {
         relativeGravity.multiply(0.5f);
 
         gameState.getBallVelocity().add(relativeGravity);
+        gameState.getBallVelocity().setZ(0);
     }
 }

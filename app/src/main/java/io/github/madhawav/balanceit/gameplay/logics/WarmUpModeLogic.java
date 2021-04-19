@@ -42,8 +42,9 @@ public class WarmUpModeLogic extends AbstractLogic {
             }
 
             // Snap to border
-            gameState.getBallPosition().setX(gameState.getBallPosition().getX() / gameState.getBallPosition().getLength() * (gameParameters.BOARD_SIZE / 2));
-            gameState.getBallPosition().setY(gameState.getBallPosition().getY() / gameState.getBallPosition().getLength() * (gameParameters.BOARD_SIZE / 2));
+            final float length = gameState.getBallPosition().getLength();
+            gameState.getBallPosition().setX(gameState.getBallPosition().getX() / length * (gameParameters.BOARD_SIZE / 2));
+            gameState.getBallPosition().setY(gameState.getBallPosition().getY() / length * (gameParameters.BOARD_SIZE / 2));
         }
     }
 
