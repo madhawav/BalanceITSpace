@@ -1,6 +1,6 @@
-# Balance IT - Space
+# Balance IT - Space (Re-master)
 
-This code repository is on active development.
+This code repository is on active development. The gameplay stage is completed and the game is playable.
 
 This project is a refactored code release of my Android game Balance IT - Space. 
 I made this game back in 2012, and that version is still [available in the Google Play Store](https://play.google.com/store/apps/details?id=com.renovelabz.balanceit&hl=en_CA).
