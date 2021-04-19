@@ -1,7 +1,7 @@
 package io.github.madhawav.balanceit.gameplay;
 
 /**
- * Parameters of the game. Adjust these to change difficulty. Inherit this class to support multiple difficulty levels.
+ * Parameters of the game. Adjust these to change difficulty.
  */
 public class GameParameters {
     public final float BOARD_SIZE = 1000.0f;
