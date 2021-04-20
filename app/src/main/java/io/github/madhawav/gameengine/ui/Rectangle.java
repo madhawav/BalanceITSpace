@@ -6,9 +6,9 @@ import android.graphics.Paint;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import io.github.madhawav.gameengine.MathUtil;
 import io.github.madhawav.gameengine.graphics.BitmapTexture;
 import io.github.madhawav.gameengine.graphics.Color;
+import io.github.madhawav.gameengine.math.Rect2I;
 
 /**
  * A solid colored rectangle shape.
@@ -105,7 +105,7 @@ public class Rectangle extends AbstractUIElement {
     }
 
     @Override
-    protected void onSurfaceChanged(GL10 gl10, int canvasWidth, int canvasHeight, MathUtil.Rect2I viewport) {
+    protected void onSurfaceChanged(GL10 gl10, int canvasWidth, int canvasHeight, Rect2I viewport) {
         super.onSurfaceChanged(gl10, canvasWidth, canvasHeight, viewport);
 
     }

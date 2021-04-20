@@ -6,9 +6,9 @@ import javax.microedition.khronos.opengles.GL10;
 
 import io.github.madhawav.balanceit.BalanceITGame;
 import io.github.madhawav.balanceit.R;
-import io.github.madhawav.gameengine.MathUtil;
 import io.github.madhawav.gameengine.graphics.Color;
 import io.github.madhawav.gameengine.graphics.Geometry;
+import io.github.madhawav.gameengine.math.Vector3;
 import io.github.madhawav.gameengine.ui.AbstractUIElement;
 import io.github.madhawav.gameengine.ui.GraphicsContext;
 
@@ -42,7 +42,7 @@ public class SpaceBackgroundLayer extends AbstractUIElement {
     }
 
     private void setupEarthTransforms(float[] modelMatrix, float[] viewMatrix, float[] projMatrix) {
-        MathUtil.Vector3 gravity = game.getGravitySensor().getGravity();
+        Vector3 gravity = game.getGravitySensor().getGravity();
         Matrix.setLookAtM(viewMatrix, 0, 0f, 0f, 0f, -gravity.getX(), gravity.getY(), gravity.getZ(), 0f, 1f, 0f);
 
         Matrix.setIdentityM(modelMatrix, 0);
@@ -63,7 +63,7 @@ public class SpaceBackgroundLayer extends AbstractUIElement {
     }
 
     private void setupSkyBoxTransforms(float[] modelMatrix, float[] viewMatrix, float[] projMatrix) {
-        MathUtil.Vector3 gravity = game.getGravitySensor().getGravity();
+        Vector3 gravity = game.getGravitySensor().getGravity();
         Matrix.setLookAtM(viewMatrix, 0, 0.0f, 0.0f, 0.0f, -gravity.getY(), -gravity.getZ(), gravity.getX(), 1.0f, 0.0f, 0.0f);
         Matrix.orthoM(projMatrix, 0, -getGraphicsContext().getGraphicsEngine().getViewportWidth() / 2.0f,
                 getGraphicsContext().getGraphicsEngine().getViewportWidth() / 2.0f,

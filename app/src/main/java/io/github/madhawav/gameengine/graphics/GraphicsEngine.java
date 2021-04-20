@@ -6,8 +6,8 @@ import android.opengl.Matrix;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import io.github.madhawav.gameengine.MathUtil;
 import io.github.madhawav.gameengine.coreengine.AbstractEngineModule;
+import io.github.madhawav.gameengine.math.Rect2I;
 
 /**
  * Graphics engine implementation with support to rendering 3D geometry
@@ -27,7 +27,7 @@ public class GraphicsEngine extends AbstractEngineModule {
     private boolean depthEnabled = false; // Is depth testing enabled?
     private boolean cullBackFace = false; // Should back faces be omitted?
 
-    private MathUtil.Rect2I viewport;
+    private Rect2I viewport;
 
     /**
      * Creates a new Graphics Engine.
@@ -40,7 +40,7 @@ public class GraphicsEngine extends AbstractEngineModule {
         this.viewport = null;
     }
 
-    public MathUtil.Rect2I getViewport() {
+    public Rect2I getViewport() {
         return viewport;
     }
 
@@ -166,7 +166,7 @@ public class GraphicsEngine extends AbstractEngineModule {
      * @param canvasHeight GL canvas height
      * @param viewport     Viewport dimensions
      */
-    public void onSurfaceChanged(GL10 gl10, int canvasWidth, int canvasHeight, MathUtil.Rect2I viewport) {
+    public void onSurfaceChanged(GL10 gl10, int canvasWidth, int canvasHeight, Rect2I viewport) {
         super.onSurfaceChanged(gl10, canvasWidth, canvasHeight, viewport);
         this.viewport = viewport;
         this.canvasWidth = canvasWidth;

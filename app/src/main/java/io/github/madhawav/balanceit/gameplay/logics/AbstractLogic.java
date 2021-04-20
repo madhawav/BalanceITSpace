@@ -3,7 +3,7 @@ package io.github.madhawav.balanceit.gameplay.logics;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.madhawav.gameengine.MathUtil;
+import io.github.madhawav.gameengine.math.Vector3;
 
 public abstract class AbstractLogic {
     private final List<AbstractLogic> registeredLogics;
@@ -29,7 +29,7 @@ public abstract class AbstractLogic {
      * @param elapsedSec Elapsed time in seconds
      * @param gravity    Gravity sensor vector
      */
-    public void update(double elapsedSec, MathUtil.Vector3 gravity) {
+    public void update(double elapsedSec, Vector3 gravity) {
         logicTime += elapsedSec;
         onUpdate(elapsedSec, gravity);
         registeredLogics.forEach(logic -> logic.update(elapsedSec, gravity));
@@ -65,5 +65,5 @@ public abstract class AbstractLogic {
      * @param elapsedTime Elapsed time in seconds since last update
      * @param gravity     Gravity vector from sensor
      */
-    protected abstract void onUpdate(double elapsedTime, MathUtil.Vector3 gravity);
+    protected abstract void onUpdate(double elapsedTime, Vector3 gravity);
 }

@@ -10,9 +10,9 @@ import io.github.madhawav.balanceit.layers.BalanceAssistanceLayer;
 import io.github.madhawav.balanceit.layers.GamePlayLayer;
 import io.github.madhawav.balanceit.layers.HUDLayer;
 import io.github.madhawav.balanceit.layers.SpaceBackgroundLayer;
-import io.github.madhawav.gameengine.MathUtil;
 import io.github.madhawav.gameengine.graphics.Color;
 import io.github.madhawav.gameengine.graphics.TextureAssetManager;
+import io.github.madhawav.gameengine.math.Vector3;
 import io.github.madhawav.gameengine.ui.AbstractUIElement;
 import io.github.madhawav.gameengine.ui.GraphicsContext;
 import io.github.madhawav.gameengine.ui.LayeredUI;
@@ -121,7 +121,7 @@ public class GamePlayScene extends UIElementScene {
      * Check whether the user has balanced the phone, so the game can be started.
      */
     public void checkStartCondition() {
-        MathUtil.Vector3 gravity = getGame().getGravitySensor().getGravity();
+        Vector3 gravity = getGame().getGravitySensor().getGravity();
         if (gravity.getX() >= -0.1 && gravity.getX() <= 0.1) {
             if (gravity.getY() >= -0.1 && gravity.getY() <= 0.1) {
                 startGame();

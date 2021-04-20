@@ -6,7 +6,7 @@ import android.opengl.GLSurfaceView;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import io.github.madhawav.gameengine.MathUtil;
+import io.github.madhawav.gameengine.math.Rect2I;
 
 /**
  * Implementation of OpenGL Renderer interface required for supporting OpenGL.
@@ -29,7 +29,7 @@ class EngineGLRenderer implements GLSurfaceView.Renderer {
         callback.onDrawFrame(gl10);
     }
 
-    private MathUtil.Rect2I updateViewport(int width, int height) {
+    private Rect2I updateViewport(int width, int height) {
         // Identify the limiting dim
         float targetWidth, targetHeight;
         if ((float) height * desiredAspectRatio < width) {
@@ -45,18 +45,18 @@ class EngineGLRenderer implements GLSurfaceView.Renderer {
         float midX = (float) width / 2;
         float midY = (float) height / 2;
 
-        MathUtil.Rect2I viewport = new MathUtil.Rect2I((int) (midX - targetWidth / 2), (int) (midY - targetHeight / 2), (int) (targetWidth), (int) (targetHeight));
+        Rect2I viewport = new Rect2I((int) (midX - targetWidth / 2), (int) (midY - targetHeight / 2), (int) (targetWidth), (int) (targetHeight));
         GLES20.glViewport(viewport.getX(), viewport.getY(), viewport.getWidth(), viewport.getHeight());
         return viewport;
     }
 
     public void onSurfaceChanged(GL10 gl10, int width, int height) {
-        MathUtil.Rect2I viewport = updateViewport(width, height);
+        Rect2I viewport = updateViewport(width, height);
         this.callback.onSurfaceChanged(gl10, width, height, viewport);
     }
 
     public interface Callback {
-        void onSurfaceChanged(GL10 gl10, int width, int height, MathUtil.Rect2I viewport);
+        void onSurfaceChanged(GL10 gl10, int width, int height, Rect2I viewport);
 
         void onSurfaceCreated(GL10 gl10, EGLConfig config);
 

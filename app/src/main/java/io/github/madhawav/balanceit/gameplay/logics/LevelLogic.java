@@ -3,7 +3,7 @@ package io.github.madhawav.balanceit.gameplay.logics;
 
 import io.github.madhawav.balanceit.gameplay.GameParameters;
 import io.github.madhawav.balanceit.gameplay.GameState;
-import io.github.madhawav.gameengine.MathUtil;
+import io.github.madhawav.gameengine.math.Vector3;
 
 /**
  * Logic related to automatic level with time progression.
@@ -28,7 +28,7 @@ public class LevelLogic extends AbstractLogic {
     }
 
     @Override
-    protected void onUpdate(double elapsedSec, MathUtil.Vector3 gravity) {
+    protected void onUpdate(double elapsedSec, Vector3 gravity) {
         gameState.setLevelRemainTime(gameState.getLevelRemainTime() - elapsedSec * 10);
         if (gameState.getLevelRemainTime() <= 0) {
             callback.onLevelUp();

@@ -3,9 +3,9 @@ package io.github.madhawav.balanceit.layers;
 import android.content.Context;
 
 import io.github.madhawav.balanceit.R;
-import io.github.madhawav.gameengine.MathUtil;
 import io.github.madhawav.gameengine.coreengine.sensors.GravitySensor;
 import io.github.madhawav.gameengine.graphics.GraphicsEngine;
+import io.github.madhawav.gameengine.math.Vector3;
 import io.github.madhawav.gameengine.ui.GraphicsContext;
 import io.github.madhawav.gameengine.ui.Image;
 import io.github.madhawav.gameengine.ui.LayeredUI;
@@ -17,12 +17,12 @@ public class BalanceAssistanceLayer extends LayeredUI {
     private final Image crossHairMarker;
     private final GravitySensor gravitySensor;
     final float uiCrossHairSize;
-    private MathUtil.Vector3 camOffset;
+    private Vector3 camOffset;
 
     public BalanceAssistanceLayer(Context context, GraphicsContext graphicsContext, GravitySensor gravitySensor) {
         super(graphicsContext);
         this.gravitySensor = gravitySensor;
-        this.camOffset = new MathUtil.Vector3();
+        this.camOffset = new Vector3();
 
         GraphicsEngine graphicsEngine = graphicsContext.getGraphicsEngine();
 
@@ -43,13 +43,13 @@ public class BalanceAssistanceLayer extends LayeredUI {
     @Override
     public void onUpdate(double elapsedSec) {
         super.onUpdate(elapsedSec);
-        MathUtil.Vector3 gravity = gravitySensor.getGravity().copy();
+        Vector3 gravity = gravitySensor.getGravity().copy();
         gravity.multiply(1.0f / gravity.getLength());
         crossHairMarker.setX(camOffset.getX() - gravity.getX() * getGraphicsContext().getGraphicsEngine().getViewportWidth() - uiCrossHairSize / 2);
         crossHairMarker.setY(camOffset.getY() + gravity.getY() * getGraphicsContext().getGraphicsEngine().getViewportHeight() - uiCrossHairSize / 2);
     }
 
-    public void setCamOffset(MathUtil.Vector3 camOffset) {
+    public void setCamOffset(Vector3 camOffset) {
         this.camOffset = camOffset;
     }
 }

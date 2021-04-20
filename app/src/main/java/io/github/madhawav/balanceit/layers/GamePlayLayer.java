@@ -6,8 +6,9 @@ import javax.microedition.khronos.opengles.GL10;
 
 import io.github.madhawav.balanceit.R;
 import io.github.madhawav.balanceit.gameplay.GameState;
-import io.github.madhawav.gameengine.MathUtil;
 import io.github.madhawav.gameengine.graphics.SpriteEngine;
+import io.github.madhawav.gameengine.math.MathUtil;
+import io.github.madhawav.gameengine.math.Vector3;
 import io.github.madhawav.gameengine.ui.AbstractUIElement;
 import io.github.madhawav.gameengine.ui.GraphicsContext;
 
@@ -26,7 +27,7 @@ public class GamePlayLayer extends AbstractUIElement {
 
     private final float boardSize;
 
-    private final MathUtil.Vector3 camOffset;
+    private final Vector3 camOffset;
     private final GameState gameState;
 
     private SpriteEngine.ScaledSpriteCanvas spriteCanvas;
@@ -35,7 +36,7 @@ public class GamePlayLayer extends AbstractUIElement {
         super(graphicsContext);
         this.gameState = gameState;
         this.boardSize = boardSize;
-        camOffset = new MathUtil.Vector3(REFERENCE_WIDTH / 2.0f, REFERENCE_HEIGHT / 2.0f, 0f);
+        camOffset = new Vector3(REFERENCE_WIDTH / 2.0f, REFERENCE_HEIGHT / 2.0f, 0f);
     }
 
     @Override
@@ -49,8 +50,8 @@ public class GamePlayLayer extends AbstractUIElement {
         camOffset.setY(-gameState.getBallPosition().getY() * REFERENCE_HEIGHT / boardSize + REFERENCE_HEIGHT / 2.0f);
     }
 
-    public MathUtil.Vector3 getCamOffset() {
-        return new MathUtil.Vector3(camOffset.getX() / REFERENCE_WIDTH * getGraphicsContext().getGraphicsEngine().getViewportWidth(),
+    public Vector3 getCamOffset() {
+        return new Vector3(camOffset.getX() / REFERENCE_WIDTH * getGraphicsContext().getGraphicsEngine().getViewportWidth(),
                 camOffset.getY() / REFERENCE_HEIGHT * getGraphicsContext().getGraphicsEngine().getViewportHeight(), 0);
     }
 

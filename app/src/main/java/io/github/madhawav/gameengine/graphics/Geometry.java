@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import io.github.madhawav.gameengine.MathUtil;
+import io.github.madhawav.gameengine.math.MathUtil;
 
 /**
  * A 3D Mesh.

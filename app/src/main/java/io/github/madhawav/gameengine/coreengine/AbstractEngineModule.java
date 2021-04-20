@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import io.github.madhawav.gameengine.MathUtil;
+import io.github.madhawav.gameengine.math.Rect2I;
 
 /**
  * A module supports registering of submodules, to which useful events are propagated.
@@ -55,7 +55,7 @@ public abstract class AbstractEngineModule {
      *
      * @param viewport Rectangle specifying currently used OpenGL Viewport
      */
-    protected void onSurfaceChanged(GL10 gl10, int canvasWidth, int canvasHeight, MathUtil.Rect2I viewport) {
+    protected void onSurfaceChanged(GL10 gl10, int canvasWidth, int canvasHeight, Rect2I viewport) {
         this.registeredModules.forEach((module) -> module.onSurfaceChanged(gl10, canvasWidth, canvasHeight, viewport));
     }
 

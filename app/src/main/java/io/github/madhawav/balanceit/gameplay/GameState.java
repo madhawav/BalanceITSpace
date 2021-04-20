@@ -1,6 +1,6 @@
 package io.github.madhawav.balanceit.gameplay;
 
-import io.github.madhawav.gameengine.MathUtil;
+import io.github.madhawav.gameengine.math.Vector3;
 
 /**
  * Keeps track of state of game-play.
@@ -8,8 +8,8 @@ import io.github.madhawav.gameengine.MathUtil;
  * Afterwards, the GameState is updated using the different logics of the game.
  */
 public class GameState {
-    private MathUtil.Vector3 ballPosition;
-    private MathUtil.Vector3 ballVelocity;
+    private Vector3 ballPosition;
+    private Vector3 ballVelocity;
     private ParticleState[] particles;
     private int activeParticleCount;
 
@@ -43,8 +43,8 @@ public class GameState {
     }
 
     public void loadFromGameParameters(GameParameters gameParameters) {
-        ballPosition = new MathUtil.Vector3();
-        ballVelocity = new MathUtil.Vector3();
+        ballPosition = new Vector3();
+        ballVelocity = new Vector3();
         particles = new ParticleState[gameParameters.MAX_PARTICLE_COUNT];
         for (int i = 0; i < particles.length; i++)
             particles[i] = new ParticleState();
@@ -231,15 +231,15 @@ public class GameState {
         this.windAngle = windAngle;
     }
 
-    public MathUtil.Vector3 getWindVector() {
-        return new MathUtil.Vector3(getWindStrength() * (float) Math.cos(getWindAngle()), getWindStrength() * (float) Math.sin(getWindAngle()), 0);
+    public Vector3 getWindVector() {
+        return new Vector3(getWindStrength() * (float) Math.cos(getWindAngle()), getWindStrength() * (float) Math.sin(getWindAngle()), 0);
     }
 
-    public MathUtil.Vector3 getBallPosition() {
+    public Vector3 getBallPosition() {
         return ballPosition;
     }
 
-    public MathUtil.Vector3 getBallVelocity() {
+    public Vector3 getBallVelocity() {
         return ballVelocity;
     }
 

@@ -5,7 +5,7 @@ import java.util.Random;
 import io.github.madhawav.balanceit.gameplay.GameParameters;
 import io.github.madhawav.balanceit.gameplay.GameState;
 import io.github.madhawav.balanceit.gameplay.ParticleState;
-import io.github.madhawav.gameengine.MathUtil;
+import io.github.madhawav.gameengine.math.Vector3;
 
 /**
  * Logic implementing the effect of wind and particles (meteors).
@@ -69,12 +69,12 @@ public class WindLogic extends AbstractLogic {
     void updateParticles(double elapsedSec) {
         int newParticleCount = 0;
 
-        MathUtil.Vector3 wind = gameState.getWindVector();
+        Vector3 wind = gameState.getWindVector();
         wind.multiply(gameParameters.PARTICLE_SPEED_MULTIPLIER);
 
         for (ParticleState particle : gameState.getParticles()) {
             if (particle.isEnabled()) {
-                MathUtil.Vector3 scaledVelocity = particle.getVelocity().copy();
+                Vector3 scaledVelocity = particle.getVelocity().copy();
                 scaledVelocity.multiply((float) (elapsedSec * gameParameters.TIME_SCALE));
                 particle.getPosition().add(scaledVelocity);
                 if (particle.getPosition().getLength2() > gameParameters.PARTICLE_RANGE_SQ) {
@@ -104,7 +104,7 @@ public class WindLogic extends AbstractLogic {
     }
 
     @Override
-    protected void onUpdate(double elapsedSec, MathUtil.Vector3 gravity) {
+    protected void onUpdate(double elapsedSec, Vector3 gravity) {
         updateWind(elapsedSec, getLogicTime());
         updateParticles(elapsedSec);
     }

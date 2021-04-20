@@ -6,20 +6,20 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-import io.github.madhawav.gameengine.MathUtil;
+import io.github.madhawav.gameengine.math.Vector3;
 
 public class GravitySensor extends AbstractSensor {
     private final Sensor gravitySensor;
     private final SensorManager sensorManager;
     private final SensorEventListener sensorEventListener;
 
-    private final MathUtil.Vector3 gravity;
+    private final Vector3 gravity;
     private long timestamp;
 
     public GravitySensor(Context context) {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         gravitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-        gravity = new MathUtil.Vector3();
+        gravity = new Vector3();
 
 
         sensorEventListener = new SensorEventListener() {
@@ -63,7 +63,7 @@ public class GravitySensor extends AbstractSensor {
      *
      * @return Gravity vector or null.
      */
-    public MathUtil.Vector3 getGravity() {
+    public Vector3 getGravity() {
         if (!isSupported())
             throw new UnsupportedOperationException("Gravity sensor not supported");
         if (!isAvailable())

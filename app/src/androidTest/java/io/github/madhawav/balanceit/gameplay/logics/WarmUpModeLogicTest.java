@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 
 import io.github.madhawav.balanceit.gameplay.GameParameters;
 import io.github.madhawav.balanceit.gameplay.GameState;
-import io.github.madhawav.gameengine.MathUtil;
+import io.github.madhawav.gameengine.math.Vector3;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.verify;
 public class WarmUpModeLogicTest {
     private final float EPS = 0.001f;
     private final double DELTA_TIME = 1.0;
-    private final MathUtil.Vector3 DEFAULT_GRAVITY = new MathUtil.Vector3(0, 0, 1);
+    private final Vector3 DEFAULT_GRAVITY = new Vector3(0, 0, 1);
     private GameParameters gameParameters;
 
     @Before
@@ -39,10 +39,10 @@ public class WarmUpModeLogicTest {
         WarmUpModeLogic warmUpModeLogic = new WarmUpModeLogic(gameState, gameParameters, mockCallback);
 
         // Place ball before the edge of board.
-        gameState.getBallPosition().add(new MathUtil.Vector3(
+        gameState.getBallPosition().add(new Vector3(
                 gameParameters.BOARD_SIZE / (2 * (float) Math.sqrt(2)) - EPS,
                 gameParameters.BOARD_SIZE / (2 * (float) Math.sqrt(2)) - EPS, 0));
-        gameState.getBallVelocity().add(new MathUtil.Vector3(-1.0f, -1.0f, 0.0f));
+        gameState.getBallVelocity().add(new Vector3(-1.0f, -1.0f, 0.0f));
         warmUpModeLogic.update(DELTA_TIME, DEFAULT_GRAVITY);
 
         // Test for no callback
@@ -59,10 +59,10 @@ public class WarmUpModeLogicTest {
         WarmUpModeLogic warmUpModeLogic = new WarmUpModeLogic(gameState, gameParameters, mockCallback);
 
         // Place ball beyond edge of board.
-        gameState.getBallPosition().add(new MathUtil.Vector3(
+        gameState.getBallPosition().add(new Vector3(
                 gameParameters.BOARD_SIZE / (2 * (float) Math.sqrt(2)) + 2 * EPS,
                 gameParameters.BOARD_SIZE / (2 * (float) Math.sqrt(2)) + 2 * EPS, 0));
-        gameState.getBallVelocity().add(new MathUtil.Vector3(1.0f, 1.0f, 0.0f));
+        gameState.getBallVelocity().add(new Vector3(1.0f, 1.0f, 0.0f));
         warmUpModeLogic.update(DELTA_TIME, DEFAULT_GRAVITY);
 
         // Test for callback

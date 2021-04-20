@@ -10,16 +10,16 @@ import org.junit.runner.RunWith;
 
 import io.github.madhawav.balanceit.gameplay.GameParameters;
 import io.github.madhawav.balanceit.gameplay.GameState;
-import io.github.madhawav.gameengine.MathUtil;
+import io.github.madhawav.gameengine.math.Vector3;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class BallLogicTest {
     private final float EPS = 0.0000001f;
     private final double DELTA_TIME = 1.0;
-    private final MathUtil.Vector3 DEFAULT_GRAVITY = new MathUtil.Vector3(0, 0, 1);
-    private final MathUtil.Vector3 TEST_VELOCITY = new MathUtil.Vector3(1, 1, 0);
-    private final MathUtil.Vector3 ZERO_VECTOR = new MathUtil.Vector3(0, 0, 0);
+    private final Vector3 DEFAULT_GRAVITY = new Vector3(0, 0, 1);
+    private final Vector3 TEST_VELOCITY = new Vector3(1, 1, 0);
+    private final Vector3 ZERO_VECTOR = new Vector3(0, 0, 0);
     private final float TEST_STEP_COUNT = 10;
     private GameParameters gameParameters;
 
@@ -74,7 +74,7 @@ public class BallLogicTest {
 
         // Now, exert gravity. The ball should start moving.
         for (int i = 0; i < TEST_STEP_COUNT; i++) {
-            ballLogic.onUpdate(DELTA_TIME, new MathUtil.Vector3(0.1f, 1.0f, 0.1f));
+            ballLogic.onUpdate(DELTA_TIME, new Vector3(0.1f, 1.0f, 0.1f));
         }
 
         // Ball must have moved.
@@ -156,7 +156,7 @@ public class BallLogicTest {
 
         BallLogic ballLogic = new BallLogic(gameState, gameParameters);
 
-        MathUtil.Vector3 previousVelocity = gameState.getBallVelocity().copy();
+        Vector3 previousVelocity = gameState.getBallVelocity().copy();
         for (int i = 0; i < TEST_STEP_COUNT * TEST_STEP_COUNT; i++) {
             ballLogic.onUpdate(DELTA_TIME, DEFAULT_GRAVITY);
 

@@ -12,10 +12,10 @@ import java.util.TimerTask;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import io.github.madhawav.gameengine.MathUtil;
 import io.github.madhawav.gameengine.coreengine.sensors.AbstractSensor;
 import io.github.madhawav.gameengine.coreengine.sensors.GravitySensor;
 import io.github.madhawav.gameengine.coreengine.sensors.SensorType;
+import io.github.madhawav.gameengine.math.Rect2I;
 
 /**
  * Extend this class to create a game. Provides onUpdate and onRender events.
@@ -34,7 +34,7 @@ public abstract class AbstractGame extends AbstractEngineModule {
     // Timer for update events
     private Timer updateTimer;
     private GameEngineState gameEngineState; // Indicates whether the game engine is paused, running, ...
-    private MathUtil.Rect2I viewport; // Viewport for GL rendering
+    private Rect2I viewport; // Viewport for GL rendering
 
     private Vibrator vibrator; // Vibrator if requested by user
     private double gameTime; // Total elapsed time in game (seconds)
@@ -86,7 +86,7 @@ public abstract class AbstractGame extends AbstractEngineModule {
         });
         EngineGLRenderer renderer = new EngineGLRenderer(gameDescription.getAspectRatio(), new EngineGLRenderer.Callback() {
             @Override
-            public void onSurfaceChanged(GL10 gl10, int width, int height, MathUtil.Rect2I viewport) {
+            public void onSurfaceChanged(GL10 gl10, int width, int height, Rect2I viewport) {
                 AbstractGame.this.onSurfaceChanged(gl10, width, height, viewport);
             }
 
@@ -329,7 +329,7 @@ public abstract class AbstractGame extends AbstractEngineModule {
     /**
      * GL callback onSurfaceChanged
      */
-    public void onSurfaceChanged(GL10 gl10, int canvasWidth, int canvasHeight, MathUtil.Rect2I viewport) {
+    public void onSurfaceChanged(GL10 gl10, int canvasWidth, int canvasHeight, Rect2I viewport) {
         synchronized (this) {
             glContextReady = true;
             this.viewport = viewport;
