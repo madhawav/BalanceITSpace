@@ -29,6 +29,22 @@ public class BallLogicTest {
     }
 
     /**
+     * Test onLevelUp.
+     */
+    @Test
+    public void testOnLevelUp() {
+        GameState gameState = new GameState(gameParameters);
+        BallLogic ballLogic = new BallLogic(gameState, gameParameters);
+
+        float prevFrictionCoefficient = gameState.getFrictionCoefficient();
+        for (int i = 0; i < TEST_STEP_COUNT; i++) {
+            ballLogic.onLevelUp();
+            Assert.assertEquals(prevFrictionCoefficient * gameParameters.AIR_RESISTANCE_MULTIPLIER, gameState.getFrictionCoefficient(), EPS);
+            prevFrictionCoefficient *= gameParameters.AIR_RESISTANCE_MULTIPLIER;
+        }
+    }
+
+    /**
      * An object still stays still, unless acted by an external force.
      */
     @Test
