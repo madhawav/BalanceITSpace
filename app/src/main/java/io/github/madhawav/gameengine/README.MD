@@ -9,3 +9,4 @@ Provides a BasicShader implementation.
 4) [UI Components](ui): Implements various UI elements such as ImageButton, Image, Label, Rectangle. 
 Also provides a LayeredUI container element which allows stacking of UI elements into layers.
 UIElementScene allows hosting of a UI element as a scene of a multi-scene game.
+5) [Math Utils](math): Math utils related to 3D geometry such as Vector3.
