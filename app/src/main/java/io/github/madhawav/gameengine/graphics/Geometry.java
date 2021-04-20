@@ -114,8 +114,8 @@ public class Geometry {
 
         for (float x = 0; x < 360; x += deltaYaw) {
             for (float y = -(float) 90; y < (float) 90; y += deltaPitch) {
-                //first point (up left)
-                float[] p = MathUtil.pitchYawnToVector(radius, x, y);
+                // First point (up left)
+                float[] p = MathUtil.pitchYawnToVector(radius, x, y).asFloatArray();
                 spherePositions[positionOffset] = p[0];
                 spherePositions[positionOffset + 1] = p[1];
                 spherePositions[positionOffset + 2] = p[2];
@@ -129,8 +129,8 @@ public class Geometry {
                 textureCoordinateOffset += 2;
 
 
-                //second point (up right)
-                p = MathUtil.pitchYawnToVector(radius, x + deltaYaw, y);
+                // Second point (up right)
+                p = MathUtil.pitchYawnToVector(radius, x + deltaYaw, y).asFloatArray();
                 spherePositions[positionOffset] = p[0];
                 spherePositions[positionOffset + 1] = p[1];
                 spherePositions[positionOffset + 2] = p[2];
@@ -143,8 +143,8 @@ public class Geometry {
                 normalOffset += 3;
                 textureCoordinateOffset += 2;
 
-                //third point (down left)
-                p = MathUtil.pitchYawnToVector(radius, x, y + deltaPitch);
+                // Third point (down left)
+                p = MathUtil.pitchYawnToVector(radius, x, y + deltaPitch).asFloatArray();
                 spherePositions[positionOffset] = p[0];
                 spherePositions[positionOffset + 1] = p[1];
                 spherePositions[positionOffset + 2] = p[2];
@@ -157,8 +157,8 @@ public class Geometry {
                 normalOffset += 3;
                 textureCoordinateOffset += 2;
 
-                //third point (down left)
-                p = MathUtil.pitchYawnToVector(radius, x, y + deltaPitch);
+                // Third point (down left)
+                p = MathUtil.pitchYawnToVector(radius, x, y + deltaPitch).asFloatArray();
                 spherePositions[positionOffset] = p[0];
                 spherePositions[positionOffset + 1] = p[1];
                 spherePositions[positionOffset + 2] = p[2];
@@ -172,8 +172,8 @@ public class Geometry {
 
                 textureCoordinateOffset += 2;
 
-                //fourth point (down right)
-                p = MathUtil.pitchYawnToVector(radius, x + deltaYaw, y + deltaPitch);
+                // Fourth point (down right)
+                p = MathUtil.pitchYawnToVector(radius, x + deltaYaw, y + deltaPitch).asFloatArray();
                 spherePositions[positionOffset] = p[0];
                 spherePositions[positionOffset + 1] = p[1];
                 spherePositions[positionOffset + 2] = p[2];
@@ -186,8 +186,8 @@ public class Geometry {
                 normalOffset += 3;
                 textureCoordinateOffset += 2;
 
-                //second point (up right)
-                p = MathUtil.pitchYawnToVector(radius, x + deltaYaw, y);
+                // Second point (up right)
+                p = MathUtil.pitchYawnToVector(radius, x + deltaYaw, y).asFloatArray();
                 spherePositions[positionOffset] = p[0];
                 spherePositions[positionOffset + 1] = p[1];
                 spherePositions[positionOffset + 2] = p[2];

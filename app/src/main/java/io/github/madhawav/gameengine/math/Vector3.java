@@ -1,5 +1,7 @@
 package io.github.madhawav.gameengine.math;
 
+import androidx.annotation.Nullable;
+
 /**
  * A 3D vector (point) having float precision coordinates.
  */
@@ -20,6 +22,31 @@ public class Vector3 {
 
     public Vector3(float x, float y, float z) {
         vector3 = new float[]{x, y, z};
+    }
+
+    /**
+     * Check whether this vector is within the error margin of a given other vector
+     *
+     * @param other The specified other vector
+     * @param eps   The error margin
+     * @return True if vectors are within error margin. Otherwise False.
+     */
+    public boolean equals(@Nullable Vector3 other, float eps) {
+        if (other == null)
+            return false;
+        return Math.abs(other.getX() - getX()) < eps && Math.abs(other.getY() - getY()) < eps && Math.abs(other.getZ() - getZ()) < eps;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == null)
+            return false;
+
+        if (!(obj instanceof Vector3))
+            return false;
+
+        Vector3 other = (Vector3) obj;
+        return other.getX() == getX() && other.getY() == getY() && other.getZ() == getZ();
     }
 
     public Vector3 copy() {

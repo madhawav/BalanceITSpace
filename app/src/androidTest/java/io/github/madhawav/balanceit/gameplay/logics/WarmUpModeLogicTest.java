@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class WarmUpModeLogicTest {
-    private final float EPS = 0.001f;
+    private final float EPS = 0.0000001f;
     private final double DELTA_TIME = 1.0;
     private final Vector3 DEFAULT_GRAVITY = new Vector3(0, 0, 1);
     private GameParameters gameParameters;
