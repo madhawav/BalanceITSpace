@@ -21,7 +21,7 @@ import static org.mockito.Mockito.verify;
 public class WarmUpModeLogicTest {
     private final float EPS = 0.001f;
     private final double DELTA_TIME = 1.0;
-    private final MathUtil.Vector3 DEFAULT_GRAVITY = new MathUtil.Vector3(0, 1, 0);
+    private final MathUtil.Vector3 DEFAULT_GRAVITY = new MathUtil.Vector3(0, 0, 1);
     private GameParameters gameParameters;
 
     @Before

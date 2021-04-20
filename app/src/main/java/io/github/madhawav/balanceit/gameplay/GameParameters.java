@@ -4,7 +4,7 @@ package io.github.madhawav.balanceit.gameplay;
  * Parameters of the game. Adjust these to change difficulty.
  */
 public class GameParameters {
-    public final float BOARD_SIZE = 1000.0f;
+    public final float BOARD_SIZE = 1000.0f; // Diameter of the board
     // Simulation
     public final float TIME_SCALE = 100.0f;
 

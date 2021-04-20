@@ -32,3 +32,8 @@ gradle wrapper --gradle-version 6.5
 2) Run `./gradlew build`.  The apk file will be generated at `app/build/outputs/apk` directory.
 
 Alternatively, you can open the project directory using Android Studio after completing the step 1.
+
+## Tests
+We use Android Instrumentation Tests.
+1) Connect a device that can be used to run instrumentation tests.
+2) Run `./gradlew connectedAndroidTest` to run Android Instrumentation Tests.
